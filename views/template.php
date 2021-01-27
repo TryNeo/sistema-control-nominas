@@ -3,52 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard | XylonSoftware</title>
+    <title><?php echo company;?></title>
     <?php include "./views/code/style.php";?>
 </head>
 <body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
-         <!-- ============================================================== -->
-        <!-- navbar -->
-        <!-- ============================================================== -->
-        <?php include "./views/code/header.php"; ?>
 
-        <!-- ============================================================== -->
-        <!-- end navbar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- left sidebar -->
-        <!-- ============================================================== -->
+    <?php 
+    
+        $requestsAjax = false;
+        require_once "./controllers/viewsControllers.php";
+        $instance_controller_view = new viewsControllers();
+        $views = $instance_controller_view->get_views_controller();
+        if ($views == "login" || $views == "404"){
+            require_once "./views/contents/".$views."-view.php";
+        }else{
+    ?>
+    <div class="dashboard-main-wrapper">
+        <?php include "./views/code/header.php"; ?>
         <?php include "./views/code/navbar.php"; ?>
-        <!-- ============================================================== -->
-        <!-- end left sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
-            <div class="container-fluid dashboard-content">
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <h3 class="text-center">Content goes here!</h3>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
-        </div>
+        <?php include "./views/contents/dashboard-view.php"; ?>
+
     </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <?php include "./views/code/scripts.php"; ?>
+    <?php }
+    include "./views/code/scripts.php"; ?>
 </body>
 </html>
