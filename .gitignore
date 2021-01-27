@@ -1,6 +1,5 @@
 views/pages
 views/documentation
-views/README.md
 views/dashboard-finance.html
 views/dashboard-influencer.html
 views/dashboard-sales.html
