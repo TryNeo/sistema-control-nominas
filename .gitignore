@@ -1,0 +1,11 @@
+views/pages
+views/documentation
+views/README.md
+views/dashboard-finance.html
+views/dashboard-influencer.html
+views/dashboard-sales.html
+views/ecommerce-product-single.html
+views/ecommerce-product.html
+views/ecommerce-product-checkout.html
+views/influencer-finder.html
+views/influencer-profile.html
