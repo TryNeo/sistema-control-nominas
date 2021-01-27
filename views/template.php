@@ -21,8 +21,7 @@
     <div class="dashboard-main-wrapper">
         <?php include "./views/code/header.php"; ?>
         <?php include "./views/code/navbar.php"; ?>
-        <?php include "./views/contents/dashboard-view.php"; ?>
-
+        <?php include $views; ?>
     </div>
     <?php }
     include "./views/code/scripts.php"; ?>
