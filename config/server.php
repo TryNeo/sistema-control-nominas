@@ -1,9 +1,10 @@
 <?php 
 
+    /* -- Definiendo las constantes inmutavbles a usar-- */
     const server = "localhost";
     const database = "nominas_bd";
-    const usuario  = "admin";
-    const password = "TheAdmin@Lopez1923";
+    const usuario  = "tsjous3";
+    const password = "theadmin@lopez";
     const sgbd = "mysql:dbname=".database.";host=".server;
     const method = "AES-256-CBC";
     const secret_key = '$nominas@2021';
