@@ -1,6 +1,7 @@
 <?php 
-    require_once "./config/app.php";
-
+    require_once ("./config/app.php");
+    require_once ("./helpers/helpers.php");
+    
     $url = !empty($_GET['url']) ? $_GET['url'] : 'dashboard/dashboard';
     $array_url = explode("/",$url);
     $controller = $array_url[0];

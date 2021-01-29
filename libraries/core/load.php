@@ -1,4 +1,5 @@
 <?php 
+$controller = ucwords($controller);
 $controllerFile = "controllers/".$controller.".php";
 if(file_exists($controllerFile)){
     require_once($controllerFile);

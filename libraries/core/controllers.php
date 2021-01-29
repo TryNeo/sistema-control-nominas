@@ -9,7 +9,7 @@
 
         public function loadModel(){
             $model = get_class($this)."Model";
-            $routeClass = "models/".$model.".php";
+            $routeClass = "./models/".$model.".php";
             if (file_exists($routeClass)){
                 require_once($routeClass);
                 $this->model = new $model();

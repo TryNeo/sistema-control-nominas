@@ -1,7 +1,7 @@
 <?php 
 
     class Views{
-        function getView($controller,$view){
+        function getView($controller,$view,$data=""){
             $controller = get_class($controller);
             if ($controller == "Dashboard"){
                 $view = views.$view.".php";
