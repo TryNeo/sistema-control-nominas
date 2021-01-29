@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo company;?></title>
-    <?php include "./views/code/style.php";?>
-</head>
-<body>
+<?php getHeaderError($data); ?>
         <div class="bg-light text-center">
             <div class="container">
                 <div class="row">
@@ -32,7 +24,4 @@
                 </div>
             </div>
         </div>
-    <?php 
-    include "./views/code/scripts.php"; ?>
-</body>
-</html>
+<?php getScriptsError($data); ?>

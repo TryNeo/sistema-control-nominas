@@ -8,7 +8,8 @@
         }
 
         public function notFound(){
-            $this->views->getView($this,"error");
+            $data["page_title"] = "Error | 404";
+            $this->views->getView($this,"error",$data);
         }
 
     }

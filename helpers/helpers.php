@@ -63,4 +63,24 @@
         return $cantidad;
     }
 
+
+    function getHeader($data=""){
+        $view_header = "./views/template/header.php";
+        return require_once($view_header);
+    }
+
+    function getScripts($data=""){
+        $view_scripts = "./views/template/scripts.php";
+        return require_once($view_scripts);
+    }
+
+    function getHeaderError($data=""){
+        $view_header_error = "./views/template/header_error.php";
+        return require_once($view_header_error);
+    }
+
+    function getScriptsError($data=""){
+        $view_scripts_error = "./views/template/scripts_error.php";
+        return require_once($view_scripts_error);
+    }
 ?>

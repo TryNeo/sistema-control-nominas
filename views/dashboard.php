@@ -1,15 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo $data["page_title"]?></title>
-    <?php include "./views/template/style.php";?>
-</head>
-<body>
-    <div class="dashboard-main-wrapper">
-        <?php include "./views/template/header.php"; ?>
-        <?php include "./views/template/navbar.php"; ?>
+<?php getHeader($data);?>
         <div class="dashboard-wrapper">
             <div class="container-fluid dashboard-content">
                 <div class="row">
@@ -68,9 +57,4 @@
                 </div>
             </div>
         </div>
-        
-    </div>
-    <?php 
-    include "./views/template/scripts.php"; ?>
-</body>
-</html>
+<?php getScripts($data);?>
