@@ -83,4 +83,10 @@
         $view_scripts_error = "./views/template/scripts_error.php";
         return require_once($view_scripts_error);
     }
+
+
+    function getModal(string $nameModal,$data){
+        $view_modal = "./views/template/modals/{$nameModal}.php";
+        return require_once($view_modal);
+    }
 ?>
