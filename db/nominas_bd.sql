@@ -13,3 +13,14 @@ estado boolean,
 fecha_crea date,
 fecha_modifacion date,
 PRIMARY KEY (id_empleado));
+
+
+CREATE TABLE roles(
+    id_rol int(11) auto_increment,
+    nombre varchar(50),
+    descripcion varchar(50),
+    estado boolean,
+    fecha_crea date,
+    fecha_modifacion date,
+    PRIMARY KEY(id_rol))
+);

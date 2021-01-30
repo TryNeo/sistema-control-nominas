@@ -36,7 +36,7 @@
         /* Selecionar registros todos */ 
         public function select_sql_all(string $query){
             $this->strquery = $query;
-            $result  = $this->conexion-> $this->conexion->prepare($this->strquery);
+            $result  = $this->conexion->prepare($this->strquery);
             $result->execute();
             $data = $result->fetchAll(PDO::FETCH_ASSOC);
             return $data;
