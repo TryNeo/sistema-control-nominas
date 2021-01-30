@@ -16,12 +16,22 @@
         </div>
         <hr>
         <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="card">
-                        <div class="card-body">
-                        </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-bordered display responsive nowrap" cellspacing="0"  style="width:100%">
+                            <thead>
+                                <th>ID</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th class="all">Opciones</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>
