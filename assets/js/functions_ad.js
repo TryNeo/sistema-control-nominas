@@ -10,4 +10,3 @@ function cerrar_modal(nameModal){
     $('#'+nameModal).modal("hide");
 }
 
-

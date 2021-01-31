@@ -40,6 +40,73 @@ document.addEventListener('DOMContentLoaded',function(){
             {"data":"descripcion"},
             {"data":"estado"},
             {"data":"opciones"}
-        ]
+        ],
+        "order":[[0,"desc"]]
     });
+
+    let formRol = document.querySelector('#formRol');   
+    formRol.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let rolInput = document.getElementById('rolInput').value;
+        let descriInput = document.getElementById('descriInput').value;
+        let estadoInput = document.getElementById('estadoInput').value;
+        if(validate(rolInput,descriInput,estadoInput)){
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = "http://localhost/sistema-control-nominas/roles/setRol";
+            let formData = new FormData(formRol);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if (objData.status){
+                        $('#modalRol').modal("hide");
+                        mensaje("success","Exitoso",objData.msg);
+                        tableroles.ajax.reload(function () {});
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
+                }
+            }
+        }else{
+            return validate(rolInput,descriInput,estadoInput);
+        }
+    });
+
 });
+
+
+function validate(rolInput,descriInput,estadoInput){
+    if ((rolInput === "") || (descriInput === "") ||(estadoInput === "")){
+        return mensaje("error","Error","Todos los campos son obligatorios");
+    }else{
+        let rol = isValidString(rolInput);
+        let descript = isValidString(descriInput);
+        if ((rol === true && descript === true)){
+            return true;
+        }else{
+            mensaje("error","Error","Los campos ingresados no son validos")
+            return false;
+        }
+    }
+ 
+}
+
+
+function isValidString(str1) {
+    const validRegEx = /^[^\\\/&]*$/
+    if(typeof str1 === 'string' && str1.match(validRegEx) && str1.length > 5) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  
+function mensaje(icon,title,text){
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+      })
+}

@@ -1,6 +1,6 @@
 <?php
     require_once("./libraries/core/mysql.php");
-    class dashboardModel extends Mysql{
+    class DashboardModel extends Mysql{
         public function __construct(){
             parent::__construct();
         }

@@ -33,6 +33,24 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        public function setRol(){
+            $rolInput = strclean($_POST["rolInput"]);
+            $descriInput = strclean($_POST["descriInput"]);
+            $estadoInput = intval($_POST["estadoInput"]);
+            $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
+
+            if ($request_rol > 0){
+                $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+            }else if ($request_rol == 'exist'){
+                $data = array('status' => false,'msg' => 'Error el rol ya existe');
+            }else{
+                $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 
 

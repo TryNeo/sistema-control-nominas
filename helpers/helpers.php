@@ -12,7 +12,7 @@
     }
 
     function strclean($strstring){
-        $string = preg_replace(['/\S+/','/*\$|\S$/'],[' ',''],$strstring);
+        $string =  preg_replace('/\s\s+/', ' ', $strstring);
         $string = trim($strstring);
         $string = stripslashes($string);
         $string = str_ireplace("<script>","",$string);
