@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                <button onclick="return abrir_modal('modalRol');" class="btn btn-outline-secondary btnModal" data-target="#modalRol"><i class="fa fa-plus" aria-hidden="true"></i>
+                <button onclick="return abrir_modal();" class="btn btn-outline-secondary btnModal" data-target="#modalRol"><i class="fa fa-plus" aria-hidden="true"></i>
                 Añador nuevo rol</button>        
             </div>
         </div>

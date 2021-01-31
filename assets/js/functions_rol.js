@@ -75,9 +75,47 @@ document.addEventListener('DOMContentLoaded',function(){
 
 });
 
+function abrir_modal(){
+    var options = {
+        "backdrop" : "static",
+        "show":true
+    }
+    document.querySelector('#id_rol').innerHTML="";
+    document.querySelector('.text-center').innerHTML = " Guardar Registro";
+    document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo rol";
+    document.querySelector('#btnDisabled').style.display = 'inline-block';
+    $('#modalRol').modal(options);
+}
+
+function cerrar_modal(){
+    $('#modalRol').modal("hide");
+}
+
+
+
+window.addEventListener('click',function(){
+    setTimeout(() => { 
+        fntEditRol();
+    }, 500);
+},false);
+
+
+function fntEditRol(){
+    let btnEditRol = document.querySelectorAll('.btnEditarRol');
+        btnEditRol.forEach(function(btnEditRol){
+            btnEditRol.addEventListener('click',function(){
+                document.querySelector('#modalTitle').innerHTML = "Actualizacion de rol";
+                document.querySelector('.text-center').innerHTML = " Actualizar registro";
+                document.querySelector('#btnDisabled').style.display = 'none';
+                $('#modalRol').modal("show");
+            });
+        });
+}
+
+
 
 function validate(rolInput,descriInput,estadoInput){
-    if ((rolInput === "") || (descriInput === "") ||(estadoInput === "")){
+    if ((rolInput === "") || (descriInput === "") || (estadoInput === "")){
         return mensaje("error","Error","Todos los campos son obligatorios");
     }else{
         let rol = isValidString(rolInput);
