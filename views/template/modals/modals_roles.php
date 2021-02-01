@@ -65,7 +65,7 @@
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td>usuario</td>
+                    <td>usuarios</td>
                     <td>
                     <div class="switch-button switch-button-xs switch-button-success">
                     <input type="checkbox" checked="" name="switch16" id="switch16"><span>
