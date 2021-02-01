@@ -38,3 +38,51 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade modalPermisos" tabindex="-1" role="dialog">
+  <div class="modal-dialog  modal-lg  modal-dialog-centered"  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Permisos roles usuario <i class=" fas fa-clipboard-list"></i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="" id="formPermisos" name="formPermisos">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card-body">
+              <table class="table  first display responsive nowrap" cellspacing="0"  style="width:100%">
+                <thead>
+                  <th>#</th>
+                  <th>Modulo</th>
+                  <th>Leer</th>
+                  <th>Escribir</th>
+                  <th>Actualizar</th>
+                  <th>eliminar</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>usuario</td>
+                    <td>
+                    <div class="switch-button switch-button-xs switch-button-success">
+                    <input type="checkbox" checked="" name="switch16" id="switch16"><span>
+                    <label for="switch16"></label></span>
+                    </div>
+                    </td>
+                  </tr>
+                </tbody>
+                </table>
+            </div>
+                <div class="col-md-12 mb-3 text-center">
+                  <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar</span></button>
+                  <button type="button" class="btn btn-danger" onclick="return cerrar_modal()"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
+                </div>
+            </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>

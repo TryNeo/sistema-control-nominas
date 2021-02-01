@@ -1,7 +1,7 @@
 let tableroles;
 
 document.addEventListener('DOMContentLoaded',function(){
-    tableroles = $('.table').DataTable({
+    tableroles = $('.tableRol').DataTable({
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         $('#modalRol').modal("hide");
                         mensaje("success","Exitoso",objData.msg);
                         tableroles.ajax.reload(function () {
+                            fntPermRol();
                             fntEditRol();
                             fntDelRol();
                         });
@@ -105,6 +106,10 @@ window.addEventListener('click',function(){
 
     setTimeout(() => { 
         fntDelRol();
+    }, 15);
+
+    setTimeout(() => { 
+        fntPermRol()
     }, 15);
 
 },false);
@@ -183,8 +188,10 @@ function fntDelRol(){
                                 $('#modalRol').modal("hide");
                                 mensaje("success","Exitoso",objData.msg);
                                 tableroles.ajax.reload(function () {
+                                    fntPermRol();
                                     fntEditRol();
                                     fntDelRol();
+                                    
                                 });
                             }else{
                                 mensaje("error","Error",objData.msg);
@@ -195,6 +202,17 @@ function fntDelRol(){
                 });
                 
         });
+    });
+}
+
+
+function fntPermRol(){
+    let btnPermRol = document.querySelectorAll('.btnPermiso');
+    btnPermRol.forEach(function(btnPermRol){
+        btnPermRol.addEventListener('click',function(){
+            $('.modalPermisos').modal("show");
+        });
+
     });
 }
 

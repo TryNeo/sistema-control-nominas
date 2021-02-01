@@ -19,7 +19,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-striped table-bordered first display responsive nowrap" cellspacing="0"  style="width:100%">
+                        <table class="table tableRol table-striped table-bordered first display responsive nowrap" cellspacing="0"  style="width:100%">
                             <thead>
                                 <th>ID</th>
                                 <th>Rol</th>
