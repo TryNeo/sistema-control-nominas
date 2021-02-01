@@ -47,7 +47,7 @@
             $this->strquery = $query;
             $this->arrValues = $arrValues;
             $update_sql =  $this->conexion->prepare($this->strquery);
-            $resUpdate_sql = $update_sql->execute($this->$arrValues);
+            $resUpdate_sql = $update_sql->execute($this->arrValues);
             return $resUpdate_sql;
         }
 

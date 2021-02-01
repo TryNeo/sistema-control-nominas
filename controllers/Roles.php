@@ -34,16 +34,45 @@
             die();
         }
 
+        public function getRol(int $id_rol){
+            $intRol  = Intval(strclean($id_rol));
+            if ($intRol > 0){
+                $data = $this->model->selectRol($intRol);
+                if (empty($data)){
+                    $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                }else{
+                    $data_response = array('status' => true,'msg'=> $data);
+                }
+                echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            }die();
+        }
+
+
         public function setRol(){
+            $intRol = Intval(strclean($_POST['id_rol']));
             $rolInput = strclean($_POST["rolInput"]);
             $descriInput = strclean($_POST["descriInput"]);
             $estadoInput = intval($_POST["estadoInput"]);
-            $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
 
+            if ($intRol == 0){
+                $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
+                $option = 1;
+            }else{
+                $request_rol = $this->model->updateRol($intRol,$rolInput,$descriInput,$estadoInput);
+                $option = 2;
+            }
+            
             if ($request_rol > 0){
-                $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+
+                if ($option == 1){
+                    $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                }else{
+                    $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                }
+           
             }else if ($request_rol == 'exist'){
                 $data = array('status' => false,'msg' => 'Error el rol ya existe');
+           
             }else{
                 $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
 

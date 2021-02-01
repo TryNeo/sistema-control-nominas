@@ -47,9 +47,10 @@ document.addEventListener('DOMContentLoaded',function(){
     let formRol = document.querySelector('#formRol');   
     formRol.addEventListener('submit', function (e) {
         e.preventDefault();
-        let rolInput = document.getElementById('rolInput').value;
-        let descriInput = document.getElementById('descriInput').value;
-        let estadoInput = document.getElementById('estadoInput').value;
+        let idRol = document.querySelector('#id_rol').value;
+        let rolInput = document.querySelector('#rolInput').value;
+        let descriInput = document.querySelector('#descriInput').value;
+        let estadoInput = document.querySelector('#estadoInput').value;
         if(validate(rolInput,descriInput,estadoInput)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = "http://localhost/sistema-control-nominas/roles/setRol";
@@ -58,7 +59,8 @@ document.addEventListener('DOMContentLoaded',function(){
             request.send(formData);
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
+                    let objData = JSON.parse(request.responseText); 
+                    console.log(objData);
                     if (objData.status){
                         $('#modalRol').modal("hide");
                         mensaje("success","Exitoso",objData.msg);
@@ -107,6 +109,36 @@ function fntEditRol(){
                 document.querySelector('#modalTitle').innerHTML = "Actualizacion de rol";
                 document.querySelector('.text-center').innerHTML = " Actualizar registro";
                 document.querySelector('#btnDisabled').style.display = 'none';
+
+                let id_rol = this.getAttribute('rl');
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxEdUser = "http://localhost/sistema-control-nominas/roles/getRol/"+id_rol;
+                request.open("GET",ajaxEdUser,true);
+                request.send();
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText);
+                        console.log(objData);
+                        if (objData.status){
+                           document.querySelector('#id_rol').value = objData.msg.id_rol;
+                           document.querySelector('#rolInput').value = objData.msg.nombre;
+                           document.querySelector('#descriInput').value = objData.msg.descripcion;
+                           const optionsSelect = document
+                                        .querySelector("#estadoInput") 
+                                        .getElementsByTagName("option"); 
+                                        for (let item of optionsSelect ) {
+                                        if (item.value == objData.msg.estado) {
+                                            item.setAttribute("selected", "");
+                                        } else {
+                                            item.removeAttribute("selected");
+                                        }
+                                        }
+                           $('#modalRol').modal("hide");
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
+                    }
+                }
                 $('#modalRol').modal("show");
             });
         });

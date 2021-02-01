@@ -21,6 +21,6 @@ CREATE TABLE roles(
     descripcion varchar(50),
     estado boolean,
     fecha_crea DATETIME,
-    fecha_modifacion DATETIME,
+    fecha_modifica DATETIME,
     PRIMARY KEY(id_rol)
 );  
