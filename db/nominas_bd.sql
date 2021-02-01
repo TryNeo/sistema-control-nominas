@@ -24,3 +24,5 @@ CREATE TABLE roles(
     fecha_modifica DATETIME,
     PRIMARY KEY(id_rol)
 );  
+
+
