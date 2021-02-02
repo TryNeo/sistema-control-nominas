@@ -27,8 +27,8 @@
                $data[$i]['opciones'] = '
                <div class="text-center">
                 <button type="button" class="btn btn-secondary btn-circle btn-permiso" title="permiso" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-key"></i></button>
-                <button type="button" class="btn btn-primary btn-circle btnEditarRol" title="editar" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-circle btn-eliminar-rol" title="eliminar" rl="'.$data[$i]['id_rol'].'"><i class="far fa-thumbs-down"></i></button></div>';
+                <button  class="btn btn-primary btn-circle btnEditarRol" title="editar" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-edit"></i></button>
+                <button  class="btn btn-danger btn-circle btnEliminarRol" title="eliminar" rl="'.$data[$i]['id_rol'].'"><i class="far fa-thumbs-down"></i></button></div>';
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
@@ -80,7 +80,22 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        public function delRol(){
+            if ($_POST){
+                $intRol = intval($_POST["id_rol"]);
+                $request_del = $this->model->deleteRol($intRol);
+                if($request_del == "ok"){
+                    $data = array("status" => true, "msg" => "Se ha eliminado el rol");
+                }else if ($request_del == "exist"){
+                    $data = array("status" => false, "msg" => "No es posisible eliminar rol asociado a usuarios");
+                }else{
+                    $data = array("status" => false, "msg" => "Error al eliminar rol");
+                }
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+    
     }
-
-
 ?>

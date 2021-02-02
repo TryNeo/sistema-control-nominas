@@ -64,7 +64,10 @@ document.addEventListener('DOMContentLoaded',function(){
                     if (objData.status){
                         $('#modalRol').modal("hide");
                         mensaje("success","Exitoso",objData.msg);
-                        tableroles.ajax.reload(function () {});
+                        tableroles.ajax.reload(function () {
+                            fntEditRol();
+                            fntDelRol();
+                        });
                     }else{
                         mensaje("error","Error",objData.msg);
                     }
@@ -98,7 +101,12 @@ function cerrar_modal(){
 window.addEventListener('click',function(){
     setTimeout(() => { 
         fntEditRol();
-    }, 500);
+    }, 15);
+
+    setTimeout(() => { 
+        fntDelRol();
+    }, 15);
+
 },false);
 
 
@@ -118,7 +126,6 @@ function fntEditRol(){
                 request.onreadystatechange = function(){
                     if(request.readyState==4 && request.status == 200){
                         let objData = JSON.parse(request.responseText);
-                        console.log(objData);
                         if (objData.status){
                            document.querySelector('#id_rol').value = objData.msg.id_rol;
                            document.querySelector('#rolInput').value = objData.msg.nombre;
@@ -144,6 +151,52 @@ function fntEditRol(){
         });
 }
 
+
+
+function fntDelRol(){
+    let btnDelRol = document.querySelectorAll('.btnEliminarRol');
+    btnDelRol.forEach(function(btnDelRol){
+        btnDelRol.addEventListener('click',function(){
+            let id_rol = this.getAttribute('rl');
+            Swal.fire({
+                title: 'Eliminar rol',
+                text: "¿Desea eliminar este rol?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar rol',
+                cancelButtonText : 'No, cancelar',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = "http://localhost/sistema-control-nominas/roles/delRol";
+                    let strData = "id_rol="+id_rol;
+                    request.open("POST",ajaxUrl,true);
+                    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    request.send(strData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState==4 && request.status == 200){
+                            let objData = JSON.parse(request.responseText); 
+                            console.log(objData);
+                            if (objData.status){
+                                $('#modalRol').modal("hide");
+                                mensaje("success","Exitoso",objData.msg);
+                                tableroles.ajax.reload(function () {
+                                    fntEditRol();
+                                    fntDelRol();
+                                });
+                            }else{
+                                mensaje("error","Error",objData.msg);
+                            }
+                        }
+                    }
+                    }
+                });
+                
+        });
+    });
+}
 
 
 function validate(rolInput,descriInput,estadoInput){

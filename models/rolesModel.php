@@ -52,8 +52,8 @@
             $this->strDescrip = $descriInput;
             $this->intEstado = $estadoInput;
             
-            $sql = "SELECT * FROM roles WHERE nombre = '$this->strRol' and  id_rol =  $this->intRol ";
-            $request_update= $this->select_sql_all($sql);
+            $sql = "SELECT * FROM roles WHERE nombre = '$this->strRol' and descripcion = '$this->strDescrip' and  estado = '$this->intEstado' and  id_rol =  $this->intRol ";
+            $request_update= $this->select_sql_all($sql);   
 
             if (empty($request_update)){
                 $sql_udpate = "UPDATE roles SET nombre = ?, descripcion = ?, estado = ?,fecha_modifica = now()  WHERE id_rol = $this->intRol";
@@ -64,7 +64,25 @@
             }
             return $request_update;
         }
-    }
-    
 
+
+        public function deleteRol(int $intRol){
+            $this->intRol = $intRol;
+            $sql = "SELECT * FROM usuarios WHERE id_rol = $this->intRol";
+            $request_delete = $this->select_sql_all($sql);
+            if(empty($request_delete)){
+                $sql = "UPDATE roles set estado = ? , fecha_modifica = now() WHERE id_rol = $this->intRol";
+                $data = array(0);
+                $request_delete = $this->update_sql($sql,$data);
+                if ($request_delete){
+                    $request_delete = 'ok';
+                }else{
+                    $request_delete = 'error';
+                }
+            }else{
+                $request_delete = 'exist';
+            }
+            return $request_delete;
+        }
+    }
 ?>
