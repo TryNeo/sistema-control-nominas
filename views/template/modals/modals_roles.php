@@ -22,7 +22,7 @@
                     <div class="col-md-5 mb-3">
                         <label class="control-label">Estado:</label>
                         <select class="form-control" id="estadoInput" name="estadoInput">
-                            <option selected disabled="disabled" value="">Seleciona el estado</option>
+                            <option  selected disabled="disabled" value="">Seleciona el estado</option>
                             <option value="1" >Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
@@ -31,7 +31,7 @@
             <div class="col-md-12 mb-3">
               <button id="btnActionForm"type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar Registro</span></button>
               <button type="reset" class="btn btn-primary " id="btnDisabled" name="reset"> <i class="fas fa-undo"></i>Limpiar Registro</button>                    
-              <button type="button" class="btn btn-danger" onclick="return cerrar_modal()"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
+              <button type="button" class="btn btn-danger" onclick="return cerrar_modal('#modalRol')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
             </div>
         </form>
       </div>
@@ -78,7 +78,7 @@
             </div>
                 <div class="col-md-12 mb-3 text-center">
                   <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar</span></button>
-                  <button type="button" class="btn btn-danger" onclick="return cerrar_modal()"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
+                  <button type="button" class="btn btn-danger" onclick="return cerrar_modal('.modalPermisos')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                 </div>
             </div>
       </form>

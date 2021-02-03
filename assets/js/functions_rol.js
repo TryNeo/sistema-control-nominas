@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded',function(){
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded',function(){
             }
           },
           responsive:true,
-
         "ajax":{
             "url" : "http://localhost/sistema-control-nominas/roles/getRoles",
             "dataSrc":""
@@ -44,9 +43,11 @@ document.addEventListener('DOMContentLoaded',function(){
         "order":[[0,"desc"]]
     });
 
-    let formRol = document.querySelector('#formRol');   
+
+
+    let formRol = document.querySelector('#formRol');
     formRol.addEventListener('submit', function (e) {
-        e.preventDefault();
+        e.preventDefault();        
         let idRol = document.querySelector('#id_rol').value;
         let rolInput = document.querySelector('#rolInput').value;
         let descriInput = document.querySelector('#descriInput').value;
@@ -60,9 +61,11 @@ document.addEventListener('DOMContentLoaded',function(){
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
                     let objData = JSON.parse(request.responseText); 
-                    console.log(objData);
                     if (objData.status){
                         $('#modalRol').modal("hide");
+                        let idRol = document.querySelector('#id_rol').value = '';
+                        let rolInput = document.querySelector('#rolInput').value = '';
+                        let descriInput = document.querySelector('#descriInput').value = '';
                         mensaje("success","Exitoso",objData.msg);
                         tableroles.ajax.reload(function () {
                             fntPermRol();
@@ -86,15 +89,18 @@ function abrir_modal(){
         "backdrop" : "static",
         "show":true
     }
-    document.querySelector('#id_rol').innerHTML="";
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo rol";
     document.querySelector('#btnDisabled').style.display = 'inline-block';
+    let idRol = document.querySelector('#id_rol').value = '';
+    let rolInput = document.querySelector('#rolInput').value = '';
+    let descriInput = document.querySelector('#descriInput').value = '';
+    let estadoInput = document.querySelector('#estadoInput').value;
     $('#modalRol').modal(options);
 }
 
-function cerrar_modal(){
-    $('#modalRol').modal("hide");
+function cerrar_modal(nameSelector){
+    $(nameSelector).modal("hide");
 }
 
 
@@ -132,20 +138,19 @@ function fntEditRol(){
                     if(request.readyState==4 && request.status == 200){
                         let objData = JSON.parse(request.responseText);
                         if (objData.status){
-                           document.querySelector('#id_rol').value = objData.msg.id_rol;
-                           document.querySelector('#rolInput').value = objData.msg.nombre;
-                           document.querySelector('#descriInput').value = objData.msg.descripcion;
-                           const optionsSelect = document
-                                        .querySelector("#estadoInput") 
-                                        .getElementsByTagName("option"); 
-                                        for (let item of optionsSelect ) {
-                                        if (item.value == objData.msg.estado) {
-                                            item.setAttribute("selected", "");
-                                        } else {
-                                            item.removeAttribute("selected");
-                                        }
-                                        }
-                           $('#modalRol').modal("hide");
+                            document.querySelector('#id_rol').value = objData.msg.id_rol;
+                            document.querySelector('#rolInput').value = objData.msg.nombre;
+                            document.querySelector('#descriInput').value = objData.msg.descripcion;
+                           const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
+                            for (let item of optionsSelect ) {
+                                if (item.value == objData.msg.estado) {
+                                    console.log(item.value);
+                                    item.setAttribute("selected","");
+                                } else {
+                                    item.removeAttribute("selected");
+                                }
+                            }
+                            $('#modalRol').modal("hide");
                         }else{
                             mensaje("error","Error",objData.msg);
                         }
@@ -217,37 +222,3 @@ function fntPermRol(){
 }
 
 
-function validate(rolInput,descriInput,estadoInput){
-    if ((rolInput === "") || (descriInput === "") || (estadoInput === "")){
-        return mensaje("error","Error","Todos los campos son obligatorios");
-    }else{
-        let rol = isValidString(rolInput);
-        let descript = isValidString(descriInput);
-        if ((rol === true && descript === true)){
-            return true;
-        }else{
-            mensaje("error","Error","Los campos ingresados no son validos")
-            return false;
-        }
-    }
- 
-}
-
-
-function isValidString(str1) {
-    const validRegEx = /^[^\\\/&]*$/
-    if(typeof str1 === 'string' && str1.match(validRegEx) && str1.length > 5) {
-        return true;
-    } else {
-        return false;
-    }
-  }
-
-  
-function mensaje(icon,title,text){
-    Swal.fire({
-        icon: icon,
-        title: title,
-        text: text,
-      })
-}

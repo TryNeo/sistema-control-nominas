@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/slimscroll/jquery.slimscroll.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
-<script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_ad.js"></script>
+<script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_rol.js"></script>
 
 <!--------------------------------------CDN -------------------------------->
