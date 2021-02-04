@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Descripcion:</label>
-                        <textarea name="descriInput" cols="30" rows="3" maxlength="250" class="form-control" required placeholder="ingrese la descripcion" id="descriInput"></textarea>
+                        <textarea name="descriInput" cols="30" rows="3" maxlength="250" class="form-control" placeholder="ingrese la descripcion" id="descriInput"></textarea>
                     </div>
                     <div class="col-md-5 mb-3">
                         <label class="control-label">Estado:</label>

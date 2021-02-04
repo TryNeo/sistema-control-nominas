@@ -48,11 +48,13 @@ document.addEventListener('DOMContentLoaded',function(){
     let formRol = document.querySelector('#formRol');
     formRol.addEventListener('submit', function (e) {
         e.preventDefault();        
+        let camps = new Array();
         let idRol = document.querySelector('#id_rol').value;
         let rolInput = document.querySelector('#rolInput').value;
         let descriInput = document.querySelector('#descriInput').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        if(validate(rolInput,descriInput,estadoInput)){
+        camps.push(rolInput,descriInput,estadoInput);
+        if(validateCamps(camps)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = "http://localhost/sistema-control-nominas/roles/setRol";
             let formData = new FormData(formRol);
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 }
             }
         }else{
-            return validate(rolInput,descriInput,estadoInput);
+            return validateCamps(camps);
         }
     });
 
@@ -129,6 +131,7 @@ function fntEditRol(){
                 document.querySelector('.text-center').innerHTML = " Actualizar registro";
                 document.querySelector('#btnDisabled').style.display = 'none';
 
+                    
                 let id_rol = this.getAttribute('rl');
                 let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
                 let ajaxEdUser = "http://localhost/sistema-control-nominas/roles/getRol/"+id_rol;
