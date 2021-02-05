@@ -13,11 +13,11 @@
                     <input type="hidden" id="id_rol" name="id_rol" value="">
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Nombre rol:</label>
-                        <input type="text" name="rolInput" class="form-control" id="rolInput" required placeholder="ingrese nombre de rol">
+                        <input type="text" name="nombre" class="form-control" id="nombre" required placeholder="ingrese nombre de rol">
                     </div>
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Descripcion:</label>
-                        <textarea name="descriInput" cols="30" rows="3" maxlength="250" class="form-control" placeholder="ingrese la descripcion" id="descriInput"></textarea>
+                        <textarea name="descripcion" cols="30" rows="3" maxlength="250" class="form-control" placeholder="ingrese la descripcion" id="descripcion"></textarea>
                     </div>
                     <div class="col-md-5 mb-3">
                         <label class="control-label">Estado:</label>

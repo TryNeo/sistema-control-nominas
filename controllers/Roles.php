@@ -50,8 +50,8 @@
 
         public function setRol(){
             $intRol = Intval(strclean($_POST['id_rol']));
-            $rolInput = strclean($_POST["rolInput"]);
-            $descriInput = strclean($_POST["descriInput"]);
+            $rolInput = strclean($_POST["nombre"]);
+            $descriInput = strclean($_POST["descripcion"]);
             $estadoInput = intval($_POST["estadoInput"]);
 
             if ($intRol == 0){
@@ -83,7 +83,7 @@
 
         public function delRol(){
             if ($_POST){
-                $intRol = intval($_POST["id_rol"]);
+                $intRol = intval($_POST["id"]);
                 $request_del = $this->model->deleteRol($intRol);
                 if($request_del == "ok"){
                     $data = array("status" => true, "msg" => "Se ha eliminado el rol");
