@@ -107,8 +107,7 @@ window.addEventListener('click',function(){
             baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizar rol',['nombre','descripcion'],"id_rol","#modalRol");
             baseAjaxDelete('.btnEliminarRol',"rl", 
             "roles","delRol",
-            "Eliminar rol","¿Desea eliminar al rol?");
-    
+            "Eliminar rol","¿Desea eliminar al rol?"); 
      }, 500);
  
 },false);
@@ -127,13 +126,43 @@ function fntPermRol(){
     let btnPermRol = document.querySelectorAll('.btnPermiso');
     btnPermRol.forEach(function(btnPermRol){
         btnPermRol.addEventListener('click',function(){
-            $('.modalPermisos').modal("show");
+            let id_rol = this.getAttribute('rl');
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = "http://localhost/sistema-control-nominas/Permisos/getPermisosRol/"+id_rol;
+            request.open("GET",ajaxUrl,true);
+            request.send();
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    document.querySelector("#contentAjax").innerHTML = request.responseText;
+                    console.log(request.responseText);
+                    $('.modalPermisos').modal("show");
+                    document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
+                }
+            }
         });
 
     });
 }
 
-
+function fntSavePermisos(event){
+    event.preventDefault();
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = "http://localhost/sistema-control-nominas/Permisos/setPermisos";
+    let formElement = document.querySelector("#formPermisos");
+    let formData = new FormData(formElement);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState==4 && request.status == 200){
+            let objData = JSON.parse(request.responseText); 
+            if(objData.status){
+                mensaje("success","Exitoso",objData.msg);
+            }else{
+                mensaje("error","Error",objData.msg);
+            }
+        }
+    }
+}
 
 
 

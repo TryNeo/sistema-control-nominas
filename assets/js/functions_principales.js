@@ -57,40 +57,6 @@ function mensaje(icon,title,text){
 
 
 
-let formRol = document.querySelector('#formRol');
-formRol.addEventListener('submit', function (e) {
-        e.preventDefault();        
-        let camps = new Array();
-        let idRol = document.querySelector('#id_rol').value;
-        let rolInput = document.querySelector('#nombre').value;
-        let descriInput = document.querySelector('#descripcion').value;
-        let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(rolInput,descriInput,estadoInput);
-        if(validateCamps(camps)){
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = "http://localhost/sistema-control-nominas/roles/setRol";
-            let formData = new FormData(formRol);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText); 
-                    if (objData.status){
-                        $('#modalRol').modal("hide");
-                        let idRol = document.querySelector('#id_rol').value = '';
-                        let rolInput = document.querySelector('#nombre').value = '';
-                        let descriInput = document.querySelector('#descripcion').value = '';
-                        mensaje("success","Exitoso",objData.msg);
-                    }else{
-                        mensaje("error","Error",objData.msg);
-                    }
-                }
-            }
-        }else{
-            return validateCamps(camps);
-        }
-    });
-
 
 
 function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal){

@@ -1,6 +1,7 @@
 <?php getHeader($data);
       getModal('modals_roles',$data);
 ?>
+<div id="contentAjax"></div>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
         <div class="row">
