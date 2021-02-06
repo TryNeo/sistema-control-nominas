@@ -134,7 +134,6 @@ function fntPermRol(){
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
                     document.querySelector("#contentAjax").innerHTML = request.responseText;
-                    console.log(request.responseText);
                     $('.modalPermisos').modal("show");
                     document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
                 }

@@ -29,9 +29,9 @@ CREATE TABLE usuarios(
     id_usuario INT(11) auto_increment,
     nombre  varchar(50),
     apellido  varchar(50),
-    id_rol int(11),
     usuario  varchar(50),
     email  varchar(100),
+    id_rol int(11),
     password text,
     estado boolean,
     fecha_crea DATETIME,
@@ -64,3 +64,6 @@ CREATE TABLE permisos(
 ALTER TABLE usuarios ADD CONSTRAINT fk_usuario FOREIGN KEY (id_rol)  REFERENCES roles(id_rol);
 ALTER TABLE permisos ADD CONSTRAINT fk_modulo FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo);
 ALTER TABLE permisos ADD CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES roles(id_rol);
+
+
+INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Dashboard','modulo de dashboard',1,now());
