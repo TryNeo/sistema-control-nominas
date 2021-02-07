@@ -32,6 +32,10 @@ function validateCamps(listCamps){
     }
 }
 
+function cerrar_modal(nameSelector){
+    $(nameSelector).modal("hide");
+}
+
 
 function isValidString(str1) {
   const validRegEx = "^[a-zA-Z 0-9]+$";

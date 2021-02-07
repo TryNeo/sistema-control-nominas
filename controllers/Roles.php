@@ -12,6 +12,7 @@
             $data["tag_pag"] = "Roles";
             $data["page_title"] = "Roles | Inicio";
             $data["page_name"] = "Listado de Roles";
+            $data['page'] = "roles";
             $this->views->getView($this,"roles",$data);
 
         }
@@ -97,5 +98,18 @@
             die();
         }
     
+
+        public function getSelectRoles()
+        {
+            $html_options = "";
+            $data = $this->model->selectRoles();
+            if (count($data) > 0) {
+                for ($i=0; $i < count($data) ; $i++) { 
+                    $html_options .='<option value="'.$data[$i]['id_rol'].'">'.$data[$i]['nombre'].'</option>';
+                }
+            }
+            echo $html_options;
+            die();
+        }
     }
 ?>

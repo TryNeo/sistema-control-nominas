@@ -95,9 +95,6 @@ function abrir_modal(){
     $('#modalRol').modal(options);
 }
 
-function cerrar_modal(nameSelector){
-    $(nameSelector).modal("hide");
-}
 
 window.addEventListener('click',function(){
     tableroles.ajax.reload(null, false);

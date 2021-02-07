@@ -43,8 +43,8 @@
         $cadena = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890";
         $longitudCadena = strlen($cadena);
         for ($i = 1 ; $i <= $longitudPass; $i++){
-            $pos = rand(0,$longitudCadena,1);
-            $pass .=substr($cadena,$pos,1);
+            $pos = rand(0,$longitudCadena);
+            $pass .=substr($cadena,$pos);
         }
         return $pass;
     }
