@@ -51,7 +51,7 @@
 
         public function setRol(){
             $intRol = Intval(strclean($_POST['id_rol']));
-            $rolInput = strclean($_POST["nombre"]);
+            $rolInput = strclean($_POST["nombre_rol"]);
             $descriInput = strclean($_POST["descripcion"]);
             $estadoInput = intval($_POST["estadoInput"]);
 
@@ -84,7 +84,7 @@
 
         public function delRol(){
             if ($_POST){
-                $intRol = intval($_POST["id"]);
+                $intRol = intval($_POST["id_rol"]);
                 $request_del = $this->model->deleteRol($intRol);
                 if($request_del == "ok"){
                     $data = array("status" => true, "msg" => "Se ha eliminado el rol");
@@ -102,10 +102,10 @@
         public function getSelectRoles()
         {
             $html_options = "";
-            $data = $this->model->selectRoles();
+            $data = $this->model->selectRolesNoInactivos();
             if (count($data) > 0) {
                 for ($i=0; $i < count($data) ; $i++) { 
-                    $html_options .='<option value="'.$data[$i]['id_rol'].'">'.$data[$i]['nombre'].'</option>';
+                    $html_options .='<option value="'.$data[$i]['id_rol'].'">'.$data[$i]['nombre_rol'].'</option>';
                 }
             }
             echo $html_options;

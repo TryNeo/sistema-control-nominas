@@ -13,7 +13,7 @@
                     <input type="hidden" id="id_rol" name="id_rol" value="">
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Nombre rol:</label>
-                        <input type="text" name="nombre" class="form-control" id="nombre" required placeholder="ingrese nombre de rol">
+                        <input type="text" name="nombre_rol" class="form-control" id="nombre_rol" required placeholder="ingrese nombre de rol">
                     </div>
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Descripcion:</label>

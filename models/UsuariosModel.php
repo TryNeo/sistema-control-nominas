@@ -16,7 +16,8 @@
         }
 
         public function selectUsuarios(){
-            $sql = "SELECT id_usuario,nombre,apellido,usuario,email,id_rol,estado FROM usuarios";
+            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.usuario,us.email,rl.nombre_rol,us.estado
+             FROM usuarios  as us INNER JOIN roles as rl ON us.id_rol = rl.id_rol WHERE rl.estado !=0";
             $request = $this->select_sql_all($sql);
             return $request;
         }

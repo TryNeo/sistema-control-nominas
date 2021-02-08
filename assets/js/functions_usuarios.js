@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded',function(){
             {"data":"apellido"},
             {"data":"usuario"},
             {"data":"email"},
-            {"data":"id_rol"},
+            {"data":"nombre_rol"},
             {"data":"estado"},
             {"data":"opciones"}
         ],
@@ -100,10 +100,30 @@ document.addEventListener('DOMContentLoaded',function(){
 window.addEventListener('load',function(){
     tableusuarios.ajax.reload(null, false);
 
+    setTimeout(function(){ 
+        fntEditUsuario()
+    },500);
+
     fntRolesUsuario();
 },false);
 
 
+function fntEditUsuario(){
+    let btnEditUsuario = document.querySelectorAll('.btnEditarUsuario');
+    btnEditUsuario.forEach(function(btnEditUsuario) {
+        btnEditUsuario.addEventListener('click',function() {
+            document.querySelector('.text-center').innerHTML = " Actualizar Registro";
+            document.querySelector('#modalTitle').innerHTML = "Actualizar el usuario";
+            document.querySelector('#btnDisabled').style.display = 'none';
+
+            let id_usuario = this.getAttribute('us');
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            $('#modalUsuario').modal("show");
+            console.log(id_usuario);
+
+        })
+    })
+}
 
 
 
@@ -115,7 +135,7 @@ function fntRolesUsuario() {
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#id_rol").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el estado</option>"+request.responseText;
+            document.querySelector("#id_rol").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el rol</option>"+request.responseText;
             document.querySelector("#id_rol").value = 1;
             $('#id_rol').val('0');
             $('#id_rol').selectpicker('render');
@@ -123,6 +143,9 @@ function fntRolesUsuario() {
     }
 
 }
+
+
+
 
 
 

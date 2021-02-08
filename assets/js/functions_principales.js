@@ -62,7 +62,7 @@ function mensaje(icon,title,text){
 
 
 
-
+/*
 function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal){
   let btnBaseEdit = document.querySelectorAll(nameSelector);
       btnBaseEdit.forEach(function(btnBaseEdit){
@@ -146,3 +146,4 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
 
 
 
+*/
