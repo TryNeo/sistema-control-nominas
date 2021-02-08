@@ -80,8 +80,11 @@ document.addEventListener('DOMContentLoaded',function(){
                         let passwordInput = document.querySelector('#password').value = '';
                         let id_rol = document.querySelector('#id_rol').value = '0';
                         mensaje("success","Exitoso",objData.msg);
-                        tableusuarios.ajax.reload(null, false);
-
+                        tableusuarios.ajax.reload(function() {
+                            setTimeout(function(){ 
+                                fntEditUsuario();
+                            }, 500);
+                        });
                     }else{
                         mensaje("error","Error",objData.msg);
                     }
@@ -96,14 +99,14 @@ document.addEventListener('DOMContentLoaded',function(){
 
 },false);
 
-
-window.addEventListener('load',function(){
-    tableusuarios.ajax.reload(null, false);
-
+window.addEventListener('click',function(){
     setTimeout(function(){ 
         fntEditUsuario()
     },500);
+})
 
+
+window.addEventListener('load',function(){
     fntRolesUsuario();
 },false);
 

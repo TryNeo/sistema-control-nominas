@@ -27,7 +27,7 @@
                }
                $data[$i]['opciones'] = '
                <div class="text-center">
-                <button  class="btn btn-primary btn-circle btnEditarUsuario" onclick="fntEditUsuario();" title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>
+                <button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>
                 <button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button></div>';
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
