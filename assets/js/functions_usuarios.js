@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded',function(){
         let passwordInput = document.querySelector('#password').value;
         let id_rol = document.querySelector('#id_rol').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(nombreInput,apellidoInput,usuarioInput,passwordInput,estadoInput,id_rol);
+        camps.push(nombreInput,apellidoInput,usuarioInput,estadoInput,id_rol);
         if(validateCamps(camps)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = "http://localhost/sistema-control-nominas/usuarios/setUsuario";
@@ -72,13 +72,11 @@ document.addEventListener('DOMContentLoaded',function(){
                     let objData = JSON.parse(request.responseText); 
                     if (objData.status){
                         $('#modalUsuario').modal("hide");
-                        let id_usuario = document.querySelector('#id_usuario').value = '';
-                        let nombreInput = document.querySelector('#nombre').value = '';
-                        let apellidoInput = document.querySelector('#apellido').value = '';
-                        let usuarioInput = document.querySelector('#usuario').value = '';
-                        let emailInput = document.querySelector('#email').value = '';
-                        let passwordInput = document.querySelector('#password').value = '';
-                        let id_rol = document.querySelector('#id_rol').value = '0';
+                        let camps = new Array();
+                        camps.push("nombre","apellido","usuario","email","password")
+                        camps.forEach(function(element,index){
+                            document.querySelector('#'+element).value = '';
+                        })
                         mensaje("success","Exitoso",objData.msg);
                         tableusuarios.ajax.reload(function() {
                             setTimeout(function(){ 
@@ -120,9 +118,48 @@ function fntEditUsuario(){
             document.querySelector('#btnDisabled').style.display = 'none';
 
             let id_usuario = this.getAttribute('us');
+            let ajaxUrl = "http://localhost/sistema-control-nominas/usuarios/getUsuario/"+id_usuario;
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let camps = new Array();
+            request.open("GET",ajaxUrl,true);
+            request.send();
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    camps.push("nombre","apellido","usuario","email")
+                    if (objData.status){
+                        document.querySelector('#id_usuario').value = objData.msg.id_usuario;
+                        camps.forEach(function(element,index){
+                            document.querySelector('#'+element).value = objData.msg[element];
+                        })
+                        
+                        let a = document.querySelector("#id_rol").getElementsByTagName('option');
+                        for (let item of a){
+                            if (item.value ===  objData.msg.id_rol) {
+                                item.setAttribute("selected","");
+                                $('#id_rol').selectpicker('render');
+                            }else{
+                                item.removeAttribute("selected");
+                                $('#id_rol').selectpicker('render');
+                            }
+                        }
+
+
+                        const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
+                        for (let item of optionsSelect ) {
+                                if (item.value == objData.msg.estado) {
+                                    item.setAttribute("selected","");
+                                } else {
+                                    item.removeAttribute("selected");
+                                }
+                        }
+                        $('#modalUsuario').modal("hide");
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
+                }
+            }
             $('#modalUsuario').modal("show");
-            console.log(id_usuario);
 
         })
     })
@@ -158,6 +195,12 @@ function abrir_modal_user(){
         "show":true
     }
     document.querySelector('#id_usuario').value="";
+    let camps = new Array();
+    camps.push("nombre","apellido","usuario","email","password")
+    camps.forEach(function(element,index){
+        document.querySelector('#'+element).value = '';
+    })
+
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo usuario";
     document.querySelector('#btnDisabled').style.display = 'inline-block';

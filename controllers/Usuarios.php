@@ -34,9 +34,24 @@
             die();
         }
 
+        
+        public function getUsuario(int $id_usuario){
+            $intUsuario  = Intval(strclean($id_usuario));
+            if ($intUsuario > 0){
+                $data = $this->model->selectUsuario($intUsuario);
+                if (empty($data)){
+                    $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                }else{
+                    $data_response = array('status' => true,'msg'=> $data);
+                }
+                echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            }die();
+        }
+
         public function setUsuario(){
 
             if ($_POST) {
+                $int_id_usuario = intval($_POST['id_usuario']);
 
                 $str_nombre = ucwords(strclean($_POST['nombre']));
                 $str_apellido = ucwords(strclean($_POST['apellido']));
@@ -44,16 +59,39 @@
                 $str_email = strtolower(strclean($_POST['email']));
                 $int_id_rol = intval(strclean($_POST['id_rol']));
                 $int_estado = intval(strclean($_POST['estadoInput']));
-                $str_password = hash("SHA256",$_POST['password']);
-                $request_user = $this->model->insertUsuario($str_nombre,
+
+                if($int_id_usuario == 0){
+                    $option = 1;
+                    $str_password = hash("SHA256",$_POST['password']);
+                    $request_user = $this->model->insertUsuario($str_nombre,
                                                             $str_apellido,
                                                             $str_usuario,
                                                             $str_email,
                                                             $int_id_rol,
                                                             $str_password,
                                                             $int_estado);
+                }else{
+                    $option = 2;
+                    $str_password = hash("SHA256",$_POST['password']);
+                    $request_user = $this->model->updateUsuario($int_id_usuario,
+                                                                $str_nombre,
+                                                                $str_apellido,
+                                                                $str_usuario,
+                                                                $str_email,
+                                                                $int_id_rol,
+                                                                $str_password,
+                                                                $int_estado);
+                }
+
                 if ($request_user > 0) {
-                    $data = array('status' => true, 'msg' => 'Datos guardados correctamente');
+
+                    if ($option == 1){
+                        $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+
+                    }else{
+                        $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                    }
+
                 }else if ($request_user == 'exist'){
                     $data = array('status' => false, 'msg' => 'Error datos ya existentes');
                 }else{

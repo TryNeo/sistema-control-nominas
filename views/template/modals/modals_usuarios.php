@@ -39,7 +39,7 @@
               </div>
               <div class="col-md-6 mb-3">
                   <label class="col-form-label text-right" for="estadoInput">Estado:</label>
-                        <select class="form-control selectpicker" id="estadoInput" name="estadoInput">
+                        <select class="form-control" id="estadoInput" name="estadoInput">
                             <option  selected disabled="disabled" value="">Seleciona el estado</option>
                             <option value="1" >Activo</option>
                             <option value="0">Inactivo</option>

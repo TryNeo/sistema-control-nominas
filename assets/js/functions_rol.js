@@ -139,7 +139,6 @@ function fntEditRol(){
                            const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
                             for (let item of optionsSelect ) {
                                 if (item.value == objData.msg.estado) {
-                                    console.log(item.value);
                                     item.setAttribute("selected","");
                                 } else {
                                     item.removeAttribute("selected");
