@@ -67,6 +67,7 @@
 
             $sql = "SELECT * FROM usuarios WHERE (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario ) or ( email = '{$this->str_email}' and id_usuario =  $this->int_id_usuario )";
             $request = $this->select_sql_all($sql);
+            
             if (empty($request)){
                 if ($this->str_password != "") {
                     $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
@@ -82,6 +83,13 @@
             return $request;
         }
       
+        public function deleteUsuario(int $int_id_usuario){
+            $this->int_id_usuario = $int_id_usuario;
+            $sql = "UPDATE usuarios SET estado = ?, fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario";
+            $data = array(0);
+            $request_delete = $this->update_sql($sql,$data);
+            return $request_delete;
+        }
 
     }
 ?>

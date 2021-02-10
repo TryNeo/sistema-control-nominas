@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded',function(){
                         tableroles.ajax.reload(function() {
                             setTimeout(function(){ 
                                 fntPermRol();
-                                fntEditRol();
+                                baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+                                ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'')
                                 fntDelRol();
                             }, 500);
                         });
@@ -106,12 +107,17 @@ function abrir_modal(){
 window.addEventListener('click',function(){
     setTimeout(function(){ 
             fntPermRol();
-            fntEditRol();
+            baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+            ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'')
             fntDelRol();
      }, 500);
 },false);
 
 
+baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'')
+
+/*
 function fntEditRol(){
     let btnEditRol = document.querySelectorAll('.btnEditarRol');
         btnEditRol.forEach(function(btnEditRol){
@@ -154,6 +160,7 @@ function fntEditRol(){
             });
         });
 }
+*/
 
 function fntDelRol(){
     let btnDelRol = document.querySelectorAll('.btnEliminarRol');

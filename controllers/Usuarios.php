@@ -51,13 +51,13 @@
         public function setUsuario(){
 
             if ($_POST) {
-                $int_id_usuario = intval($_POST['id_usuario']);
 
+                $int_id_usuario = intval($_POST['id_usuario']);
                 $str_nombre = ucwords(strclean($_POST['nombre']));
                 $str_apellido = ucwords(strclean($_POST['apellido']));
                 $str_usuario = strclean($_POST['usuario']);
                 $str_email = strtolower(strclean($_POST['email']));
-                $int_id_rol = intval(strclean($_POST['id_rol']));
+                $int_id_rol = intval($_POST['id_rol']);
                 $int_estado = intval(strclean($_POST['estadoInput']));
 
                 if($int_id_usuario == 0){
@@ -72,7 +72,7 @@
                                                             $int_estado);
                 }else{
                     $option = 2;
-                    $str_password = hash("SHA256",$_POST['password']);
+                    $str_password = (empty($_POST['password'])) ? hash("SHA256",$_POST['password']) : $_POST['password'];
                     $request_user = $this->model->updateUsuario($int_id_usuario,
                                                                 $str_nombre,
                                                                 $str_apellido,
@@ -101,6 +101,20 @@
             }
             die();
 
+        }
+
+        public function delUsuario(){
+            if ($_POST) {
+                $intUsuario = intval($_POST["id_usuario"]);
+                $request_del = $this->model->deleteUsuario($intUsuario);
+                if ($request_del == "ok") {
+                    $data = array("status" => true, "msg" => "Se ha eliminado el usuario");
+                }else{
+                    $data = array("status" => false, "msg" => "Error al eliminar el usuario");
+                }
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            }
+            die();
         }
 
     }

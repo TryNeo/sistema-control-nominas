@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         tableusuarios.ajax.reload(function() {
                             setTimeout(function(){ 
                                 fntEditUsuario();
+                                fntDelUsuario();
                             }, 500);
                         });
                     }else{
@@ -99,7 +100,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        fntEditUsuario()
+        fntEditUsuario();
+        fntDelUsuario();
     },500);
 })
 
@@ -126,7 +128,7 @@ function fntEditUsuario(){
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
-                    camps.push("nombre","apellido","usuario","email")
+                    camps.push("nombre","apellido","usuario","email","password")
                     if (objData.status){
                         document.querySelector('#id_usuario').value = objData.msg.id_usuario;
                         camps.forEach(function(element,index){
@@ -165,6 +167,49 @@ function fntEditUsuario(){
     })
 }
 
+function fntDelUsuario(){
+    let btnDelUsuario = document.querySelectorAll('.btnEliminarUsuario');
+    btnDelUsuario.forEach(function(btnDelUsuario){
+        btnDelUsuario.addEventListener('click',function(){
+            let id_usuario = this.getAttribute('us');
+            Swal.fire({
+                title: 'Eliminar usuario',
+                text: "¿Desea eliminar este usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar',
+                cancelButtonText : 'No, cancelar',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = "http://localhost/sistema-control-nominas/usuarios/delUsuario";
+                    let strData = "id_usuario="+id_usuario;
+                    request.open("POST",ajaxUrl,true);
+                    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    request.send(strData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState==4 && request.status == 200){
+                            let objData = JSON.parse(request.responseText); 
+                            if (objData.status){
+                                $('#modalUsuario').modal("hide");
+                                mensaje("success","Exitoso",objData.msg);
+                                tableusuarios.ajax.reload(function () {
+                                    fntEditUsuario();
+                                    fntDelUsuario();
+                                });
+                            }else{
+                                mensaje("error","Error",objData.msg);
+                            }
+                        }
+                    }
+                    }
+                });
+                
+        });
+    });
+}
 
 
 
@@ -184,11 +229,6 @@ function fntRolesUsuario() {
 
 }
 
-
-
-
-
-
 function abrir_modal_user(){
     var options = {
         "backdrop" : "static",
@@ -207,3 +247,8 @@ function abrir_modal_user(){
 
     $('#modalUsuario').modal(options);
 }
+
+
+
+
+

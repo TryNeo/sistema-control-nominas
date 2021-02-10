@@ -62,8 +62,7 @@ function mensaje(icon,title,text){
 
 
 
-/*
-function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal){
+function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal,ExistSelect = false,selectId){
   let btnBaseEdit = document.querySelectorAll(nameSelector);
       btnBaseEdit.forEach(function(btnBaseEdit){
           btnBaseEdit.addEventListener('click',function(){
@@ -83,6 +82,20 @@ function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps
                           listCamps.forEach(function(element,index){
                               document.querySelector('#'+element).value = objData.msg[element];
                           })
+
+                          if(ExistSelect){
+                            let a = document.querySelector("#"+selectId).getElementsByTagName('option');
+                            for (let item of a){
+                                if (item.value ===  objData.msg.id_rol) {
+                                    item.setAttribute("selected","");
+                                    $("#"+selectId).selectpicker('render');
+                                }else{
+                                    item.removeAttribute("selected");
+                                    $("#"+selectId).selectpicker('render');
+                                }
+                            }
+                          }
+
                          const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
                           for (let item of optionsSelect ) {
                               if (item.value == objData.msg.estado) {
@@ -144,6 +157,3 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
       })
 }
 
-
-
-*/
