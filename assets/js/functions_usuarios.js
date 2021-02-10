@@ -1,6 +1,4 @@
 let tableusuarios;
-
-
 document.addEventListener('DOMContentLoaded',function(){
     tableusuarios = $('.tableUsuarios').DataTable({
         "aProcessing":true,
@@ -210,8 +208,6 @@ function fntDelUsuario(){
         });
     });
 }
-
-
 
 function fntRolesUsuario() {
     let ajaxUrl = "http://localhost/sistema-control-nominas/roles/getSelectRoles";
