@@ -3,14 +3,21 @@
 
     class Usuarios extends Controllers{
         public function __construct(){
+            parent::__construct();
             session_start();
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
             }
-            parent::__construct();
+
+            getPermisos(2);
+
         }
 
-        public function usuarios($parems){
+        public function usuarios(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }
+
             $data["tag_pag"] = "Usuarios";
             $data["page_title"] = "Usuarios| Inicio";
             $data["page_name"] = "Listado de usuarios";
@@ -23,15 +30,23 @@
         public function getUsuarios(){
             $data = $this->model->selectUsuarios();
             for ($i=0; $i < count($data); $i++) { 
+                $btnEditarUsuario = '';
+                $btnEliminarUsuario = '';
+
                if ($data[$i]['estado'] == 1){
                    $data[$i]['estado']= "<span class='label label-success'>Activo</span>";
                }else{
                     $data[$i]['estado']="<span class='label label-danger'>Inactivo</span>";
                }
-               $data[$i]['opciones'] = '
-               <div class="text-center">
-                <button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>
-                <button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button></div>';
+               if ($_SESSION['permisos_modulo']['u']) {
+                    $btnEditarUsuario = '<button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>';
+               }
+
+               if ($_SESSION['permisos_modulo']['d']) {
+                    $btnEliminarUsuario = '<button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button>';
+                }
+
+                $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarUsuario.' '.$btnEliminarUsuario.'</div>';
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();

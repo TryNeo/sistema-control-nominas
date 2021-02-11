@@ -220,8 +220,8 @@ function fntPermRol(){
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
                     document.querySelector("#contentAjax").innerHTML = request.responseText;
-                    $('.modalPermisos').modal("show");
                     document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
+                    $('.modalPermisos').modal("show");
                 }
             }
         });
@@ -241,8 +241,8 @@ function fntSavePermisos(event){
         if(request.readyState==4 && request.status == 200){
             let objData = JSON.parse(request.responseText); 
             if(objData.status){
-                $('.modalPermisos').modal("hide");
                 mensaje("success","Exitoso",objData.msg);
+                $('.modalPermisos').modal("hide");
             }else{
                 mensaje("error","Error",objData.msg);
             }

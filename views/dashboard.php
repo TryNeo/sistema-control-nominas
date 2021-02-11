@@ -19,7 +19,7 @@
                         <div class="card border-3 border-top border-top-primary">
                             <div class="card-body">
                                 <div class="d-inline-block">
-                                    <h5 class="text-muted">Null</h5>
+                                    <h5 class="text-muted"></h5>
                                     <h2 class="mb-0">0</h2>
                                 </div>
                                 <div class="float-right icon-circle-medium  icon-box-lg  bg-info-light mt-1">

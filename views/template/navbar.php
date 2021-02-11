@@ -10,9 +10,13 @@
                             <li class="nav-divider">
                                 Menu
                             </li>
+                            <?php if (!empty($_SESSION['permisos'][1]['r'])) {?>
                             <li class="nav-item ">
                                 <a class="nav-link active" href="<?php echo server_url ?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
                             </li>
+                            <?php } ?>
+                                        
+                            <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r']  ) { ?>
                             <li class="nav-divider">
                                 Seguridad
                             </li>
@@ -21,18 +25,21 @@
                                 <div id="submenu-3" class="submenu collapse" style="">
                                     <ul class="nav flex-column">
                                         
+                                        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
                                         <li class="nav-item">
                                             <a class="nav-link  " href="<?php echo server_url ?>roles/" "=""><i class="fas fa-list-ul"></i>Roles</a>
                                         </li>
+                                        <?php } ?>
                                         
-                                        
+                                        <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
                                         <li class="nav-item">
                                             <a class="nav-link  " href="<?php echo server_url ?>usuarios/"><i class="fas fa-user"></i>Usuarios</a>
                                         </li>
-                                        
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </li>
+                            <?php } ?>
                             
                         </ul>
                     </div>

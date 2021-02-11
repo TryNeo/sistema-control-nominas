@@ -90,6 +90,20 @@
         return require_once($view_modal);
     }
 
+    function getPermisos(int $int_id_modulo){
+        require_once("models/PermisosModel.php");
+        $objPermisos = new PermisosModel();
+        $id_rol = $_SESSION['user_data']['id_rol'];
+        $dataPermisos = $objPermisos->permisoModel($id_rol);
+        $permisos = '';
+        $permisosModulo = '';
+        if (count($dataPermisos) > 0) {
+            $permisos = $dataPermisos;
+            $permisosModulo = isset($dataPermisos[$int_id_modulo]) ? $dataPermisos[$int_id_modulo] : "";
+        }
+        $_SESSION["permisos"] = $permisos;
+        $_SESSION["permisos_modulo"] = $permisosModulo;
+    }
 
     function encrypt_decrypt($action, $string) {
         $output = false;

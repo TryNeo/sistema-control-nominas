@@ -35,10 +35,9 @@
 
 
         public function insertPermisos(int $idRol,int $idModulo,int $r,int $w,int $u,int $d){
-            $return = "";
             $this->intIdRol = $idRol;
             $this->intModulo = $idModulo;
-            $this->r = $w;
+            $this->r = $r;
             $this->w = $w;
             $this->u = $u;
             $this->d = $d;
@@ -46,6 +45,20 @@
             $data = array($this->intModulo,$this->intIdRol,$this->r,$this->w,$this->u,$this->d);
             $request_insert = $this->insert_sql($queryInsert,$data);
             return $request_insert;
+        }
+
+
+        public function permisoModel(int $idRol){
+            $this->intIdRol = $idRol;
+            $sql = "SELECT p.id_modulo,m.nombre,
+                    p.id_rol,p.r,p.w,p.u,p.d 
+                    FROM permisos p INNER JOIN modulos m ON p.id_modulo = m.id_modulo WHERE p.id_rol = $this->intIdRol";
+            $request = $this->select_sql_all($sql);
+            $arrPermisos = array();
+            for ($i=0; $i < count($request); $i++) { 
+                $arrPermisos[$request[$i]['id_modulo']] = $request[$i];
+            }
+            return $arrPermisos;
         }
     }
 

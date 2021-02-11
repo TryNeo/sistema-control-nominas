@@ -3,14 +3,15 @@
 
     class Dashboard extends Controllers{
         public function __construct(){
+            parent::__construct();
             session_start();
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
             }
-            parent::__construct();
+            getPermisos(1);
         }
 
-        public function dashboard($parems){
+        public function dashboard(){
             $data["page_id"] = 1;
             $data["tag_pag"] = "Dashboard";
             $data["page_title"] = "Dashboard | Inicio";

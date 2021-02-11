@@ -3,14 +3,20 @@
 
     class Roles extends Controllers{
         public function __construct(){
+            parent::__construct();
             session_start();
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
             }
-            parent::__construct();
+            getPermisos(3);
+
+
         }
 
         public function roles(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }
             $data["page_id"] = 2;
             $data["tag_pag"] = "Roles";
             $data["page_title"] = "Roles | Inicio";
@@ -23,16 +29,29 @@
         public function getRoles(){
             $data = $this->model->selectRoles();
             for ($i=0; $i < count($data); $i++) { 
+                $btnPermisoRol = '';
+                $btnEditarRol = '';
+                $btnEliminarRol='';
+
                if ($data[$i]['estado'] == 1){
                    $data[$i]['estado']= "<span class='label label-success'>Activo</span>";
                }else{
                     $data[$i]['estado']="<span class='label label-danger'>Inactivo</span>";
                }
-               $data[$i]['opciones'] = '
-               <div class="text-center">
-                <button type="button" class="btn btn-secondary btn-circle btnPermiso" title="permiso" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-key"></i></button>
-                <button  class="btn btn-primary btn-circle btnEditarRol" title="editar" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-edit"></i></button>
-                <button  class="btn btn-danger btn-circle btnEliminarRol" title="eliminar" rl="'.$data[$i]['id_rol'].'"><i class="far fa-thumbs-down"></i></button></div>';
+               
+                if ($_SESSION['permisos_modulo']['u']) {
+                    $btnPermisoRol = '<button type="button" class="btn btn-secondary btn-circle btnPermiso" title="permiso" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-key"></i></button>';
+                }
+
+                if ($_SESSION['permisos_modulo']['u']) {
+                    $btnEditarRol = '<button  class="btn btn-primary btn-circle btnEditarRol" title="editar" rl="'.$data[$i]['id_rol'].'"><i class="fa fa-edit"></i></button>';
+                }
+
+                if ($_SESSION['permisos_modulo']['d']) {
+                    $btnEliminarRol = '<button  class="btn btn-danger btn-circle btnEliminarRol" title="eliminar" rl="'.$data[$i]['id_rol'].'"><i class="far fa-thumbs-down"></i></button>';
+                }
+
+                $data[$i]['opciones'] = '<div class="text-center">'.$btnPermisoRol.' '.$btnEditarRol.' '.$btnEliminarRol.'</div>';
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
