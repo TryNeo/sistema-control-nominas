@@ -3,7 +3,10 @@
 
     class Dashboard extends Controllers{
         public function __construct(){
-
+            session_start();
+            if (empty($_SESSION['login'])) {
+                header('location:'.server_url.'login');
+            }
             parent::__construct();
         }
 

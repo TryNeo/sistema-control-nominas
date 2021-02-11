@@ -8,6 +8,7 @@
         <link href="<?php echo server_url; ?>assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/css/style.css">
         <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+        <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina.png" sizes="16x16" />
         <style>
             html,
             body {
@@ -29,12 +30,12 @@
             <div class="card ">
                 <div class="card-header text-center"><a href="#"><img class="logo-img" src="<?php echo server_url; ?>assets/images/wosecurity.png" alt="logo" width="200"></a><span class="splash-description"><strong>W@SECURITY</strong></span></div>
                 <div class="card-body">
-                    <form>
+                    <form name="formLogin" id="formLogin" action="">
                         <div class="form-group">
-                            <input class="form-control form-control-lg" id="username" type="text" placeholder="ingrese su username" autocomplete="off">
+                            <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="ingrese su username" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input class="form-control form-control-lg" id="password" type="password" placeholder="ingrese su password">
+                            <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="ingrese su password">
                         </div>
                         <button type="submit" class="btn btn-dark btn-lg btn-block"><i class="fas fa-sign-in-alt"></i> Iniciar Sesion</button>
                     </form>
@@ -53,5 +54,7 @@
         <script src="<?php echo server_url; ?>assets/vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="<?php echo server_url; ?>assets/js/functions_login.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     </body>
 </html>

@@ -5,11 +5,17 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
 
-<?php if ($data['page'] == 'roles') { ?>
-<script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_rol.js"></script>
-<?php } ?>
-<?php if ($data['page'] == 'usuario') { ?>
-<script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_usuarios.js"></script>
+<?php if(isset($data['page'])) {?>
+    <?php if ($data['page'] == 'roles') { ?>
+    <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_rol.js"></script>
+    <?php } ?>
+
+    <?php if ($data['page'] == 'usuario') { ?>
+    <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_usuarios.js"></script>
+    <?php } ?>
+<?php }else {?>
+
+
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/boostrap-select/js/bootstrap-select.min.js"></script>
