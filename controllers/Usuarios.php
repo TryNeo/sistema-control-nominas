@@ -90,7 +90,7 @@
                                                             $int_estado);
                 }else{
                     $option = 2;
-                    $str_password = (empty($_POST['password'])) ? hash("SHA256",$_POST['password']) : $_POST['password'];
+                    $str_password =  $_POST['password'];
                     $request_user = $this->model->updateUsuario($int_id_usuario,
                                                                 $str_nombre,
                                                                 $str_apellido,

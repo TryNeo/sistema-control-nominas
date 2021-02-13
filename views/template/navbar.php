@@ -16,7 +16,7 @@
                             </li>
                             <?php } ?>
                                         
-                            <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r']  ) { ?>
+                            <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r'] || $_SESSION['permisos'][4]['r'] ) { ?>
                             <li class="nav-divider">
                                 Seguridad
                             </li>
@@ -25,17 +25,24 @@
                                 <div id="submenu-3" class="submenu collapse" >
                                     <ul class="nav flex-column">
                                         
-                                        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link  " href="<?php echo server_url ?>roles/" "=""><i class="fas fa-list-ul"></i>Roles</a>
-                                        </li>
-                                        <?php } ?>
-                                        
                                         <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
                                         <li class="nav-item">
                                             <a class="nav-link  " href="<?php echo server_url ?>usuarios/"><i class="fas fa-user"></i>Usuarios</a>
                                         </li>
                                         <?php } ?>
+
+                                        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link  " href="<?php echo server_url ?>roles/" "=""><i class="fas fa-list-ul"></i>Roles</a>
+                                        </li>
+                                        <?php } ?>
+
+                                        <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link  " href="<?php echo server_url ?>respaldo/"><i class="fa fa-database" aria-hidden="true"></i>Respaldos</a>
+                                        </li>
+                                        <?php } ?>
+
                                     </ul>
                                 </div>
                             </li>

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded',function(){
         let passwordInput = document.querySelector('#password').value;
         let id_rol = document.querySelector('#id_rol').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(nombreInput,apellidoInput,usuarioInput,estadoInput,id_rol);
+        camps.push(nombreInput,apellidoInput,usuarioInput,passwordInput,estadoInput,id_rol);
         if(validateCamps(camps)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+"usuarios/setUsuario";

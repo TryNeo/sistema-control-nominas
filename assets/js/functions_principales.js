@@ -15,7 +15,7 @@ function validateCamps(listCamps){
     })
     
     if (errorCamps.length > 0){
-        mensaje("error","Error","Los campos son obligatorios");
+        mensaje("error","Error","Todos los campos son obligatorios");
         return false;
     }else{
      newlistCamps.forEach(function(elements,index){
