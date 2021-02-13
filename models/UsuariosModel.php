@@ -65,15 +65,24 @@
             $this->str_password = $str_password;
             $this->int_estado = $int_estado;
 
-            $sql = "SELECT * FROM usuarios WHERE (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario ) or ( email = '{$this->str_email}' and id_usuario =  $this->int_id_usuario )";
+            $sql_pass =  "SELECT password FROM usuarios WHERE password = '$this->str_password' ";
+            $request_password = $this->select_sql($sql_pass);
+
+            if(empty($request_password)){
+                $this->str_password = hash("SHA256",$str_password);
+            }else{
+                $this->str_password = $str_password;
+            }
+
+            $sql = "SELECT * FROM usuarios WHERE (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario ) and ( email = '{$this->str_email}' and id_usuario =  $this->int_id_usuario )";
             $request = $this->select_sql_all($sql);
             
             if (empty($request)){
-                if ($this->str_password != "") {
+                if ($this->str_password != "" ) {
                     $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
                     $data = array($this->str_nombre,$this->str_apellido,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->str_password,$this->int_estado);
                 }else{
-                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,usuario = ?,email = ?, id_rol = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
+                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?, id_rol = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
                     $data = array($this->str_nombre,$this->str_apellido,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->int_estado);
                 }
                 $request = $this->update_sql($sql_update,$data);

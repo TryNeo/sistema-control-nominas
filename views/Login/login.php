@@ -34,10 +34,13 @@
                         <div class="form-group">
                             <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="ingrese su username" autocomplete="off">
                         </div>
-                        <div class="form-group">
-                            <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="ingrese su password">
+                        <div class="form-group input-group">
+                            <input class="form-control" id="password" name="password" type="password" placeholder="ingrese su password">
+                            <span class="input-group-btn">
+                                <button id="show_password" class="btn btn-dark btn-lg" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+                            </span>
                         </div>
-                        <button type="submit" class="btn btn-dark btn-lg btn-block"><i class="fas fa-sign-in-alt"></i> Iniciar Sesion</button>
+                        <button type="submit" class="btn btn-dark btn-lg btn-block"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</button>
                     </form>
                 </div>
                 <div class="card-footer bg-white p-0  ">

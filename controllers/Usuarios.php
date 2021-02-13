@@ -123,7 +123,7 @@
 
         public function delUsuario(){
             if ($_POST) {
-                $intUsuario = intval($_POST["id_usuario"]);
+                $intUsuario = intval($_POST["id"]);
                 $request_del = $this->model->deleteUsuario($intUsuario);
                 if ($request_del == "ok") {
                     $data = array("status" => true, "msg" => "Se ha eliminado el usuario");

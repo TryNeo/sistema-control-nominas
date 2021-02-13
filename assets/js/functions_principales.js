@@ -99,7 +99,6 @@ function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps
                          const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
                           for (let item of optionsSelect ) {
                               if (item.value == objData.msg.estado) {
-                                  console.log(item.value);
                                   item.setAttribute("selected","");
                               } else {
                                   item.removeAttribute("selected");
@@ -117,7 +116,7 @@ function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps
 }
 
 
-function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalName){
+function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalName,tableupdate){
   var btnBaseDelete = document.querySelectorAll(nameSelector);
   btnBaseDelete.forEach(function(btnBaseDelete){
     btnBaseDelete.addEventListener('click',function(){
@@ -145,6 +144,7 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
                             if (objData.status){
                                 $(modalName).modal("hide");
                                 mensaje("success","Exitoso",objData.msg);
+                                tableupdate.ajax.reload();
                             }else{
                                 mensaje("error","Error",objData.msg);
                             }

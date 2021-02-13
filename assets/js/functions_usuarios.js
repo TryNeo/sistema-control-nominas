@@ -78,8 +78,10 @@ document.addEventListener('DOMContentLoaded',function(){
                         mensaje("success","Exitoso",objData.msg);
                         tableusuarios.ajax.reload(function() {
                             setTimeout(function(){ 
-                                fntEditUsuario();
-                                fntDelUsuario();
+                                baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
+                                'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+                                'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
+                                baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
                             }, 500);
                         });
                     }else{
@@ -98,8 +100,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        fntEditUsuario();
-        fntDelUsuario();
+        baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
+        'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+        'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
+        baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
     },500);
 })
 
@@ -108,7 +112,11 @@ window.addEventListener('load',function(){
     fntRolesUsuario();
 },false);
 
+baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
+    'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
 
+/*
 function fntEditUsuario(){
     let btnEditUsuario = document.querySelectorAll('.btnEditarUsuario');
     btnEditUsuario.forEach(function(btnEditUsuario) {
@@ -164,7 +172,11 @@ function fntEditUsuario(){
         })
     })
 }
+*/
 
+baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
+
+/*
 function fntDelUsuario(){
     let btnDelUsuario = document.querySelectorAll('.btnEliminarUsuario');
     btnDelUsuario.forEach(function(btnDelUsuario){
@@ -208,6 +220,7 @@ function fntDelUsuario(){
         });
     });
 }
+*/
 
 function fntRolesUsuario() {
     let ajaxUrl = "http://localhost/sistema-control-nominas/roles/getSelectRoles";

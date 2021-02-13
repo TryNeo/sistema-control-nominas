@@ -13,7 +13,7 @@
         public function login(){
             $data["page_id"] = 4;
             $data["tag_pag"] = "Login";
-            $data["page_title"] = "Login | Iniciar secion";
+            $data["page_title"] = "Login | Iniciar sesión";
             $data["page_name"] = "login";
             $this->views->getView($this,"login",$data);
 

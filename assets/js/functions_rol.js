@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded',function(){
                                 fntPermRol();
                                 baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
                                 ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'')
-                                fntDelRol();
+                                baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
                             }, 500);
                         });
                     }else{
@@ -108,8 +108,8 @@ window.addEventListener('click',function(){
     setTimeout(function(){ 
             fntPermRol();
             baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-            ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'')
-            fntDelRol();
+            ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'');
+            baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
      }, 500);
 },false);
 
@@ -162,6 +162,11 @@ function fntEditRol(){
 }
 */
 
+
+
+baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
+
+/*
 function fntDelRol(){
     let btnDelRol = document.querySelectorAll('.btnEliminarRol');
     btnDelRol.forEach(function(btnDelRol){
@@ -206,7 +211,7 @@ function fntDelRol(){
         });
     });
 }
-
+*/
 
 function fntPermRol(){
     let btnPermRol = document.querySelectorAll('.btnPermiso');

@@ -106,7 +106,7 @@
 
         public function delRol(){
             if ($_POST){
-                $intRol = intval($_POST["id_rol"]);
+                $intRol = intval($_POST["id"]);
                 $request_del = $this->model->deleteRol($intRol);
                 if($request_del == "ok"){
                     $data = array("status" => true, "msg" => "Se ha eliminado el rol");
