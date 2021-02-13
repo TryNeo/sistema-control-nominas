@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded',function(){
           },
           responsive:true,
         "ajax":{
-            "url" : "http://localhost/sistema-control-nominas/roles/getRoles",
+            "url" : base_url+"roles/getRoles",
             "dataSrc":""
         },
         "columns":[
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded',function(){
         camps.push(rolInput,descriInput,estadoInput);
         if(validateCamps(camps)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = "http://localhost/sistema-control-nominas/roles/setRol";
+            let ajaxUrl = base_url+"roles/setRol";
             let formData = new FormData(formRol);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
@@ -219,7 +219,7 @@ function fntPermRol(){
         btnPermRol.addEventListener('click',function(){
             let id_rol = this.getAttribute('rl');
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = "http://localhost/sistema-control-nominas/Permisos/getPermisosRol/"+id_rol;
+            let ajaxUrl = base_url+"Permisos/getPermisosRol/"+id_rol;
             request.open("GET",ajaxUrl,true);
             request.send();
             request.onreadystatechange = function(){
@@ -237,7 +237,7 @@ function fntPermRol(){
 function fntSavePermisos(event){
     event.preventDefault();
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = "http://localhost/sistema-control-nominas/Permisos/setPermisos";
+    let ajaxUrl = base_url+"Permisos/setPermisos";
     let formElement = document.querySelector("#formPermisos");
     let formData = new FormData(formElement);
     request.open("POST",ajaxUrl,true);

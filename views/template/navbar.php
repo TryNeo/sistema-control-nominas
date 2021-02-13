@@ -22,7 +22,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-lock"></i>Administrar Permisos</a>
-                                <div id="submenu-3" class="submenu collapse" style="">
+                                <div id="submenu-3" class="submenu collapse" >
                                     <ul class="nav flex-column">
                                         
                                         <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>

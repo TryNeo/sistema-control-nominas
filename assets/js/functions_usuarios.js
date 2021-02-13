@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded',function(){
           },
           responsive:true,
         "ajax":{
-            "url" : "http://localhost/sistema-control-nominas/usuarios/getUsuarios",
+            "url" : base_url+"usuarios/getUsuarios",
             "dataSrc":""
         },
         "columns":[
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded',function(){
         camps.push(nombreInput,apellidoInput,usuarioInput,estadoInput,id_rol);
         if(validateCamps(camps)){
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = "http://localhost/sistema-control-nominas/usuarios/setUsuario";
+            let ajaxUrl = base_url+"usuarios/setUsuario";
             let formData = new FormData(formUsuario);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
@@ -223,7 +223,7 @@ function fntDelUsuario(){
 */
 
 function fntRolesUsuario() {
-    let ajaxUrl = "http://localhost/sistema-control-nominas/roles/getSelectRoles";
+    let ajaxUrl = base_url+"roles/getSelectRoles";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     request.open("GET",ajaxUrl,true);
     request.send();

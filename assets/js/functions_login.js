@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded',function () {
             camps.push(username,password);
             if (validateCamps(camps)) {
                 let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = "http://localhost/sistema-control-nominas/login/loginUser";
+                let ajaxUrl = base_url+"login/loginUser";
                 let formData = new FormData(formLogin);
                 request.open("POST",ajaxUrl,true);
                 request.send(formData);
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded',function () {
                         if (objData.status){
                             mensaje("success","Exitoso",objData.msg);
                             setTimeout(function(){
-                                window.location = "http://localhost/sistema-control-nominas/dashboard";
+                                window.location = base_url+"dashboard";
                             },1500);
                         }else{
                             mensaje("error","Error",objData.msg);

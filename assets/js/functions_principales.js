@@ -1,3 +1,6 @@
+const base_url = "http://localhost/sistema-control-nominas/";
+
+
 function validateCamps(listCamps){
   let newlistCamps = new Array();
   let errorCamps = new Array();
@@ -71,7 +74,7 @@ function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps
               document.querySelector('#btnDisabled').style.display = 'none';
               let id = this.getAttribute(nameId);
               let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-              let ajaxEdUser = "http://localhost/sistema-control-nominas/"+urlName+"/"+nameMethod+"/"+id;
+              let ajaxEdUser = base_url+urlName+"/"+nameMethod+"/"+id;
               request.open("GET",ajaxEdUser,true);
               request.send();
               request.onreadystatechange = function(){
@@ -133,7 +136,7 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
          }).then((result) => {
            if (result.isConfirmed) {
                     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                    let ajaxUrl = "http://localhost/sistema-control-nominas/"+urlName+"/"+nameMethod;
+                    let ajaxUrl = base_url+urlName+"/"+nameMethod;
                     let strData = "id="+id;
                     request.open("POST",ajaxUrl,true);
                     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
