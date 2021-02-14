@@ -28,25 +28,29 @@
 
 
         public function getUsuarios(){
-            $data = $this->model->selectUsuarios();
-            for ($i=0; $i < count($data); $i++) { 
-                $btnEditarUsuario = '';
-                $btnEliminarUsuario = '';
+            if (empty($_SESSION['permisos_modulo']['r'])) {
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $data = $this->model->selectUsuarios();
+                for ($i=0; $i < count($data); $i++) { 
+                    $btnEditarUsuario = '';
+                    $btnEliminarUsuario = '';
 
-               if ($data[$i]['estado'] == 1){
-                   $data[$i]['estado']= "<span class='label label-success'>Activo</span>";
-               }else{
-                    $data[$i]['estado']="<span class='label label-danger'>Inactivo</span>";
-               }
-               if ($_SESSION['permisos_modulo']['u']) {
-                    $btnEditarUsuario = '<button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>';
-               }
-
-               if ($_SESSION['permisos_modulo']['d']) {
-                    $btnEliminarUsuario = '<button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button>';
+                if ($data[$i]['estado'] == 1){
+                    $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
+                }else{
+                    $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
+                }
+                if ($_SESSION['permisos_modulo']['u']) {
+                        $btnEditarUsuario = '<button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>';
                 }
 
-                $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarUsuario.' '.$btnEliminarUsuario.'</div>';
+                if ($_SESSION['permisos_modulo']['d']) {
+                        $btnEliminarUsuario = '<button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button>';
+                    }
+
+                    $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarUsuario.' '.$btnEliminarUsuario.'</div>';
+                }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
@@ -72,9 +76,6 @@
         }
 
         public function setUsuario(){
-            if (empty($_SESSION['permisos_modulo']['w']) ) {
-                $data = array("status" => false, "msg" => "Error no tiene permisos");
-            }else{
                 if ($_POST) {
                     $int_id_usuario = intval($_POST['id_usuario']);
                     $str_nombre = ucwords(strclean($_POST['nombre']));
@@ -83,6 +84,7 @@
                     $str_email = strtolower(strclean($_POST['email']));
                     $int_id_rol = intval($_POST['id_rol']);
                     $int_estado = intval(strclean($_POST['estadoInput']));
+
 
                     if($int_id_usuario == 0){
                         $option = 1;
@@ -109,11 +111,20 @@
 
                     if ($request_user > 0) {
 
-                        if ($option == 1){
-                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
-
+                        if (empty($_SESSION['permisos_modulo']['w'])){
+                            $data= array("status" => false, "msg" => "Error no tiene permisos");
                         }else{
-                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                            if ($option == 1){
+                                $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                            }
+                        }
+
+                        if (empty($_SESSION['permisos_modulo']['u'])) {
+                            $data= array("status" => false, "msg" => "Error no tiene permisos");
+                        }else{
+                            if ($option == 2){
+                                $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                            }
                         }
 
                     }else if ($request_user == 'exist'){
@@ -124,23 +135,28 @@
                 }else{
                     $data = array("status" => false, "msg" => "Error Hubo problemas");
                 }
-            }
-            echo json_encode($data,JSON_UNESCAPED_UNICODE);
-            die();
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                die();
 
         }
 
         public function delUsuario(){
-            if ($_POST) {
-                $intUsuario = intval($_POST["id"]);
-                $request_del = $this->model->deleteUsuario($intUsuario);
-                if ($request_del == "ok") {
-                    $data = array("status" => true, "msg" => "Se ha eliminado el usuario");
+            if (empty($_SESSION['permisos_modulo']['d']) ) {
+                $data= array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                if ($_POST) {
+                    $intUsuario = intval($_POST["id"]);
+                    $request_del = $this->model->deleteUsuario($intUsuario);
+                    if ($request_del == "ok") {
+                        $data = array("status" => true, "msg" => "Se ha eliminado el usuario");
+                    }else{
+                        $data = array("status" => false, "msg" => "Error al eliminar el usuario");
+                    }
                 }else{
-                    $data = array("status" => false, "msg" => "Error al eliminar el usuario");
+                    $data = array("status" => false, "msg" => "Error Hubo problemas");
                 }
-                echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
 
