@@ -54,69 +54,78 @@
 
         
         public function getUsuario(int $id_usuario){
-            $intUsuario  = Intval(strclean($id_usuario));
-            if ($intUsuario > 0){
-                $data = $this->model->selectUsuario($intUsuario);
-                if (empty($data)){
-                    $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
-                }else{
-                    $data_response = array('status' => true,'msg'=> $data);
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                $data_response = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $intUsuario  = Intval(strclean($id_usuario));
+                if ($intUsuario > 0){
+                    $data = $this->model->selectUsuario($intUsuario);
+                    if (empty($data)){
+                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                    }else{
+                        $data_response = array('status' => true,'msg'=> $data);
+                    }
                 }
-                echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
-            }die();
+            }
+            echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         public function setUsuario(){
+            if (empty($_SESSION['permisos_modulo']['w']) ) {
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                if ($_POST) {
+                    $int_id_usuario = intval($_POST['id_usuario']);
+                    $str_nombre = ucwords(strclean($_POST['nombre']));
+                    $str_apellido = ucwords(strclean($_POST['apellido']));
+                    $str_usuario = strclean($_POST['usuario']);
+                    $str_email = strtolower(strclean($_POST['email']));
+                    $int_id_rol = intval($_POST['id_rol']);
+                    $int_estado = intval(strclean($_POST['estadoInput']));
 
-            if ($_POST) {
-
-                $int_id_usuario = intval($_POST['id_usuario']);
-                $str_nombre = ucwords(strclean($_POST['nombre']));
-                $str_apellido = ucwords(strclean($_POST['apellido']));
-                $str_usuario = strclean($_POST['usuario']);
-                $str_email = strtolower(strclean($_POST['email']));
-                $int_id_rol = intval($_POST['id_rol']);
-                $int_estado = intval(strclean($_POST['estadoInput']));
-
-                if($int_id_usuario == 0){
-                    $option = 1;
-                    $str_password = hash("SHA256",$_POST['password']);
-                    $request_user = $this->model->insertUsuario($str_nombre,
-                                                            $str_apellido,
-                                                            $str_usuario,
-                                                            $str_email,
-                                                            $int_id_rol,
-                                                            $str_password,
-                                                            $int_estado);
-                }else{
-                    $option = 2;
-                    $str_password =  $_POST['password'];
-                    $request_user = $this->model->updateUsuario($int_id_usuario,
-                                                                $str_nombre,
+                    if($int_id_usuario == 0){
+                        $option = 1;
+                        $str_password = hash("SHA256",$_POST['password']);
+                        $request_user = $this->model->insertUsuario($str_nombre,
                                                                 $str_apellido,
                                                                 $str_usuario,
                                                                 $str_email,
                                                                 $int_id_rol,
                                                                 $str_password,
                                                                 $int_estado);
-                }
-
-                if ($request_user > 0) {
-
-                    if ($option == 1){
-                        $data = array('status' => true, 'msg' => 'datos guardados correctamente');
-
                     }else{
-                        $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                        $option = 2;
+                        $str_password =  $_POST['password'];
+                        $request_user = $this->model->updateUsuario($int_id_usuario,
+                                                                    $str_nombre,
+                                                                    $str_apellido,
+                                                                    $str_usuario,
+                                                                    $str_email,
+                                                                    $int_id_rol,
+                                                                    $str_password,
+                                                                    $int_estado);
                     }
 
-                }else if ($request_user == 'exist'){
-                    $data = array('status' => false, 'msg' => 'Error datos ya existentes');
+                    if ($request_user > 0) {
+
+                        if ($option == 1){
+                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+
+                        }else{
+                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                        }
+
+                    }else if ($request_user == 'exist'){
+                        $data = array('status' => false, 'msg' => 'Error datos ya existentes');
+                    }else{
+                        $data = array('status' => false, 'msg' => 'No es posible almacenar los datos');
+                    }
                 }else{
-                    $data = array('status' => false, 'msg' => 'No es posible almacenar los datos');
+                    $data = array("status" => false, "msg" => "Error Hubo problemas");
                 }
-                echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
 
         }

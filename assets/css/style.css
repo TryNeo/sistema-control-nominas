@@ -16,3 +16,19 @@
     font-size: 80%;
     color: #dc3545;
 }
+
+
+
+.btn-icon-split {
+    padding:0;
+    overflow:hidden;
+    display:inline-flex;
+    align-items:stretch;
+    justify-content:center
+   }
+
+.btn-icon-split .icon {
+    background:rgba(0,0,0,.15);
+    display:inline-block;
+    padding:.375rem .75rem;
+   }

@@ -34,9 +34,9 @@
                 $btnEliminarRol='';
 
                if ($data[$i]['estado'] == 1){
-                   $data[$i]['estado']= "<span class='label label-success'>Activo</span>";
+                   $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="fas fa-check-circle"></i><span class="label">&nbsp;&nbsp;&nbsp;Activo</span></span>';
                }else{
-                    $data[$i]['estado']="<span class='label label-danger'>Inactivo</span>";
+                    $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><span class="icon text-white-50"><i class="fas fa-ban"></i></span><span class="label">Inactivo</span></span>';
                }
                
                 if ($_SESSION['permisos_modulo']['u']) {
