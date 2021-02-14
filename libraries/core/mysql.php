@@ -1,5 +1,4 @@
 <?php
-
     require_once ("./libraries/core/conexion.php");
     class Mysql extends Conexion{
         private $conexion;
