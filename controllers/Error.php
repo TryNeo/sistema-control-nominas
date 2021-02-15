@@ -1,7 +1,7 @@
 <?php
     require_once ("./libraries/core/controllers.php");
 
-    class Errors extends Controllers{
+    class errors extends Controllers{
         public function __construct(){
             parent::__construct();
         }
@@ -19,7 +19,7 @@
 
     }
 
-    $notFound = new Errors();
+    $notFound = new errors();
     $notFound->notFound();
 
 ?>

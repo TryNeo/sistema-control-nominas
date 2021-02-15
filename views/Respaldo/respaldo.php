@@ -11,12 +11,6 @@
         </div>
         <hr>
         <div class="row">
-                <a href="#" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                    <span class="text">inactivo</span>
-                </a>
             <button type="button" id="backupbd">Realizar copia de seguridad</button>
         </div>
     </div>

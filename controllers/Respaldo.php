@@ -79,7 +79,6 @@
                         if($error ==1){
                             $data = array('status' => false, 'msg' => 'Hubo un error al hacer respaldo');
                         }else{
-                            chmod('./backups/', 0777);
                             $sql.='SET FOREIGN_KEY_CHECKS=1;';
                             $handle=fopen('./backups/'.$data_base,'w+');
                             if(fwrite($handle, $sql)){

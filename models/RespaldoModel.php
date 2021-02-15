@@ -6,7 +6,7 @@
         }
 
         public function respaldo_sql(string $query){
-            $con=mysqli_connect("localhost","tsjosu3","theadmin@lopez","nominas_bd");
+            $con=mysqli_connect("localhost","root","","nominas_bd");
             mysqli_set_charset($con, "utf8");
             if (mysqli_connect_errno()) {
                 printf("Conexion fallida: %s\n", mysqli_connect_error());

@@ -8,7 +8,6 @@
         </button>
       </div>
       <div class="modal-body">
-      <?php dep($_SESSION['permisos_modulo']); ?>
         <form id="formUsuario" name="formUsuario">
             <input type="hidden" id="id_usuario" name="id_usuario" value="">
             <div class="card-body row">
