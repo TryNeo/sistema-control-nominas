@@ -22,7 +22,7 @@
         }
     }
 
-    require_once("./libraries/core/Autoload.php");
+    require_once("./libraries/core/autoload.php");
     require_once("./libraries/core/load.php");
 
     
