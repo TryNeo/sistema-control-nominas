@@ -8,3 +8,4 @@ views/ecommerce-product.html
 views/ecommerce-product-checkout.html
 views/influencer-finder.html
 views/influencer-profile.html
+database/nominas_bd.sql
