@@ -68,6 +68,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="foto">Foto de perfil:</label>
+                <div id="ImagePreview"></div>
                 <div class="input-group mb-3">
                   <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
                   <input type="file" class="form-control" name="foto" id="foto">

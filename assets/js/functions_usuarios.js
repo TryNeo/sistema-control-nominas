@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded',function(){
                     if (objData.status){
                         $('#modalUsuario').modal("hide");
                         let camps = new Array();
-                        camps.push("nombre","apellido","usuario","email","password")
+                        camps.push("nombre","apellido","usuario","email","password","foto")
                         camps.forEach(function(element,index){
                             document.querySelector('#'+element).value = '';
                         })
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded',function(){
                             setTimeout(function(){ 
                                 baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
                                 'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
-                                'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
+                                'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
                                 baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
                             }, 500);
                         });
@@ -104,7 +104,7 @@ window.addEventListener('click',function(){
     setTimeout(function(){ 
         baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
         'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
-        'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
+        'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
         baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
     },500);
 })
@@ -116,7 +116,7 @@ window.addEventListener('load',function(){
 
 baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
     'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
-    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol');
+    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
 
 /*
 function fntEditUsuario(){
@@ -251,7 +251,7 @@ function abrir_modal_user(){
     camps.forEach(function(element,index){
         document.querySelector('#'+element).value = '';
     })
-
+    document.querySelector('#ImagePreview').innerHTML ='';
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo usuario";
     document.querySelector('#btnDisabled').style.display = 'inline-block';

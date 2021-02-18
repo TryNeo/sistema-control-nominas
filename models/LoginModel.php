@@ -20,7 +20,7 @@
 
         public function sessionLogin(int $int_id_usuario){
             $this->int_id_usuario = $int_id_usuario;
-            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.usuario,us.email,r.id_rol,r.nombre_rol,us.estado 
+            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.foto,us.usuario,us.email,r.id_rol,r.nombre_rol,us.estado 
             FROM usuarios us INNER JOIN roles r ON us.id_rol = r.id_rol WHERE us.id_usuario = $this->int_id_usuario";
             $request = $this->select_sql($sql);
             return $request;

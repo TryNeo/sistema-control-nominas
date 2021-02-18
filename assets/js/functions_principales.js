@@ -1,4 +1,5 @@
 const base_url = "http://localhost/sistema-control-nominas/";
+const base_url_image = "http://localhost/sistema-control-nominas/assets/images/";
 
 
 function validateCamps(listCamps){
@@ -67,31 +68,34 @@ function mensaje(icon,title,text){
 
 
 
-function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal,ExistSelect = false,selectId){
-  let btnBaseEdit = document.querySelectorAll(nameSelector);
-      btnBaseEdit.forEach(function(btnBaseEdit){
-          btnBaseEdit.addEventListener('click',function(){
-              document.querySelector('#modalTitle').innerHTML = modalName;
-              document.querySelector('.text-center').innerHTML = " Actualizar registro";
-              document.querySelector('#btnDisabled').style.display = 'none';
-              let id = this.getAttribute(nameId);
-              let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-              let ajaxEdUser = base_url+urlName+"/"+nameMethod+"/"+id;
-              request.open("GET",ajaxEdUser,true);
-              request.send();
-              request.onreadystatechange = function(){
-                  if(request.readyState==4 && request.status == 200){
-                      let objData = JSON.parse(request.responseText);
-                      if (objData.status){
-                          document.querySelector('#'+nameSelectorId).value = objData.msg[nameSelectorId];
-                          listCamps.forEach(function(element,index){
-                              document.querySelector('#'+element).value = objData.msg[element];
-                          })
-
-                          if(ExistSelect){
+function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal,ExistSelect = false,selectId,ImagePreview = false, imageId){
+let btnBaseEdit = document.querySelectorAll(nameSelector);
+    btnBaseEdit.forEach(function(btnBaseEdit){
+        btnBaseEdit.addEventListener('click',function(){
+            document.querySelector('#modalTitle').innerHTML = modalName;
+            document.querySelector('.text-center').innerHTML = " Actualizar registro";
+            document.querySelector('#btnDisabled').style.display = 'none';
+            let id = this.getAttribute(nameId);
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxEdUser = base_url+urlName+"/"+nameMethod+"/"+id;
+            request.open("GET",ajaxEdUser,true);
+            request.send();
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if (objData.status){
+                        document.querySelector('#'+nameSelectorId).value = objData.msg[nameSelectorId];
+                        listCamps.forEach(function(element,index){
+                        document.querySelector('#'+element).value = objData.msg[element];
+                    })
+                        if (ImagePreview){
+                            document.querySelector(imageId).innerHTML ="<img src='"+base_url_image+objData.msg['foto']+"'  class='rounded mx-auto' width='100px'></div>";
+                        }
+                        
+                        if(ExistSelect){
                             let a = document.querySelector("#"+selectId).getElementsByTagName('option');
                             for (let item of a){
-                                if (item.value ===  objData.msg.id_rol) {
+                                if (item.value === objData.msg['id_rol']) {
                                     item.setAttribute("selected","");
                                     $("#"+selectId).selectpicker('render');
                                 }else{
@@ -99,25 +103,25 @@ function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps
                                     $("#"+selectId).selectpicker('render');
                                 }
                             }
-                          }
+                        }
 
-                         const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
-                          for (let item of optionsSelect ) {
-                              if (item.value == objData.msg.estado) {
-                                  item.setAttribute("selected","");
-                              } else {
-                                  item.removeAttribute("selected");
-                              }
-                          }
-                          $(nameSelectorModal).modal("hide");
-                      }else{
-                          mensaje("error","Error",objData.msg);
-                      }
-                  }
-              }
-              $(nameSelectorModal).modal("show");
-          });
-      });
+                        const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
+                        for (let item of optionsSelect ) {
+                            if (item.value == objData.msg.estado) {
+                                item.setAttribute("selected","");
+                            } else {
+                                item.removeAttribute("selected");
+                            }
+                        }
+                        $(nameSelectorModal).modal("hide");
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
+                }
+            }
+            $(nameSelectorModal).modal("show");
+        });
+    });
 }
 
 

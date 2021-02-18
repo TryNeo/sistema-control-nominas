@@ -25,7 +25,7 @@
 
         public function selectUsuario(int $id_usuario){
             $this->int_id_usuario = $id_usuario;
-            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.usuario,us.email,us.password,rl.id_rol,us.estado
+            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.foto,us.usuario,us.email,us.password,rl.id_rol,us.estado
              FROM usuarios  as us INNER JOIN roles as rl ON us.id_rol = rl.id_rol WHERE us.id_usuario =  $this->int_id_usuario ";
             $request = $this->select_sql($sql);
             return $request;
@@ -57,10 +57,11 @@
             return $return;
         }
         
-        public function updateUsuario(int $int_id_usuario,string $str_nombre,string $str_apellido,string $str_usuario,string $str_email,int $int_id_rol,string $str_password, int $int_estado){
+        public function updateUsuario(int $int_id_usuario,string $str_nombre,string $str_apellido,string $str_imagen,string $str_usuario,string $str_email,int $int_id_rol,string $str_password, int $int_estado){
             $this->int_id_usuario = $int_id_usuario;
             $this->str_nombre = $str_nombre;
             $this->str_apellido = $str_apellido;
+            $this->str_imagen = $str_imagen;
             $this->str_usuario = $str_usuario;
             $this->str_email =  $str_email;
             $this->int_id_rol = $int_id_rol;
@@ -81,11 +82,11 @@
             
             if (empty($request)){
                 if ($this->str_password != "" ) {
-                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
-                    $data = array($this->str_nombre,$this->str_apellido,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->str_password,$this->int_estado);
+                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,foto = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
+                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->str_password,$this->int_estado);
                 }else{
-                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?, id_rol = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
-                    $data = array($this->str_nombre,$this->str_apellido,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->int_estado);
+                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,foto = ? id_rol = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
+                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->int_estado);
                 }
                 $request = $this->update_sql($sql_update,$data);
             }else{
@@ -93,7 +94,15 @@
             }
             return $request;
         }
-      
+
+        
+        public function selectImage(int $int_id_usuario){
+            $this->int_id_usuario = $int_id_usuario;
+            $sql = "SELECT foto FROM usuarios WHERE id_usuario = $this->int_id_usuario" ;
+            $request_image = $this->select_sql($sql);
+            return $request_image;
+        }
+
         public function deleteUsuario(int $int_id_usuario){
             $this->int_id_usuario = $int_id_usuario;
             $sql = "UPDATE usuarios SET estado = ?, fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario";

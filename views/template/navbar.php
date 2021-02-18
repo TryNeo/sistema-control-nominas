@@ -12,7 +12,7 @@
                             </li>
                             <?php if (!empty($_SESSION['permisos'][1]['r'])) {?>
                             <li class="nav-item ">
-                                <a class="nav-link active" href="<?php echo server_url ?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
+                                <a class='nav-link active' href="<?php echo server_url ?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
                             </li>
                             <?php } ?>
                                         
