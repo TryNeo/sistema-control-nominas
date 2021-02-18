@@ -29,6 +29,7 @@ getModal('modals_usuarios',$data);
                                 <th>Usuario</th>
                                 <th>Email</th>
                                 <th>Rol</th>
+                                <th>Foto</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </thead>
@@ -42,4 +43,5 @@ getModal('modals_usuarios',$data);
         </div>
     </div>
 </div>
-<?php getScripts($data);?>
+<?php 
+getScripts($data);?>

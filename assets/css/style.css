@@ -37,3 +37,8 @@
 .text-padding{
     padding:7px;
 }
+
+
+input[type="file"].form-control{
+    box-shadow: none;
+}

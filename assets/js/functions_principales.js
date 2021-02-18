@@ -8,9 +8,9 @@ function validateCamps(listCamps){
   
     listCamps.forEach(function(elements, index) {
         if(listCamps[index] === ""){
-           errorCamps.push(listCamps[index]);
+            errorCamps.push(listCamps[index]);
         }else{
-          newlistCamps.push(listCamps[index]);
+            newlistCamps.push(listCamps[index]);
         }
     })
     
@@ -18,7 +18,7 @@ function validateCamps(listCamps){
         mensaje("error","Error","Todos los campos son obligatorios");
         return false;
     }else{
-     newlistCamps.forEach(function(elements,index){
+        newlistCamps.forEach(function(elements,index){
         if(isValidString(newlistCamps[index])){
             validCamps.push(newlistCamps[index]);
         }else{
@@ -41,27 +41,29 @@ function cerrar_modal(nameSelector){
 
 
 function isValidString(str1) {
-  const validRegEx = "^[a-zA-Z 0-9]+$";
-  if(typeof str1 === "number"){
-    return true;
-  }
+    const validRegEx = "^[a-zA-Z 0-9]+$";
+    if(typeof str1 === "number"){
+        return true;
+    }
 
-  if(String(str1).match(validRegEx) && str1.trim()) {
-      return true;
-  } else {
-      return false;
-  }
+    if(String(str1).match(validRegEx) && str1.trim()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-  
+
+
+
+
 function mensaje(icon,title,text){
     Swal.fire({
         icon: icon,
         title: title,
         text: text,
-      })
+    })
 }
-
 
 
 

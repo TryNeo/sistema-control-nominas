@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded',function(){
             {"data":"usuario"},
             {"data":"email"},
             {"data":"nombre_rol"},
+            {"data":"foto"},
             {"data":"estado"},
             {"data":"opciones"}
         ],
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded',function(){
         let usuarioInput = document.querySelector('#usuario').value;
         let emailInput = document.querySelector('#email').value;
         let passwordInput = document.querySelector('#password').value;
+        let imagenInput = document.querySelector('#foto').value;
         let id_rol = document.querySelector('#id_rol').value;
         let estadoInput = document.querySelector('#estadoInput').value;
         camps.push(nombreInput,apellidoInput,usuarioInput,passwordInput,estadoInput,id_rol);

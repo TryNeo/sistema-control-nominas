@@ -29,6 +29,7 @@ CREATE TABLE usuarios(
     id_usuario INT(11) auto_increment,
     nombre  varchar(50),
     apellido  varchar(50),
+    foto varchar(1000),
     usuario  varchar(50),
     email  varchar(100),
     id_rol int(11),
@@ -79,3 +80,5 @@ INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (1,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (2,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (3,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (4,1,1,1,1,1);
+
+INSERT INTO usuarios (nombre,apellido,foto,usuario,email,id_rol,password,estado,fecha_crea) VALUES ("joel josue","huacon lopez","avatar-2.jpg","josu3","jjhuacon@est.itsgg.edu.ec",1,sha2("josue",256),1,now())

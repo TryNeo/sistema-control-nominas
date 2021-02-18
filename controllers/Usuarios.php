@@ -35,6 +35,12 @@
                 for ($i=0; $i < count($data); $i++) { 
                     $btnEditarUsuario = '';
                     $btnEliminarUsuario = '';
+                
+                if ($data[$i]['foto'] == 'avatar-2.jpg'){
+                    $data[$i]['foto'] = '<div class="m-r-10"><img src="'.server_url_image.$data[$i]['foto'].'"  class="rounded" width="45"></div>';
+                }else{
+                    $data[$i]['foto'] = '<div class="m-r-10"><img src="'.server_url_image.$data[$i]['foto'].'"  class="rounded" width="45"></div>';
+                }
 
                 if ($data[$i]['estado'] == 1){
                     $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
@@ -84,13 +90,20 @@
                     $str_email = strtolower(strclean($_POST['email']));
                     $int_id_rol = intval($_POST['id_rol']);
                     $int_estado = intval(strclean($_POST['estadoInput']));
-
-
+                    $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
+                    $fecha = new DateTime();
+                    $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"avatar-2.jpg";
+                    $tmp_foto = $_FILES['foto']['tmp_name'];
+                    if ($tmp_foto!=""){
+                        move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                    }
+                    
                     if($int_id_usuario == 0){
                         $option = 1;
                         $str_password = hash("SHA256",$_POST['password']);
                         $request_user = $this->model->insertUsuario($str_nombre,
                                                                 $str_apellido,
+                                                                $str_imagen,
                                                                 $str_usuario,
                                                                 $str_email,
                                                                 $int_id_rol,

@@ -8,42 +8,70 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="formUsuario" name="formUsuario">
+        <form id="formUsuario" name="formUsuario" enctype="multipart/form-data"">
             <input type="hidden" id="id_usuario" name="id_usuario" value="">
             <div class="card-body row">
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="nombre">Nombre:</label>
-                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="ingrese el nombre">
+                <div class="input-group mb-3">
+                  <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-address-book"></i></span></span>
+                  <input type="text" name="nombre" class="form-control" id="nombre" placeholder="ingrese el nombre">
+                </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label class="col-form-label text-right" for="apellido">Apelido:</label>
-                <input type="text" name="apellido" class="form-control" id="apellido" placeholder="ingrese el apellido">
+                  <label class="col-form-label text-right" for="apellido">Apelido:</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-address-book"></i></span></span>
+                    <input type="text" name="apellido" class="form-control" id="apellido" placeholder="ingrese el apellido">
+                  </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="usuario">Usuario:</label>
-                <input type="text" name="usuario" class="form-control" id="usuario"  placeholder="ingrese el usuario">
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></span>
+                    <input type="text" name="usuario" class="form-control" id="usuario"  placeholder="ingrese el usuario">
+                  </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="email">Email:</label>
-                <input type="email" name="email" class="form-control" id="email" required placeholder="ingrese el email">
-                <span id="emailOK" class="validate-Error"></span>
+                <div class="input-group mb-3">
+                  <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-envelope"></i></span></span>
+                  <input type="email" name="email" class="form-control" id="email" required placeholder="ingrese el email">
+                  <span id="emailOK" class="validate-Error"></span>
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="password">Contraseña:</label>
-                <input type="password" name="password" class="form-control" id="password"  placeholder="ingrese la contraseña">
+                <div class="input-group mb-3">
+                  <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-lock"></i></span></span>
+                  <input type="password" name="password" class="form-control" id="password"  placeholder="ingrese la contraseña">
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                   <label class="col-form-label text-right" for="id_rol">Rol:</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
                     <select class="form-control" id="id_rol" data-live-search="true"  name="id_rol">
                     </select>
+                  </div>
               </div>
               <div class="col-md-6 mb-3">
                   <label class="col-form-label text-right" for="estadoInput">Estado:</label>
-                        <select class="form-control" id="estadoInput" name="estadoInput">
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
+                    <select class="form-control" id="estadoInput" name="estadoInput">
                             <option  selected disabled="disabled" value="">Seleciona el estado</option>
                             <option value="1" >Activo</option>
                             <option value="0">Inactivo</option>
                     </select>
+                  </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="col-form-label text-right" for="foto">Foto de perfil:</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
+                  <input type="file" class="form-control" name="foto" id="foto">
+                </div>
               </div>
             </div>
             <div class="col-md-12 mb-3">
