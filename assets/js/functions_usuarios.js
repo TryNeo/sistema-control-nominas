@@ -241,7 +241,7 @@ function fntRolesUsuario() {
 }
 
 function abrir_modal_user(){
-    var options = {
+    let options = {
         "backdrop" : "static",
         "show":true
     }
@@ -260,6 +260,8 @@ function abrir_modal_user(){
 }
 
 
-
+function abrir_modal_imagen(){
+    $('#imagenModal').modal("show");
+}
 
 

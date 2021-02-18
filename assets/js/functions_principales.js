@@ -89,7 +89,7 @@ let btnBaseEdit = document.querySelectorAll(nameSelector);
                         document.querySelector('#'+element).value = objData.msg[element];
                     })
                         if (ImagePreview){
-                            document.querySelector(imageId).innerHTML ="<img src='"+base_url_image+objData.msg['foto']+"'  class='rounded mx-auto' width='100px'></div>";
+                            document.querySelector(imageId).innerHTML ="<img src='"+base_url_image+objData.msg['foto']+"'  class='thumbnail' ></div>";
                         }
                         
                         if(ExistSelect){

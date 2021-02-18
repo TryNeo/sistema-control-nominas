@@ -68,12 +68,12 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="col-form-label text-right" for="foto">Foto de perfil:</label>
-                <div id="ImagePreview"></div>
                 <div class="input-group mb-3">
-                  <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
+                  <span class="input-group-prepend"><span class="input-group-text"><a href="#" onclick="return abrir_modal_imagen();"><i class="fas fa-image"></i></a></span></span>
                   <input type="file" class="form-control" name="foto" id="foto">
                 </div>
               </div>
+            
             </div>
             <div class="col-md-12 mb-3">
               <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar Registro</span></button>
@@ -81,6 +81,16 @@
               <button type="button" class="btn btn-danger" onclick="return cerrar_modal('#modalUsuario')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
             </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="imagenModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body modalimg">
+        <div id="ImagePreview"></div>
       </div>
     </div>
   </div>
