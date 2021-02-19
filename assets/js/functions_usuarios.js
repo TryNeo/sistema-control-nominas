@@ -1,4 +1,6 @@
 let tableusuarios;
+
+
 document.addEventListener('DOMContentLoaded',function(){
     tableusuarios = $('.tableUsuarios').DataTable({
         "aProcessing":true,

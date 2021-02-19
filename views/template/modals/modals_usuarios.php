@@ -70,7 +70,8 @@
                 <label class="col-form-label text-right" for="foto">Foto de perfil:</label>
                 <div class="input-group mb-3">
                   <span class="input-group-prepend"><span class="input-group-text"><a href="#" onclick="return abrir_modal_imagen();"><i class="fas fa-image"></i></a></span></span>
-                  <input type="file" class="form-control" name="foto" id="foto">
+                  <input type="file" class="inputfile inputfile-1" name="foto" id="foto">
+                  <label for="foto" class="label-image"><span class="borrarinputfile">Seleccionar imagen</span></label>    
                 </div>
               </div>
             

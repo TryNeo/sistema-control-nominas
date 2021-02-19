@@ -17,7 +17,9 @@
     color: #dc3545;
 }
 
-
+a{
+    font-size:11px;
+}
 
 .btn-icon-split {
     padding:0;
@@ -39,9 +41,55 @@
 }
 
 
-input[type="file"].form-control{
-    box-shadow: none;
+.borrarinputfile {
+    border-radius: 5px;
+	font-size:13px; 
+	font-weight:300;
+    color: #999;
 }
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+
+.label-image{
+    margin-bottom: 0px;
+    padding: 8px 20px;
+    width:500px;
+}
+
+.inputfile + .label-image {
+    max-width: 90%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
+
+
+.inputfile-1 + .label-image {
+    color: #fff;
+    background-color: #efeff6;
+
+}
+
+.inputfile-1:focus + .label-image
+.inputfile-1.has-focus + .label-image,
+.inputfile-1 + .label-image:hover {
+    background-color:#efeff6;
+}
+
+
+
 
 .thumbnail{
     border: 1px solid #ddd;
