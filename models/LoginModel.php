@@ -12,7 +12,7 @@
         public function login_user(string $str_username, string $str_password ){
             $this->str_username = $str_username;
             $this->str_password = $str_password;
-            $sql = "SELECT id_usuario,estado FROM usuarios WHERE usuario = '$this->str_username' and password = '$this->str_password' and estado !=0";
+            $sql = "SELECT id_usuario,estado FROM usuarios WHERE usuario = '$this->str_username' and password = '$this->str_password'";
             $request = $this->select_sql($sql);
             return $request;
         }        

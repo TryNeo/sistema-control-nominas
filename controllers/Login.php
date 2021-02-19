@@ -29,6 +29,7 @@
                     $request_user = $this->model->login_user($str_usuario,$str_password);
                     if (empty($request_user)) {
                         $data = array('status' => false,'msg' => 'El usuario o la contraseña es incorrecto');
+
                     }else{
                         $data = $request_user;
                         if ($data['estado'] == 1) {
@@ -36,10 +37,9 @@
                             $_SESSION['login'] = true;
                             $arrResponse = $this->model->sessionLogin($_SESSION['id_usuario']);
                             $_SESSION['user_data'] = $arrResponse;
-
-                            $data = array('status' => true,'msg' => 'Datos Correctos');
+                            $data = array('status' => true,'msg' => 'Usuario y contraseña correctas');
                         }else{
-                            $data = array('status' => false,'msg' => 'El usuario esta inactivo');
+                            $data = array('status' => false,'msg' => 'Este usuario no existe en la base de datos');
                         }
                     }
                 }

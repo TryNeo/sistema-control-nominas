@@ -245,11 +245,12 @@ function fntRolesUsuario() {
 function abrir_modal_user(){
     let options = {
         "backdrop" : "static",
+        "keyboard": false,
         "show":true
     }
     document.querySelector('#id_usuario').value="";
     let camps = new Array();
-    camps.push("nombre","apellido","usuario","email","password")
+    camps.push("nombre","apellido","usuario","email","password","foto")
     camps.forEach(function(element,index){
         document.querySelector('#'+element).value = '';
     })

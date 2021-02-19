@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded',function(){
 function abrir_modal(){
     var options = {
         "backdrop" : "static",
+        "keyboard": false,
         "show":true
     }
     document.querySelector('.text-center').innerHTML = " Guardar Registro";

@@ -2,10 +2,7 @@
   <div class="modal-dialog  modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">Creacion de nuevo Usuario <i class=" fas fa-clipboard-list"></i></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="modalTitle">Creacion de nuevo Usuario <i class="fas fa-clipboard-list"></i></h5>
       </div>
       <div class="modal-body">
         <form id="formUsuario" name="formUsuario" enctype="multipart/form-data"">
@@ -90,9 +87,7 @@
 <div id="imagenModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-body modalimg">
-        <div id="ImagePreview"></div>
-      </div>
+        <div id="ImagePreview" align="center"></div>
     </div>
   </div>
 </div>
