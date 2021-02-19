@@ -21,7 +21,13 @@ Deny from env=bad_bot
     Deny from all
 </Files>
 
+<Files ~ “^w+.(gif|jpe?g|png)$”>
 
+    order deny,allow
+
+    allow from all
+
+</Files>
 
 <FilesMatch "((\.(lock|cache|database|config|backups|helpers|models|views))|CHANGELOG.md |README.md|.gitignore |.htaccess |^(.*\.config|.*\.example|.*\.sql)(.*?))$">
 	<IfModule !mod_authz_core.c>

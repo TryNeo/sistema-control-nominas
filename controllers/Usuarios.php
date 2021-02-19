@@ -121,6 +121,7 @@
                             $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
                             $tmp_foto = $_FILES['foto']['tmp_name'];
                             if ($tmp_foto!=""){
+                                unlink("./assets/images/".$request_image['foto']);
                                 move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
                             }
                         }
