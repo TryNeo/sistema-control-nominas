@@ -99,6 +99,29 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);                
             die();
         }
+
+
+        public function getBackups(){
+            $ruta = './backups/';
+            if (is_dir($ruta)){
+                if($aux = opendir($ruta)){
+                    while (($archivo = readdir($aux)) !== false ){
+                        $html_options = "";
+                        if($archivo!="."&&$archivo!=".."){
+                            $nombre_archivo = str_replace(".sql","",$archivo);
+                            $nombre_archivo = str_replace("-",":",$nombre_archivo);
+                            $ruta_completa = $ruta.$archivo;
+                            if(is_dir($ruta_completa)){
+                            }else{
+                                $html_options .='<option value="'.$ruta_completa.'">'.$nombre_archivo.'</option>';
+                                echo $html_options;
+                            }
+                        }
+                    }
+                    closedir($aux);
+                }
+            }
+        }
     }
 
 ?>

@@ -13,6 +13,8 @@
         <div class="row">
             <button type="button" id="backupbd">Realizar copia de seguridad</button>
         </div>
+            <select class="form-control" id="restorebd" name="restorebd">
+            </select>
     </div>
 </div>
 <?php getScripts($data);?>

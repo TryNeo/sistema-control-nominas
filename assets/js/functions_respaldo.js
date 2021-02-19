@@ -21,4 +21,19 @@ document.addEventListener('DOMContentLoaded',function () {
     }
 },false)
 
+window.addEventListener('click',function(){
+    fntGetBackups();
+},false);
+
+function fntGetBackups(){
+    let ajaxUrl = base_url+"respaldo/getBackups"
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState==4 && request.status == 200){
+            document.querySelector('#restorebd').innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona la base de datos</option>"+request.responseText;
+        }
+    }
+}
 

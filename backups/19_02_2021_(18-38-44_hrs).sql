@@ -33,10 +33,10 @@ CREATE TABLE `modulos` (
   PRIMARY KEY (`id_modulo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO modulos VALUES("1","Dashboard","modulo de dashboard","1","2021-02-15 18:02:05","");
-INSERT INTO modulos VALUES("2","Usuarios","modulo de usuarios","1","2021-02-15 18:02:05","");
-INSERT INTO modulos VALUES("3","Roles","modulo de roles","1","2021-02-15 18:02:05","");
-INSERT INTO modulos VALUES("4","Respaldo","modulo de respaldo","1","2021-02-15 18:02:05","");
+INSERT INTO modulos VALUES("1","Dashboard","modulo de dashboard","1","2021-02-19 15:31:52","");
+INSERT INTO modulos VALUES("2","Usuarios","modulo de usuarios","1","2021-02-19 15:31:52","");
+INSERT INTO modulos VALUES("3","Roles","modulo de roles","1","2021-02-19 15:31:52","");
+INSERT INTO modulos VALUES("4","Respaldo","modulo de respaldo","1","2021-02-19 15:31:52","");
 
 
 
@@ -55,12 +55,16 @@ CREATE TABLE `permisos` (
   KEY `fk_rol` (`id_rol`),
   CONSTRAINT `fk_modulo` FOREIGN KEY (`id_modulo`) REFERENCES `modulos` (`id_modulo`),
   CONSTRAINT `fk_rol` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO permisos VALUES("1","1","1","1","1","1","1");
 INSERT INTO permisos VALUES("2","2","1","1","1","1","1");
 INSERT INTO permisos VALUES("3","3","1","1","1","1","1");
 INSERT INTO permisos VALUES("4","4","1","1","1","1","1");
+INSERT INTO permisos VALUES("5","1","2","1","0","0","0");
+INSERT INTO permisos VALUES("6","2","2","0","0","0","0");
+INSERT INTO permisos VALUES("7","3","2","0","0","0","0");
+INSERT INTO permisos VALUES("8","4","2","0","0","0","0");
 
 
 
@@ -74,10 +78,11 @@ CREATE TABLE `roles` (
   `fecha_crea` datetime DEFAULT NULL,
   `fecha_modifica` datetime DEFAULT NULL,
   PRIMARY KEY (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO roles VALUES("1","Administradores","permisos de acceso a todo el sistema","1","2021-02-15 18:02:05","2021-02-15 18:31:48");
-INSERT INTO roles VALUES("2","Moderador","permisos de moderacion","1","2021-02-15 18:43:58","");
+INSERT INTO roles VALUES("1","Administrador","permisos de acceso a todo el sistema","1","2021-02-19 15:31:52","");
+INSERT INTO roles VALUES("2","Moderador","permisos de moderacion","1","2021-02-19 15:34:36","");
+INSERT INTO roles VALUES("3","","","0","2021-02-19 17:08:04","");
 
 
 
@@ -87,6 +92,7 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   `apellido` varchar(50) DEFAULT NULL,
+  `foto` varchar(1000) DEFAULT NULL,
   `usuario` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `id_rol` int(11) DEFAULT NULL,
@@ -97,9 +103,10 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id_usuario`),
   KEY `fk_usuario` (`id_rol`),
   CONSTRAINT `fk_usuario` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO usuarios VALUES("1","joel josue","huacon lopez","josu3","jjhuacon@est.itsgg.edu.ec","1","aac09534114879f13117bfd3e5a85bd0443ec7f776e737258de48f449788c4f1","1","2021-02-15 18:07:54","");
+INSERT INTO usuarios VALUES("1","joel josue","huacon lopez","user-default.png","josu3","jjhuacon@est.itsgg.edu.ec","1","aac09534114879f13117bfd3e5a85bd0443ec7f776e737258de48f449788c4f1","1","2021-02-19 15:31:53","");
+INSERT INTO usuarios VALUES("2","Jose Vicente","Huacon Lopez","1613770451_boss-cat.jpeg","jose","josa@gmail.com","2","03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4","1","2021-02-19 15:36:10","2021-02-19 17:02:57");
 
 
 
