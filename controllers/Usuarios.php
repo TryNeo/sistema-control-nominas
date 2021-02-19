@@ -29,6 +29,7 @@
 
         public function getUsuarios(){
             if (empty($_SESSION['permisos_modulo']['r'])) {
+                header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 $data = $this->model->selectUsuarios();
@@ -65,6 +66,7 @@
         
         public function getUsuario(int $id_usuario){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
                 $data_response = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 $intUsuario  = Intval(strclean($id_usuario));
@@ -141,6 +143,7 @@
                     if ($request_user > 0) {
 
                         if (empty($_SESSION['permisos_modulo']['w'])){
+                            header('location:'.server_url.'Errors');
                             $data= array("status" => false, "msg" => "Error no tiene permisos");
                         }else{
                             if ($option == 1){
@@ -149,6 +152,7 @@
                         }
 
                         if (empty($_SESSION['permisos_modulo']['u'])) {
+                            header('location:'.server_url.'Errors');
                             $data= array("status" => false, "msg" => "Error no tiene permisos");
                         }else{
                             if ($option == 2){
@@ -171,6 +175,7 @@
 
         public function delUsuario(){
             if (empty($_SESSION['permisos_modulo']['d']) ) {
+                header('location:'.server_url.'Errors');
                 $data= array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 if ($_POST) {

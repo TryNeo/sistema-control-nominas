@@ -14,6 +14,7 @@
 
         public function getPermisosRol(int $idRol){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
                 echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }else{
@@ -52,6 +53,7 @@
         public function setPermisos()
         {   
             if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 if ($_POST) {
