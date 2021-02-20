@@ -35,7 +35,7 @@
                     $hora =date("H-i-s");
                     $fecha =$day.'_'.$mont.'_'.$year;
                     $name_database = "nominas_bd";
-                    $data_base =$fecha."_(".$hora."_hrs).sql";
+                    $data_base ='base_de_datos_'.$fecha."_(".$hora."_hrs).sql";
                     $tables=array();
                     $result=$this->model->respaldo_sql("SHOW TABLES");
                     if($result){
