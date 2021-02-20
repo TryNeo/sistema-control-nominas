@@ -88,45 +88,40 @@
                 $rolInput = strclean($_POST["nombre_rol"]);
                 $descriInput = strclean($_POST["descripcion"]);
                 $estadoInput = intval($_POST["estadoInput"]);
-    
-                if(empty($intRol)||empty($rolInput)||empty($descriInput)||empty($estadoInput)){
-                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                if ($intRol == 0){
+                    $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
+                    $option = 1;
                 }else{
-                    if ($intRol == 0){
-                        $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
-                        $option = 1;
-                    }else{
-                        $request_rol = $this->model->updateRol($intRol,$rolInput,$descriInput,$estadoInput);
-                        $option = 2;
-                    }
-                    
-                    if ($request_rol > 0){
-    
-                        if (empty($_SESSION['permisos_modulo']['w'])){
-                            header('location:'.server_url.'Errors');
-                            $data= array("status" => false, "msg" => "Error no tiene permisos");
-                        }else{
-                            if ($option == 1){
-                                $data = array('status' => true, 'msg' => 'datos guardados correctamente');
-                            }
-                        }
-
-                        if (empty($_SESSION['permisos_modulo']['u'])) {
-                            header('location:'.server_url.'Errors');
-                            $data= array("status" => false, "msg" => "Error no tiene permisos");
-                        }else{
-                            if ($option == 2){
-                                $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
-                            }
-                        }
-                
-                    }else if ($request_rol == 'exist'){
-                        $data = array('status' => false,'msg' => 'Error el rol ya existe');
-                
-                    }else{
-                        $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
-                    }
+                    $request_rol = $this->model->updateRol($intRol,$rolInput,$descriInput,$estadoInput);
+                    $option = 2;
                 }
+                    
+                if ($request_rol > 0){ 
+                    if (empty($_SESSION['permisos_modulo']['w'])){
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 1){
+                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                        }
+                    }
+
+                    if (empty($_SESSION['permisos_modulo']['u'])) {
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 2){
+                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                        }
+                    }
+                
+                }else if ($request_rol == 'exist'){
+                    $data = array('status' => false,'msg' => 'Error el rol ya existe');
+                
+                }else{
+                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                }
+                
             }else{
                 header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error Hubo problemas");

@@ -9,7 +9,7 @@
         public function connect(){
             try{
 
-                $this->conect = new PDO("mysql:dbname=nominas_bd;host=localhost;","root","");
+                $this->conect = new PDO("mysql:dbname=nominas_bd;host:localhost;","root","");
                 $this->conect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                 return $this->conect;
             }

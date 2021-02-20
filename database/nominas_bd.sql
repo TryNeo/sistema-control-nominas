@@ -8,10 +8,9 @@ nombre varchar(50),
 apellido varchar(50),
 cedula varchar(10),
 telefono varchar(10),
-
 estado boolean,
-fecha_crea date,
-fecha_modifacion date,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_empleado));
 
 DROP TABLE IF EXISTS roles;
@@ -20,8 +19,8 @@ CREATE TABLE roles(
     nombre_rol varchar(50),
     descripcion varchar(50),
     estado boolean,
-    fecha_crea DATETIME,
-    fecha_modifica DATETIME,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
     PRIMARY KEY(id_rol)
 );  
 DROP TABLE IF EXISTS usuarios;
@@ -35,8 +34,8 @@ CREATE TABLE usuarios(
     id_rol int(11),
     password text,
     estado boolean,
-    fecha_crea DATETIME,
-    fecha_modifica DATETIME,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
     PRIMARY KEY(id_usuario)
 );
 DROP TABLE IF EXISTS modulos;
@@ -45,8 +44,8 @@ CREATE TABLE modulos(
     nombre varchar(50),
     descripcion text,
     estado boolean,
-    fecha_crea DATETIME,
-    fecha_modifica DATETIME,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
     PRIMARY KEY(id_modulo)
 );
 DROP TABLE IF EXISTS permisos;

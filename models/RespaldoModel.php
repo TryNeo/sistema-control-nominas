@@ -16,19 +16,33 @@
                 mysqli_begin_transaction($con, MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
                 if($consul=mysqli_query($con, $query)){
                     if (!mysqli_commit($con)) {
-                        print("Falló la consignación de la transacción\n");
                         exit();
                     }
                 }else{
                     mysqli_rollback($con);
-                    echo "Falló la transacción";
                     exit();
                 }
                 return $consul;
             }
         }
-        
-        
+
+        public function restore_sql(string $route){
+            $sql=explode(";",file_get_contents($route));
+            $totalErrors=0;
+            set_time_limit (60);
+            $con = new mysqli("localhost","root","","nominas_bd");
+            $con->query("SET FOREIGN_KEY_CHECKS=0");
+            for($i = 0; $i < (count($sql)-1); $i++){
+                if($con->query($sql[$i].";")){  }else{ $totalErrors++; }
+            }
+            $con->query("SET FOREIGN_KEY_CHECKS=1");
+            $con->close();
+            if($totalErrors<=0){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 
 ?>
