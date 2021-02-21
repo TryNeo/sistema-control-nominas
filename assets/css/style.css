@@ -17,8 +17,15 @@
     color: #dc3545;
 }
 
+
+
+
 a{
     font-size:11px;
+}
+
+.text-size{
+    font-size:15px;
 }
 
 .btn-icon-split {

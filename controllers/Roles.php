@@ -7,6 +7,13 @@
             session_start();
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
+            }else{
+                if(time()-$_SESSION["login_time_stamp"] >1800)   
+                { 
+                    session_unset(); 
+                    session_destroy(); 
+                    header('location:'.server_url.'logout');
+                } 
             }
             getPermisos(3);
 

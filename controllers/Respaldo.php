@@ -1,12 +1,19 @@
 <?php
     require_once ("./libraries/core/controllers.php");
-
+    require_once ("./controllers/Logout.php");
     class Respaldo extends Controllers{
         public function __construct(){
             parent::__construct();
             session_start();
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
+            }else{
+                if(time()-$_SESSION["login_time_stamp"] >1800)   
+                { 
+                    session_unset(); 
+                    session_destroy(); 
+                    header('location:'.server_url.'logout');
+                } 
             }
             getPermisos(4);
         }
@@ -105,16 +112,16 @@
                 header('location:'.server_url.'Errors');
                 $data = array('status' => false, 'msg' => 'Error no tiene permisos');
             }else{
-                if($_POST){
-                    $route = strclean($_POST['restorebd']);
+                if($_GET){
+                    $route = strclean($_GET['route']);
                     $request_restore = $this->model->restore_sql($route);
                     if($request_restore){
-                        $data = array('status' => false, 'msg' => 'Respaldo Insertado correctamente en la base de datos');
+                        $data = array('status' => true, 'msg' => 'Respaldo Insertado correctamente en la base de datos');
                     }else{
                         $data = array('status' => false, 'msg' => 'Hubo un error al insertar la base de datos');
                     }
                 }else{
-                    $data = array('status' => false, 'msg' => 'Opss Hubo un error');
+                    $data = array('status' => false, 'msg' => 'error');
                 }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);                
@@ -125,9 +132,10 @@
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
                 $data = array('status' => false, 'msg' => 'Error no tiene permisos');
-                echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }else{
                 $ruta = './backups/';
+                $id = 0;
+                $data = array(array('id' => 0, 'nombre' => 'base de datos default','opciones' => '<button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd="./backups"><i class="fa fa-upload"></i></button>'));
                 if (is_dir($ruta)){
                     if($aux = opendir($ruta)){
                         while (($archivo = readdir($aux)) !== false ){
@@ -138,14 +146,17 @@
                                 $ruta_completa = $ruta.$archivo;
                                 if(is_dir($ruta_completa)){
                                 }else{
-                                    $html_options .='<option value="'.$ruta_completa.'">'.$nombre_archivo.'</option>';
-                                    echo $html_options;
+                                    $id++;
+                                    $data[$id]['id'] = $id;
+                                    $data[$id]['nombre'] = $nombre_archivo;
+                                    $data[$id]['opciones'] = '<button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd="'.$ruta_completa.'"><i class="fa fa-upload"></i></button>';
                                 }
                             }
                         }
                         closedir($aux);
                     }
                 }                
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }
         }
     }
