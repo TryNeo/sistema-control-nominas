@@ -121,7 +121,7 @@
                         $data = array('status' => false, 'msg' => 'Hubo un error al insertar la base de datos');
                     }
                 }else{
-                    $data = array('status' => false, 'msg' => 'error');
+                    $data = array('status' => false, 'msg' => 'Hubo un error al insertar la base de datos');
                 }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);                
@@ -135,7 +135,8 @@
             }else{
                 $ruta = './backups/';
                 $id = 0;
-                $data = array(array('id' => 0, 'nombre' => 'base de datos default','opciones' => '<button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd="./backups"><i class="fa fa-upload"></i></button>'));
+                $data = array(array('id' => 0, 'nombre' =>'default_database','opciones' => '<div class="text-center"><button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd=""><i class="fa fa-upload"></i></button>
+                <button type="button" class="btn btn-danger btn-circle btnRestoreEliminar" title="eliminar" rbd=""><i class="fa fa-trash"></i></button></div>'));
                 if (is_dir($ruta)){
                     if($aux = opendir($ruta)){
                         while (($archivo = readdir($aux)) !== false ){
@@ -149,7 +150,8 @@
                                     $id++;
                                     $data[$id]['id'] = $id;
                                     $data[$id]['nombre'] = $nombre_archivo;
-                                    $data[$id]['opciones'] = '<button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd="'.$ruta_completa.'"><i class="fa fa-upload"></i></button>';
+                                    $data[$id]['opciones'] = '<div class="text-center"><button type="button" class="btn btn-info btn-circle btnRestore" title="restaurar" rbd="'.$ruta_completa.'"><i class="fa fa-upload"></i></button>
+                                    <button type="button" class="btn btn-danger btn-circle btnRestoreEliminar" title="eliminar" rbd="'.$ruta_completa.'"><i class="fa fa-trash"></i></button></div>';
                                 }
                             }
                         }
@@ -158,6 +160,30 @@
                 }                
                 echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }
+        }
+
+        public function delBackups(){
+            if (empty($_SESSION['permisos_modulo']['d']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array('status' => false, 'msg' => 'Error no tiene permisos');
+            }else{
+                if($_GET){
+                    $route = strclean($_GET['route']);
+                    if(file_exists($route)){
+                        if(unlink($route)){
+                            $data = array('status' => true, 'msg' => 'Copia eliminada exitosamente');
+                        }else{
+                            $data = array('status' => false, 'msg' => 'Hubo un error al eliminar la copia');
+                        }
+                    }else{
+                        $data = array('status' => false, 'msg' => 'No existe tal copia de la base de datos');
+                    }
+                }else{
+                    $data = array('status' => false, 'msg' => 'Hubo un error al eliminar la copia');
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);                
+            die();
         }
     }
 

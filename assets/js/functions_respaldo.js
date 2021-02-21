@@ -1,7 +1,7 @@
 let tablerespaldo;
 document.addEventListener('DOMContentLoaded',function(){
     tablerespaldo = $('.tableRespaldo').DataTable({
-        "pageLength": 5,
+        "pageLength": 4,
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 window.addEventListener('load',function(){
     setTimeout(function(){ 
+        fntDeleteBackup();
         fntSetBackups();
         fntBackups();
     }, 500);
@@ -58,23 +59,88 @@ function fntSetBackups(){
         restorebd.addEventListener('click', function (e) {
             e.preventDefault();
             let rbd = this.getAttribute('rbd');
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"respaldo/setBackups?route="+rbd;
-            request.open("GET",ajaxUrl,true);
-            request.send();
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if (objData.status){
-                        mensaje("success","Exitoso",objData.msg);
+            Swal.fire({
+                title:  "Restauracion de base la datos",
+                text: '¿Desea realizar la restauracion de la base de datos?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, restaurar',
+                cancelButtonText : 'No, restaurar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (rbd === ""){
+                        mensaje("error","Error","Opps! hubo un problema esta base de datos no existe");
                     }else{
-                        mensaje("error","Error",objData.msg);
-                    }
+                        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                        let ajaxUrl = base_url+"respaldo/setBackups?route="+rbd;
+                        request.open("GET",ajaxUrl,true);
+                        request.send();
+                        request.onreadystatechange = function(){
+                            if(request.readyState==4 && request.status == 200){
+                                let objData = JSON.parse(request.responseText);
+                                if (objData.status){
+                                    mensaje("success","Exitoso",objData.msg);
+                                    tablerespaldo.ajax.reload();
+                                }else{
+                                    mensaje("error","Error",objData.msg);
+                                }
+                            }
+                        }
+                    }    
                 }
-            }
+            });
         });
     })    
 }
+
+function fntDeleteBackup(){
+    let deletebd = document.querySelectorAll(".btnRestoreEliminar");
+    deletebd.forEach(function(deletebd){
+        deletebd.addEventListener('click', function (e) {
+            e.preventDefault();
+            let rbd = this.getAttribute('rbd');
+            Swal.fire({
+                title:  "Eliminar copia de base de datos",
+                text: '¿Desea eliminar esta copia de base de datos?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar',
+                cancelButtonText : 'No, cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (rbd === ""){
+                        mensaje("error","Error","Opps! hubo un problema esta base de datos no existe");
+                    }else{
+                        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                        let ajaxUrl = base_url+"respaldo/delBackups?route="+rbd;
+                        request.open("GET",ajaxUrl,true);
+                        request.send();
+                        request.onreadystatechange = function(){
+                            if(request.readyState==4 && request.status == 200){
+                                let objData = JSON.parse(request.responseText);
+                                if (objData.status){
+                                    mensaje("success","Exitoso",objData.msg);
+                                    tablerespaldo.ajax.reload(function() {
+                                        fntSetBackups();
+                                        fntDeleteBackup();
+                                    });
+                                }else{
+                                    mensaje("error","Error",objData.msg);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+        });
+    })     
+}
+
 
 function fntBackups(){
     if (document.querySelector("#backupbd")) {
@@ -92,6 +158,7 @@ function fntBackups(){
                         mensaje("success","Exitoso",objData.msg);
                         tablerespaldo.ajax.reload(function() {
                             fntSetBackups();
+                            fntDeleteBackup();
                         });
                     }else{
                         mensaje("error","Error",objData.msg);
@@ -101,4 +168,7 @@ function fntBackups(){
         });
     }
 }
+
+
+
 
