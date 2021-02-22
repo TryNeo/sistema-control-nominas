@@ -11,11 +11,19 @@
                                 Menu
                             </li>
                             <?php if (!empty($_SESSION['permisos'][1]['r'])) {?>
-                            <li class="nav-item ">
-                                <a class='nav-link active' href="<?php echo server_url ?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
-                            </li>
+                                <li class="nav-item">
+                                    <?php if($data['page_id']== 1 ){ ?>
+                                        <a class="nav-link active" href="<?php echo server_url;?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
+                                    <?php }else{ ?>
+                                        <a class="nav-link" href="<?php echo server_url;?>dashboard/"><i class="fas fa-home"></i>Dashboard</a>
+                                    <?php } ?>
+                                </li>
                             <?php } ?>
-                                        
+                            
+                            <li class="nav-item">
+                                <a class='nav-link' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
+                            </li>
+
                             <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r'] || $_SESSION['permisos'][4]['r'] ) { ?>
                             <li class="nav-divider">
                                 Seguridad
@@ -24,22 +32,33 @@
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-lock"></i>Administrar Permisos</a>
                                 <div id="submenu-3" class="submenu collapse" >
                                     <ul class="nav flex-column">
-                                        
                                         <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
                                         <li class="nav-item">
-                                            <a class="nav-link  " href="<?php echo server_url ?>usuarios/"><i class="fas fa-user"></i>Usuarios</a>
+                                            <?php if($data['page_id']== 2 ){ ?>
+                                                <a class="nav-link active" href="<?php echo server_url ?>usuarios/"><i class="fas fa-user"></i>Usuarios</a>
+                                            <?php }else{ ?>
+                                                <a class="nav-link" href="<?php echo server_url ?>usuarios/"><i class="fas fa-user"></i>Usuarios</a>
+                                            <?php } ?>
                                         </li>
                                         <?php } ?>
 
                                         <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
                                         <li class="nav-item">
-                                            <a class="nav-link  " href="<?php echo server_url ?>roles/" "=""><i class="fas fa-list-ul"></i>Roles</a>
+                                            <?php if($data['page_id']== 3 ){ ?>
+                                            <a class="nav-link active" href="<?php echo server_url ?>roles/"><i class="fas fa-list-ul"></i>Roles</a>
+                                            <?php }else{ ?>
+                                                <a class="nav-link" href="<?php echo server_url ?>roles/"><i class="fas fa-list-ul"></i>Roles</a>
+                                            <?php } ?>
                                         </li>
                                         <?php } ?>
 
                                         <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
                                         <li class="nav-item">
-                                            <a class="nav-link  " href="<?php echo server_url ?>respaldo/"><i class="fa fa-database" aria-hidden="true"></i>Respaldos</a>
+                                            <?php if($data['page_id']== 4 ){ ?>
+                                                <a class="nav-link active" href="<?php echo server_url ?>respaldo/"><i class="fa fa-database" aria-hidden="true"></i>Respaldos</a>
+                                            <?php }else{ ?>
+                                                <a class="nav-link" href="<?php echo server_url ?>respaldo/"><i class="fa fa-database" aria-hidden="true"></i>Respaldos</a>
+                                            <?php } ?>
                                         </li>
                                         <?php } ?>
 

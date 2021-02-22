@@ -42,18 +42,30 @@
                     <i class="fas fa-paste"></i> Información para la restauración de la base de datos 
                     </div>
                     <div class="card-body">
+                    <p>
+                        <b>Antes de realizar la restauración de la base de datos, asegúrese de que haya echo
+                        una copia.</b>
+                        </br>
+                        </br>
+                        Pasos para una buena restauración:
+                        <ol>
+                            <li>Realice la copia respectiva</li>
+                            <li>Asegúrese de que la copia este visible en la tabla</li>
+                            <li>Identifiqué la copia respectiva y seleccioné la opción restaurar</li>
+                            <li>Y listo la copia sé de haber restaurado exitosamente</li>
+                        </ol>
+                        Pasos para una eliminación exitosa:
+                        <ol>
+                        </br>
+                            <li>Seleccioné una de las copias en la respectiva tabla</li>
+                            <li>Seleccioné la opción de eliminar</li>
+                            <li>Y listo la copia sé de haber eliminado exitosamente</li>
+                        </ol>
+                    </p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!----
-        <form id="formRestore" name="formRestore">
-            <select class="form-control " id="restorebd" name="restorebd">
-            </select>
-            <button type="submit" id="restore">a</button>
-        </form>
-        --->
     </div>
 </div>
 <?php getScripts($data);?>

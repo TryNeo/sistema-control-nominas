@@ -24,6 +24,7 @@
                 header('location:'.server_url.'Errors');
             }
 
+            $data['page_id'] = 2;
             $data["tag_pag"] = "Usuarios";
             $data["page_title"] = "Usuarios| Inicio";
             $data["page_name"] = "Listado de usuarios";

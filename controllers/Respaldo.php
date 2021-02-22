@@ -22,6 +22,7 @@
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
             }
+            $data["page_id"] = 4;
             $data["tag_pag"] = "Respaldo";
             $data["page_title"] = "Respaldo | Inicio";
             $data["page_name"] = "Respaldo - Base de datos";

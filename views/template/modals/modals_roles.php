@@ -13,19 +13,25 @@
                     <input type="hidden" id="id_rol" name="id_rol" value="">
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Nombre rol:</label>
-                        <input type="text" name="nombre_rol" class="form-control" id="nombre_rol" required placeholder="ingrese nombre de rol">
+                      <div class="input-group mb-3">
+                        <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-address-book"></i></span></span>
+                        <input type="text" name="nombre_rol" class="form-control" id="nombre_rol"  placeholder="ingrese nombre de rol">
+                      </div>
                     </div>
                     <div class="col-md-10 mb-3">
                         <label class="control-label">Descripcion:</label>
-                        <textarea name="descripcion" cols="30" rows="3" maxlength="250" class="form-control" placeholder="ingrese la descripcion" id="descripcion"></textarea>
+                        <textarea name="descripcion" cols="30" rows="3" maxlength="250"  class="form-control" placeholder="ingrese la descripcion" id="descripcion"></textarea>
                     </div>
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="control-label">Estado:</label>
-                        <select class="form-control" id="estadoInput" name="estadoInput">
-                            <option  selected disabled="disabled" value="">Seleciona el estado</option>
-                            <option value="1" >Activo</option>
-                            <option value="0">Inactivo</option>
-                        </select>
+                        <div class="input-group mb-3">
+                          <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
+                          <select class="form-control" id="estadoInput" name="estadoInput">
+                              <option  selected disabled="disabled" value="">Seleciona el estado</option>
+                              <option value="1" >Activo</option>
+                              <option value="0">Inactivo</option>
+                          </select>
+                        </div>
                     </div>
             </div>
             <div class="col-md-12 mb-3">

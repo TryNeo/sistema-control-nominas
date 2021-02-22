@@ -1,7 +1,7 @@
 <?php
     require_once ("./libraries/core/controllers.php");
 
-    class Dashboard extends Controllers{
+    class Empleados extends Controllers{
         public function __construct(){
             parent::__construct();
             session_start();
@@ -15,20 +15,19 @@
                     header('location:'.server_url.'logout');
                 } 
             }
-            getPermisos(1);
+            getPermisos(5);
         }
 
-        public function dashboard(){
+        public function empleados(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
             }
-            $data["page_id"] = 1;
-            $data["tag_pag"] = "Dashboard";
-            $data["page_title"] = "Dashboard | Inicio";
-            $data["page_name"] = "dashboard";
-            $data["total_empleados"] = 0;
-            $this->views->getView($this,"dashboard",$data);
-
+            $data["page_id"] = 5;
+            $data["tag_pag"] = "Empleados";
+            $data["page_title"] = "Empleados | Inicio";
+            $data["page_name"] = "Listado de empleados";
+            $data['page'] = "empleados";
+            $this->views->getView($this,"empleados",$data);
         }
 
     }
