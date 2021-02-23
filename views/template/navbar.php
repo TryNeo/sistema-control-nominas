@@ -24,6 +24,10 @@
                                 <a class='nav-link' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class='nav-link' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Contractos</a>
+                            </li>
+
                             <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r'] || $_SESSION['permisos'][4]['r'] ) { ?>
                             <li class="nav-divider">
                                 Seguridad

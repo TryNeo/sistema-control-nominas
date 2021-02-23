@@ -1,5 +1,5 @@
 <?php getHeader($data);
-      getModal('modals_roles',$data);
+    getModal('modals_roles',$data);
 ?>
 <div id="contentAjax"></div>
 <div class="dashboard-wrapper">

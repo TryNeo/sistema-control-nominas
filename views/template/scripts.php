@@ -19,6 +19,11 @@
     <?php if ($data['page'] == 'usuario') { ?>
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_usuarios.js"></script>
     <?php } ?>
+
+    <?php if ($data['page'] == 'contractos') { ?>
+        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_contractos.js"></script>
+    <?php } ?>
+
 <?php }else {?>
 
 

@@ -1,5 +1,6 @@
 <?php getHeader($data); 
-getModal('modals_usuarios',$data);
+    getModal('modals_contractos',$data);
+
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
@@ -11,8 +12,8 @@ getModal('modals_usuarios',$data);
             </div>
             <?php  if ($_SESSION['permisos_modulo']['w']) {?>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                <button onclick="return abrir_modal_user();" class="btn btn-outline-secondary btnModal" data-target="#modalUsuarios"><i class="fa fa-plus" aria-hidden="true"></i>
-                Añadir nuevo usuario</button>     
+                <button onclick="return abrir_modal();" class="btn btn-outline-secondary btnModal" data-target="#modalContractos"><i class="fa fa-plus" aria-hidden="true"></i>
+                Añadir nuevo contracto</button>     
             </div>
             <?php } ?>
         </div>
@@ -21,20 +22,15 @@ getModal('modals_usuarios',$data);
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table tableUsuarios table-striped  first display responsive nowrap" cellspacing="0"  style="width:100%">
+                        <table class="table tableContracto table-striped  first display responsive nowrap" cellspacing="0"  style="width:100%">
                             <thead>
                                 <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Usuario</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                                <th>Foto</th>
+                                <th>Contracto</th>
+                                <th>Descripcion</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </thead>
                             <tbody>
-                            
                             </tbody>
                         </table>
                     </div>
