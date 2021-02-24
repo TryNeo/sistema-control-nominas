@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded',function(){
         },
         responsive:true,
         "ajax":{
-            "url" :"",
+            "url" :base_url+"contractos/getContractos",
             "dataSrc":""
         },
         "columns":[
@@ -60,6 +60,17 @@ document.addEventListener('DOMContentLoaded',function(){
             request.send(formData);
             request.onreadystatechange = function(){
                 if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText); 
+                    if (objData.status){
+                        $('#modalContracto').modal("hide");
+                        let idContracto = document.querySelector('#id_contracto').value = '';
+                        let contractoInput = document.querySelector('#nombre_contracto').value = '';
+                        let descriInput = document.querySelector('#descripcion').value = '';
+                        mensaje("success","Exitoso",objData.msg);
+                        tablecontracto.ajax.reload();
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
                 }
             }
         }else{
@@ -78,7 +89,7 @@ function abrir_modal(){
         "show":true
     }
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
-    document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo rol";
+    document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo contractos";
     document.querySelector('#btnDisabled').style.display = 'inline-block';
     let idContracto = document.querySelector('#id_contracto').value = '';
     let contractoInput = document.querySelector('#nombre_contracto').value = '';
