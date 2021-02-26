@@ -17,6 +17,12 @@
             return $request;
         }
 
+        public function selectContractosNoInactivos(){
+            $sql = "SELECT id_contracto,nombre_contracto,descripcion,estado FROM contractos WHERE estado!=0";
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
         public function selectContracto(int $id_contracto){
             $this->int_id_contracto = $id_contracto;
             $sql = "SELECT id_contracto,nombre_contracto,descripcion,estado FROM contractos WHERE id_contracto = $this->int_id_contracto";
