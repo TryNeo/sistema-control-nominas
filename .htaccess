@@ -16,7 +16,7 @@ Order Allow,Deny
 Allow from all
 Deny from env=bad_bot 
 
-<Files ~ "(Error.php)|(Usuarios.php)|(Respaldo.php)|(Permisos.php)|(Logout.php)|(Login.php)|(Dashboard.php)|(Roles.php)|(helpers.php)|(app.php)|(mysql.php)|(load.php)|(conexion.php)|(autoload.php)|(controllers.php)|(views.php)|(dashboardModel.php)|(loginModel.php)|(PermisosModel.php)|(rolesModel.php)|(UsuariosModel.php)|(RespaldoModel.php)">
+<Files ~ "(Error.php)|(Usuarios.php)|(Respaldo.php)|(Permisos.php)|(Logout.php)|(Login.php)|(Dashboard.php)|(Roles.php)|(helpers.php)|(app.php)|(mysql.php)|(load.php)|(conexion.php)|(autoload.php)|(controllers.php)|(views.php)|(dashboardModel.php)|(loginModel.php)|(PermisosModel.php)|(rolesModel.php)|(UsuariosModel.php)|(RespaldoModel.php)|(EmpleadosModel.php)|(ContractosModel.php)|(Contractos.php)|(Empleados.php)">
     Order allow,deny
     Deny from all
 </Files>
