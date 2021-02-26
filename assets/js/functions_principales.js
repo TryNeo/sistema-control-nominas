@@ -5,7 +5,6 @@ const base_url_image = "http://localhost/sistema-control-nominas/assets/images/"
 function validateCamps(listCamps){
   let newlistCamps = new Array();
   let errorCamps = new Array();
-  let validCamps = new Array();
   
     listCamps.forEach(function(elements, index) {
         if(listCamps[index] === ""){
@@ -19,20 +18,7 @@ function validateCamps(listCamps){
         mensaje("error","Error","Todos los campos son obligatorios");
         return false;
     }else{
-        newlistCamps.forEach(function(elements,index){
-        if(isValidString(newlistCamps[index])){
-            validCamps.push(newlistCamps[index]);
-        }else{
-            errorCamps.push(newlistCamps[index]);
-        }
-      });
-      
-      if(errorCamps.length > 0){
-        mensaje("error","Error","Los campos ingresados no son validos")
-        return false;
-      }else{
         return true;
-      }
     }
 }
 
@@ -41,18 +27,33 @@ function cerrar_modal(nameSelector){
 }
 
 
-function isValidString(str1) {
+function isValidString(listCamps) {
     const validRegEx = "^[a-zA-Z 0-9]+$";
-    if(typeof str1 === "number"){
+    let errorCamps = new Array();
+    let validCamps = new Array();
+
+    listCamps.forEach(function(elements, index){
+        if(typeof listCamps[index] === "number"){
+            validCamps.push(listCamps[index]);
+        }
+    });
+
+    listCamps.forEach(function(elements, index){
+        if(String(listCamps[index]).match(validRegEx)) {
+            validCamps.push(listCamps[index]);
+        } else {
+            errorCamps.push(listCamps[index]);
+        }
+    });
+
+    if (errorCamps.length > 0){
+        mensaje("error","Error","Los campos "+errorCamps+" estan mal escritos,introduzca un texto  valida");
+        return false;
+    }else{
         return true;
     }
 
-    if(String(str1).match(validRegEx) && str1.trim()) {
-        return true;
-    } else {
-        return false;
-    }
-}
+};
 
 
 

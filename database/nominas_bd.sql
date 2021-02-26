@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS empleados;
 CREATE TABLE contractos(
 id_contracto int(11) auto_increment,
 nombre_contracto varchar(50),
-descripcion varchar(120),
+descripcion text,
 estado boolean,
 fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS roles;
 CREATE TABLE roles(
     id_rol int(11) auto_increment,
     nombre_rol varchar(50),
-    descripcion varchar(120),
+    descripcion text,
     estado boolean,
 fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),

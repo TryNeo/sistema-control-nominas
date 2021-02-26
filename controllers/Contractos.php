@@ -25,7 +25,7 @@
             $data["page_id"] = 6;
             $data["tag_pag"] = "Contractos";
             $data["page_title"] = "Contractos | Inicio";
-            $data["page_name"] = "Listado de contractos";
+            $data["page_name"] = "Tipos de contractos";
             $data['page'] = "contractos";
             $this->views->getView($this,"contractos",$data);
         }
@@ -50,7 +50,7 @@
                     }
 
                     if ($_SESSION['permisos_modulo']['d']) {
-                        $btnEliminarContracto = '<button  class="btn btn-danger btn-circle btnEliminarRol" title="eliminar" cont="'.$data[$i]['id_contracto'].'"><i class="far fa-thumbs-down"></i></button>';
+                        $btnEliminarContracto = '<button  class="btn btn-danger btn-circle btnEliminarContracto" title="eliminar" cont="'.$data[$i]['id_contracto'].'"><i class="far fa-thumbs-down"></i></button>';
                     }
 
                     $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarContracto.' '.$btnEliminarContracto.'</div>';
@@ -71,7 +71,8 @@
                     $request_contracto = $this->model->insertContracto($contractoInput,$descriInput,$estadoInput);
                     $option = 1;
                 }else{
-                
+                    $request_contracto = $this->model->updateContracto($intContracto,$contractoInput,$descriInput,$estadoInput);
+                    $option = 2;
                 }
 
                 if ($request_contracto > 0){ 
@@ -83,6 +84,16 @@
                             $data = array('status' => true, 'msg' => 'datos guardados correctamente');
                         }
                     }
+
+                    if (empty($_SESSION['permisos_modulo']['u'])){
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 2){
+                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                        }
+                    }
+
                 }else if ($request_contracto == 'exist'){
                         $data = array('status' => false,'msg' => 'Error el contracto ya existe');
                     
@@ -98,7 +109,47 @@
             die();
         }
 
-    }
+        public function getContracto(int $id_contracto){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data_response = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $int_id_contracto = Intval(strclean($id_contracto));
+                if ($int_id_contracto > 0){
+                    $data = $this->model->selectContracto($int_id_contracto);
+                    if (empty($data)){
+                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                    }else{
+                        $data_response = array('status' => true,'msg'=> $data);
+                    }
+                }   
+            }
+            echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
 
+        public function delContracto(){
+            if (empty($_SESSION['permisos_modulo']['d']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                if($_POST){
+                    $int_id_contracto = intval($_POST["id"]);
+                    $request_del = $this->model->deleteContracto($int_id_contracto);
+                    if($request_del == "ok"){
+                        $data = array("status" => true, "msg" => "Se ha eliminado el contracto");
+                    }else if ($request_del == "exist"){
+                        $data = array("status" => false, "msg" => "No es posible eliminar contracto asociado a un empleado");
+                    }else{
+                        $data = array("status" => false, "msg" => "Error al eliminar contracto");
+                    }
+                }else{
+                    $data = array("status" => false, "msg" => "Error Hubo problemas");
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
 
 ?>

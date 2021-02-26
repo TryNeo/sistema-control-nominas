@@ -47,31 +47,43 @@ document.addEventListener('DOMContentLoaded',function(){
     formContracto.addEventListener('submit', function (e) {
         e.preventDefault();        
         let camps = new Array();
+        let campsRegx = new Array();
         let idContracto = document.querySelector('#id_contracto').value;
         let contractoInput = document.querySelector('#nombre_contracto').value;
         let descriInput = document.querySelector('#descripcion').value;
         let estadoInput = document.querySelector('#estadoInput').value;
         camps.push(contractoInput,descriInput,estadoInput);
+        campsRegx.push(contractoInput);
         if(validateCamps(camps)){
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"contractos/setContracto";
-            let formData = new FormData(formContracto);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText); 
-                    if (objData.status){
-                        $('#modalContracto').modal("hide");
-                        let idContracto = document.querySelector('#id_contracto').value = '';
-                        let contractoInput = document.querySelector('#nombre_contracto').value = '';
-                        let descriInput = document.querySelector('#descripcion').value = '';
-                        mensaje("success","Exitoso",objData.msg);
-                        tablecontracto.ajax.reload();
-                    }else{
-                        mensaje("error","Error",objData.msg);
+            if(isValidString(campsRegx)){
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+"contractos/setContracto";
+                let formData = new FormData(formContracto);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText); 
+                        if (objData.status){
+                            $('#modalContracto').modal("hide");
+                            let idContracto = document.querySelector('#id_contracto').value = '';
+                            let contractoInput = document.querySelector('#nombre_contracto').value = '';
+                            let descriInput = document.querySelector('#descripcion').value = '';
+                            mensaje("success","Exitoso",objData.msg);
+                            tablecontracto.ajax.reload(function(){
+                                setTimeout(function(){ 
+                                    baseAjaxEdit('.btnEditarContracto','cont','contractos',
+                                    'getContracto','Actualizacion de contracto',['nombre_contracto','descripcion'],'id_contracto','#modalContracto',ExistSelect = false,'',ImagePreview = false,'')
+                                    baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto','Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);
+                                },500);
+                            });
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
                     }
                 }
+            }else{
+                return isValidString(campsRegx);
             }
         }else{
             return validateCamps(camps);
@@ -97,3 +109,15 @@ function abrir_modal(){
     let estadoInput = document.querySelector('#estadoInput').value;
     $('#modalContracto').modal(options);
 }
+
+window.addEventListener('click',function(){
+    setTimeout(function(){ 
+        baseAjaxEdit('.btnEditarContracto','cont','contractos','getContracto','Actualizacion de contracto',['nombre_contracto','descripcion'],'id_contracto','#modalContracto',ExistSelect = false,'',ImagePreview = false,'')
+        baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto','Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);
+    }, 500);
+},false);
+
+baseAjaxEdit('.btnEditarContracto','cont','contractos','getContracto','Actualizacion de contracto',
+['nombre_contracto','descripcion'],'id_contracto','#modalContracto',ExistSelect = false,'',ImagePreview = false,'')
+
+baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto','Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);

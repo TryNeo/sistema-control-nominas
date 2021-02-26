@@ -47,38 +47,44 @@ document.addEventListener('DOMContentLoaded',function(){
     formRol.addEventListener('submit', function (e) {
         e.preventDefault();        
         let camps = new Array();
+        let campsRegex = new Array();
         let idRol = document.querySelector('#id_rol').value;
         let rolInput = document.querySelector('#nombre_rol').value;
         let descriInput = document.querySelector('#descripcion').value;
         let estadoInput = document.querySelector('#estadoInput').value;
         camps.push(rolInput,descriInput,estadoInput);
+        campsRegex.push(rolInput);
         if(validateCamps(camps)){
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"roles/setRol";
-            let formData = new FormData(formRol);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText); 
-                    if (objData.status){
-                        $('#modalRol').modal("hide");
-                        let idRol = document.querySelector('#id_rol').value = '';
-                        let rolInput = document.querySelector('#nombre_rol').value = '';
-                        let descriInput = document.querySelector('#descripcion').value = '';
-                        mensaje("success","Exitoso",objData.msg);
-                        tableroles.ajax.reload(function() {
-                            setTimeout(function(){ 
-                                fntPermRol();
-                                baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-                                ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'')
-                                baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
-                            }, 500);
-                        });
-                    }else{
-                        mensaje("error","Error",objData.msg);
+            if (isValidString(campsRegex)){
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+"roles/setRol";
+                let formData = new FormData(formRol);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText); 
+                        if (objData.status){
+                            $('#modalRol').modal("hide");
+                            let idRol = document.querySelector('#id_rol').value = '';
+                            let rolInput = document.querySelector('#nombre_rol').value = '';
+                            let descriInput = document.querySelector('#descripcion').value = '';
+                            mensaje("success","Exitoso",objData.msg);
+                            tableroles.ajax.reload(function() {
+                                setTimeout(function(){ 
+                                    fntPermRol();
+                                    baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+                                    ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'')
+                                    baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
+                                }, 500);
+                            });
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
                     }
                 }
+            }else{
+                return isValidString(campsRegex);
             }
         }else{
             return validateCamps(camps);

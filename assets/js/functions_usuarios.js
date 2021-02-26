@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded',function(){
     formUsuario.addEventListener('submit', function (e) {
         e.preventDefault();        
         let camps = new Array();
+        let campsRegex = new Array();
 
         let id_usuario = document.querySelector('#id_usuario').value;
         let nombreInput = document.querySelector('#nombre').value;
@@ -63,35 +64,40 @@ document.addEventListener('DOMContentLoaded',function(){
         let id_rol = document.querySelector('#id_rol').value;
         let estadoInput = document.querySelector('#estadoInput').value;
         camps.push(nombreInput,apellidoInput,usuarioInput,passwordInput,estadoInput,id_rol);
+        campsRegex.push(nombreInput,apellidoInput,passwordInput)
         if(validateCamps(camps)){
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"usuarios/setUsuario";
-            let formData = new FormData(formUsuario);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText); 
-                    if (objData.status){
-                        $('#modalUsuario').modal("hide");
-                        let camps = new Array();
-                        camps.push("nombre","apellido","usuario","email","password","foto")
-                        camps.forEach(function(element,index){
-                            document.querySelector('#'+element).value = '';
-                        })
-                        mensaje("success","Exitoso",objData.msg);
-                        tableusuarios.ajax.reload(function() {
-                            setTimeout(function(){ 
-                                baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
-                                'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
-                                'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
-                                baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
-                            }, 500);
-                        });
-                    }else{
-                        mensaje("error","Error",objData.msg);
+            if (isValidString(campsRegex)){
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+"usuarios/setUsuario";
+                let formData = new FormData(formUsuario);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText); 
+                        if (objData.status){
+                            $('#modalUsuario').modal("hide");
+                            let camps = new Array();
+                            camps.push("nombre","apellido","usuario","email","password","foto")
+                            camps.forEach(function(element,index){
+                                document.querySelector('#'+element).value = '';
+                            })
+                            mensaje("success","Exitoso",objData.msg);
+                            tableusuarios.ajax.reload(function() {
+                                setTimeout(function(){ 
+                                    baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
+                                    'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+                                    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
+                                    baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
+                                }, 500);
+                            });
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
                     }
                 }
+            }else{
+                return isValidString(campsRegx);
             }
         }else{
             return validateCamps(camps);
