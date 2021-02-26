@@ -24,9 +24,15 @@
                                 <a class='nav-link' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class='nav-link' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Contractos</a>
-                            </li>
+                            <?php if (!empty($_SESSION['permisos'][6]['r'])) {?>
+                                <li class="nav-item">
+                                <?php if($data['page_id'] == 6 ){ ?>
+                                    <a class='nav-link active' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contractos</a>
+                                <?php }else{ ?>
+                                    <a class='nav-link' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contractos</a>
+                                <?php } ?>
+                                </li>
+                            <?php } ?>
 
                             <?php if ($_SESSION['permisos'][3]['r'] || $_SESSION['permisos'][2]['r'] || $_SESSION['permisos'][4]['r'] ) { ?>
                             <li class="nav-divider">
