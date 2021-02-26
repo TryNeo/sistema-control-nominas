@@ -240,8 +240,6 @@ function fntRolesUsuario() {
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
             document.querySelector("#id_rol").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el rol</option>"+request.responseText;
-            document.querySelector("#id_rol").value = 1;
-            $('#id_rol').val('0');
             $('#id_rol').selectpicker('render');
         }
     }
@@ -264,7 +262,8 @@ function abrir_modal_user(){
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo usuario";
     document.querySelector('#btnDisabled').style.display = 'inline-block';
-
+    $('#id_rol').val('0');
+    $('#id_rol').selectpicker('render');
     $('#modalUsuario').modal(options);
 }
 

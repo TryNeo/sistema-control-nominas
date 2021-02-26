@@ -4,6 +4,7 @@
     class Login extends Controllers{
         public function __construct(){
             session_start();
+            session_regenerate_id(true);
             if (isset($_SESSION['login'])) {
                 header('location:'.server_url.'dashboard');
             }

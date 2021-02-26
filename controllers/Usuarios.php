@@ -5,6 +5,7 @@
         public function __construct(){
             parent::__construct();
             session_start();
+            session_regenerate_id(true);
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
             }else{
@@ -55,13 +56,26 @@
                 }else{
                     $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
                 }
+
+                
                 if ($_SESSION['permisos_modulo']['u']) {
+                    if(($_SESSION['id_usuario'] == 1 and $_SESSION['user_data']['id_rol'] == 1) ||
+                    ($_SESSION['user_data']['id_rol'] == 1 and $data[$i]['id_rol'] != 1)){
                         $btnEditarUsuario = '<button  class="btn btn-primary btn-circle btnEditarUsuario"  title="editar" us="'.$data[$i]['id_usuario'].'"><i class="fa fa-edit"></i></button>';
+                    }else{
+                        $btnEditarUsuario = '<button  class="btn btn-primary btn-circle "  title="editar" disabled><i class="fa fa-edit"></i></button>';
+                    }
                 }
 
                 if ($_SESSION['permisos_modulo']['d']) {
+                    if(($_SESSION['id_usuario'] == 1 and $_SESSION['user_data']['id_rol'] == 1) ||
+                    ($_SESSION['user_data']['id_rol'] == 1 and $data[$i]['id_rol'] != 1) and 
+                    ($_SESSION['user_data']['id_usuario'] != $data[$i]['id_usuario'])){
                         $btnEliminarUsuario = '<button  class="btn btn-danger btn-circle btnEliminarUsuario"  title="eliminar" us="'.$data[$i]['id_usuario'].'"><i class="far fa-thumbs-down"></i></button>';
+                    }else{
+                        $btnEliminarUsuario = '<button  class="btn btn-danger btn-circle "  title="eliminar" disabled><i class="far fa-thumbs-down"></i></button>';
                     }
+                }
 
                     $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarUsuario.' '.$btnEliminarUsuario.'</div>';
                 }

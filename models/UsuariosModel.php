@@ -17,8 +17,12 @@
         }
 
         public function selectUsuarios(){
-            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.foto,us.usuario,us.email,rl.nombre_rol,us.estado
-             FROM usuarios  as us INNER JOIN roles as rl ON us.id_rol = rl.id_rol WHERE rl.estado !=0";
+            $where_admin = "";
+            if ($_SESSION['id_usuario'] != 1){
+                $where_admin = " and us.id_usuario !=1";
+            }
+            $sql = "SELECT us.id_usuario,us.nombre,us.apellido,us.foto,us.usuario,us.email,rl.id_rol,rl.nombre_rol,us.estado
+             FROM usuarios  as us INNER JOIN roles as rl ON us.id_rol = rl.id_rol WHERE rl.estado !=0 ".$where_admin;
             $request = $this->select_sql_all($sql);
             return $request;
         }
