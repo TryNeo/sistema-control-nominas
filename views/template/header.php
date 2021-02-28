@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/boostrap-select/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/css/style.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/inputmask/css/inputmask.css">
     <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina.png" sizes="16x16" />
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">

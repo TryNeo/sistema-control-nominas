@@ -18,6 +18,29 @@
             <?php } ?>
         </div>
         <hr>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table tableEmpleado table-striped  first display responsive nowrap" cellspacing="0"  style="width:100%">
+                            <thead>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Cedula</th>
+                                <th>Telefono</th>
+                                <th>Sueldo</th>
+                                <th>Contracto</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <?php 

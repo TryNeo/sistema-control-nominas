@@ -26,7 +26,7 @@
                     <label class="col-form-label text-right" for="sueldo">Cedula:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-id-card"></i></span></span>
-                        <input type="text" name="cedula" class="form-control" id="cedula"  placeholder="ingrese la cedula">
+                        <input type="text" name="cedula" class="form-control cedula-inputmask" id="cedula" im-insert="true  placeholder="ingrese la cedula">
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                     <label class="col-form-label text-right" for="sueldo">Telefono:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-phone"></i></span></span>
-                        <input type="text" name="telefono" class="form-control" id="telefono"  placeholder="ingrese el telefono">
+                        <input type="text" name="telefono" class="form-control phone-inputmask" im-insert="true" id="telefono" placeholder="ingrese el numero de telefono">
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                     <label class="col-form-label text-right" for="sueldo">Sueldo:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign"></i></span></span>
-                        <input type="number" step="any" name="sueldo" class="form-control" id="sueldo"  placeholder="ingrese el sueldo">
+                        <input type="number" step="any" name="sueldo" class="form-control " id="sueldo"  placeholder="ingrese el sueldo">
                     </div>
                 </div>
 

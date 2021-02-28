@@ -2,11 +2,9 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/jquery/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/inputmask/js/jquery.inputmask.bundle.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
-<script type="text/javascript">
-
-</script>
 <?php if(isset($data['page'])) {?>
     <?php if($data['page'] == 'respaldo'){?>
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_respaldo.js"></script>

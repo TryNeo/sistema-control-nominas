@@ -31,6 +31,39 @@
             $this->views->getView($this,"empleados",$data);
         }
 
+        public function getEmpleados(){
+            if (empty($_SESSION['permisos_modulo']['r'])) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $data = $this->model->selectEmpleados();
+                for ($i=0; $i < count($data); $i++) { 
+                    $btnEditarEmpleado = '';
+                    $btnEliminarEmpleado = '';
+                
+                if ($data[$i]['estado'] == 1){
+                    $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
+                }else{
+                    $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
+                }
+
+                
+                if ($_SESSION['permisos_modulo']['u']) {
+                    $btnEditarEmpleado = '<button  class="btn btn-primary btn-circle btnEditarEmpleado"  title="editar" emp="'.$data[$i]['id_empleado'].'"><i class="fa fa-edit"></i></button>';
+                }
+
+                if ($_SESSION['permisos_modulo']['d']) {
+                    $btnEliminarEmpleado = '<button  class="btn btn-danger btn-circle btnEliminarEmpleado"  title="eliminar" emp="'.$data[$i]['id_empleado'].'"><i class="far fa-thumbs-down"></i></button>';
+                }
+
+                    $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarEmpleado.' '.$btnEliminarEmpleado.'</div>';
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+
     }
 
 
