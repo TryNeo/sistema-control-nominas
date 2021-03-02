@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded',function(){
                 "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
-          },
-          responsive:true,
+        },
+        responsive:true,
         "ajax":{
             "url" : base_url+"empleados/getEmpleados",
             "dataSrc":""
@@ -75,7 +75,28 @@ document.addEventListener('DOMContentLoaded',function(){
         if (validateCamps(camps)) {
             if (isValidString(campsRegex)) {
                 if(validateCedula(cedulaInput)){
-                    console.log("a");
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = base_url+"empleados/setEmpleado";
+                    let formData = new FormData(formEmpleado);
+                    request.open("POST",ajaxUrl,true);
+                    request.send(formData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState==4 && request.status == 200){
+                            let objData = JSON.parse(request.responseText); 
+                            if (objData.status){
+                                $('#modalEmpleado').modal("hide");
+                                let camps = new Array();
+                                camps.push("nombre","apellido","cedula","email","telefono","sueldo")
+                                camps.forEach(function(element,index){
+                                    document.querySelector('#'+element).value = '';
+                                })
+                                mensaje("success","Exitoso",objData.msg);
+                                tableempleados.ajax.reload();
+                            }else{
+                                mensaje("error","Error",objData.msg);
+                            }
+                        }
+                    }
                 }else{
                     return validateCedula(cedulaInput);
                 }
@@ -124,7 +145,6 @@ function fntContractoEmpleado() {
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
             document.querySelector("#id_contracto").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el contracto</option>"+request.responseText;
-            $('#id_contracto').selectpicker('render');
         }
     }
 

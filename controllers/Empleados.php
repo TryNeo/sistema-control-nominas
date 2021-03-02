@@ -8,13 +8,6 @@
             session_regenerate_id(true);
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
-            }else{
-                if(time()-$_SESSION["login_time_stamp"] >1800)   
-                { 
-                    session_unset(); 
-                    session_destroy(); 
-                    header('location:'.server_url.'logout');
-                } 
             }
             getPermisos(5);
         }
@@ -29,6 +22,56 @@
             $data["page_name"] = "Listado de empleados";
             $data['page'] = "empleados";
             $this->views->getView($this,"empleados",$data);
+        }
+
+
+        public function setEmpleado(){
+            if ($_POST) {
+                $int_id_empleado = intval($_POST['id_empleado']);
+                $str_nombre = ucwords(strclean($_POST['nombre']));
+                $str_apellido = ucwords(strclean($_POST['apellido']));
+                $str_cedula = strclean($_POST['cedula']);
+                $str_email = strclean($_POST['email']);
+                $str_telefono = strclean($_POST['telefono']);
+                $float_sueldo = floatval($_POST['sueldo']);
+                $int_id_contracto = intval($_POST['id_contracto']);
+                $int_estado = intval(strclean($_POST['estadoInput']));
+
+                if ($int_id_empleado == 0) {
+                    $option = 1;
+                    $request_empleado = $this->model->insertEmpleado(
+                        $str_nombre,
+                        $str_apellido,
+                        $str_cedula,
+                        $str_email,
+                        $str_telefono,
+                        $float_sueldo,
+                        $int_id_contracto,
+                        $int_estado
+                    );
+                } else {
+                }
+
+                if ($request_empleado > 0) {
+                    if (empty($_SESSION['permisos_modulo']['w'])){
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 1){
+                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                        }
+                    }
+                }else if ($request_empleado == 'exist'){
+                    $data = array('status' => false, 'msg' => 'Error datos ya existentes');
+                }else{
+                    $data = array('status' => false, 'msg' => 'No es posible almacenar los datos');
+                }
+                
+            }else{
+                $data = array("status" => false, "msg" => "Error Hubo problemas");
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         public function getEmpleados(){

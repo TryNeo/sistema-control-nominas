@@ -58,7 +58,7 @@
                     <label class="col-form-label text-right" for="id_contracto">Tipos de contracto:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
-                        <select class="form-control" id="id_contracto" data-live-search="true"  name="id_contracto">
+                        <select class="form-control" id="id_contracto"  name="id_contracto">
                     </select>
                 </div>
                 </div>

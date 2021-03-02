@@ -7,7 +7,7 @@
         public $str_cedula;
         public $str_email;
         public $str_telefono;
-        public $str_sueldo;
+        public $float_sueldo;
         public $int_id_contracto;
         public $int_estado;
 
@@ -23,6 +23,35 @@
             $request = $this->select_sql_all($sql);
             return $request;
         }
+
+
+        public function insertEmpleado(string $str_nombre,string $str_apellido,string $str_cedula,string $str_email,
+        string $str_telefono,float $float_sueldo,int $int_id_contracto,int $int_estado)
+        {
+            $return = 0;
+            $this->str_nombre = $str_nombre;
+            $this->str_apellido = $str_apellido;        
+            $this->str_cedula = $str_cedula;
+            $this->str_email = $str_email;
+            $this->str_telefono = $str_telefono;
+            $this->float_sueldo = $float_sueldo;
+            $this->int_id_contracto = $int_id_contracto;
+            $this->int_estado = $int_estado;
+         
+            $sql = "SELECT * FROM empleados WHERE cedula = '{$this->str_cedula}' or email = '{$this->str_email}'";
+            $request = $this->select_sql_all($sql);
+            if(empty($request)){
+                $sql_insert = "INSERT INTO empleados (nombre,apellido,cedula,email,telefono,sueldo,id_contracto,estado,fecha_crea) values (?,?,?,?,?,?,?,?,now())";
+                $data = array($this->str_nombre,$this->str_apellido,$this->str_cedula,$this->str_email,
+                $this->str_telefono,$this->float_sueldo,$this->int_id_contracto,$this->int_estado);
+                $request_insert = $this->insert_sql($sql_insert,$data);
+                $return = $request_insert;
+            }else{
+                $return = "exist";
+            }
+            return $return;
+        }
+
     }
 
 ?>

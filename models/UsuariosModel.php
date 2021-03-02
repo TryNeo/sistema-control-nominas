@@ -36,7 +36,8 @@
         }
 
 
-        public function insertUsuario(string $str_nombre,string $str_apellido,string $str_imagen, string $str_usuario,string $str_email,int $int_id_rol,string $str_password, int $int_estado)
+        public function insertUsuario(string $str_nombre,string $str_apellido,string $str_imagen,
+        string $str_usuario,string $str_email,int $int_id_rol,string $str_password, int $int_estado)
         {   
             $return = 0;
             $this->str_nombre = $str_nombre;
