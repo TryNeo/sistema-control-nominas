@@ -105,7 +105,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
     });
 
-
+    setTimeout(() => {
+        fntRolesUsuario();
+    }, 1000);
 },false);
 
 window.addEventListener('click',function(){
@@ -117,10 +119,6 @@ window.addEventListener('click',function(){
     },500);
 })
 
-
-window.addEventListener('load',function(){
-    fntRolesUsuario();
-},false);
 
 baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
     'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
@@ -254,7 +252,7 @@ function abrir_modal_user(){
     }
     document.querySelector('#id_usuario').value="";
     let camps = new Array();
-    camps.push("nombre","apellido","usuario","email","password","foto")
+    camps.push("nombre","apellido","usuario","email","password","foto","estadoInput")
     camps.forEach(function(element,index){
         document.querySelector('#'+element).value = '';
     })

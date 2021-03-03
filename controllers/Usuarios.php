@@ -108,12 +108,19 @@
                     $int_estado = intval(strclean($_POST['estadoInput']));
 
 
-                    $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
-                    $fecha = new DateTime();
-                    $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
-                    $tmp_foto = $_FILES['foto']['tmp_name'];
-                    if ($tmp_foto!=""){
-                        move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                    $tipo = $_FILES['foto']['type'];
+                    $tamagno = $_FILES['foto']['size'];
+                    if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamagno < 2000000))) {
+                        $data = array("status" => false, "msg" => ">Error. La extensión o el tamaño de los archivos no es correcta.
+                        - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.");
+                    }else{
+                        $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
+                        $fecha = new DateTime();
+                        $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
+                        $tmp_foto = $_FILES['foto']['tmp_name'];
+                        if ($tmp_foto!=""){
+                            move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                        }     
                     }
                     
                     if($int_id_usuario == 0){
@@ -132,14 +139,23 @@
                         if (empty($_FILES['foto']['name'])){
                             $str_imagen = $request_image['foto'];
                         }else{
-                            $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
-                            $fecha = new DateTime();
-                            $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
-                            $tmp_foto = $_FILES['foto']['tmp_name'];
-                            if ($tmp_foto!=""){
-                                unlink("./assets/images/".$request_image['foto']);
-                                move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                            $tipo = $_FILES['foto']['type'];
+                            $tamagno = $_FILES['foto']['size'];
+                            if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamagno < 2000000))) {
+                                $data = array("status" => false, "msg" => ">Error. La extensión o el tamaño de los archivos no es correcta.
+                                - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.");
+                            }else{
+                                $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
+                                $fecha = new DateTime();
+                                $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
+                                $tmp_foto = $_FILES['foto']['tmp_name'];
+                                if ($tmp_foto!=""){
+                                    unlink("./assets/images/".$request_image['foto']);
+                                    move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                                }
                             }
+
+
                         }
                         $option = 2;
                         $str_password =  $_POST['password'];

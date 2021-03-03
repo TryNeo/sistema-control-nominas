@@ -50,6 +50,18 @@
                         $int_estado
                     );
                 } else {
+                    $option = 2;
+                    $request_empleado = $this->model->updateEmpleado(
+                        $int_id_empleado,
+                        $str_nombre,
+                        $str_apellido,
+                        $str_cedula,
+                        $str_email,
+                        $str_telefono,
+                        $float_sueldo,
+                        $int_id_contracto,
+                        $int_estado
+                    );
                 }
 
                 if ($request_empleado > 0) {
@@ -61,6 +73,17 @@
                             $data = array('status' => true, 'msg' => 'datos guardados correctamente');
                         }
                     }
+
+
+                    if (empty($_SESSION['permisos_modulo']['u'])) {
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 2){
+                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                        }
+                    }
+
                 }else if ($request_empleado == 'exist'){
                     $data = array('status' => false, 'msg' => 'Error datos ya existentes');
                 }else{
@@ -106,7 +129,24 @@
             die();
         }
 
-
+        public function getEmpleado(int $id_empleado){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data_response = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $intEmpleado  = Intval(strclean($id_empleado));
+                if ($intEmpleado > 0){
+                    $data = $this->model->selectEmpleado($intEmpleado);
+                    if (empty($data)){
+                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                    }else{
+                        $data_response = array('status' => true,'msg'=> $data);
+                    }
+                }
+            }
+            echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 
 

@@ -91,7 +91,11 @@ document.addEventListener('DOMContentLoaded',function(){
                                     document.querySelector('#'+element).value = '';
                                 })
                                 mensaje("success","Exitoso",objData.msg);
-                                tableempleados.ajax.reload();
+                                tableempleados.ajax.reload(function(){
+                                    baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+                                    'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
+                                    'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');                           
+                                });
                             }else{
                                 mensaje("error","Error",objData.msg);
                             }
@@ -108,18 +112,22 @@ document.addEventListener('DOMContentLoaded',function(){
         }
     });
 
-
+    setTimeout(() => {
+        fntContractoEmpleado();
+    }, 1000);
 },false);
 
+window.addEventListener('click',function(){
+    setTimeout(function(){ 
+        baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+        'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
+        'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');
+    },500);
+})
 
-
-
-
-
-window.addEventListener('load',function(){
-    fntContractoEmpleado();
-},false);
-
+baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+    'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
+    'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');
 
 
 
@@ -129,6 +137,11 @@ function abrir_modal_empleado(){
         "keyboard": false,
         "show":true
     }
+    let camps = new Array();
+    camps.push("nombre","apellido","cedula","email","telefono","sueldo","estadoInput","id_contracto")
+    camps.forEach(function(element,index){
+        document.querySelector('#'+element).value = '';
+    })
     document.querySelector('#id_empleado').value="";
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo Empleado";
@@ -144,7 +157,7 @@ function fntContractoEmpleado() {
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#id_contracto").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el contracto</option>"+request.responseText;
+            document.querySelector("#id_contracto").innerHTML = "<option  selected disabled='disabled'  value=''>Seleciona el contracto</option>"+request.responseText;
         }
     }
 

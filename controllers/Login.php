@@ -36,7 +36,6 @@
                         if ($data['estado'] == 1) {
                             $_SESSION['id_usuario'] = $data['id_usuario'];
                             $_SESSION['login'] = true;
-                            $_SESSION["login_time_stamp"] = time();   
                             $arrResponse = $this->model->sessionLogin($_SESSION['id_usuario']);
                             $_SESSION['user_data'] = $arrResponse;
                             $data = array('status' => true,'msg' => 'Usuario y contraseña correctas');
