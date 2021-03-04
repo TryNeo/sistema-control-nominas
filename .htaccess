@@ -16,7 +16,7 @@ Order Allow,Deny
 Allow from all
 Deny from env=bad_bot 
 
-<Files ~ "(Error.php)|(Usuarios.php)|(Respaldo.php)|(Permisos.php)|(Logout.php)|(Login.php)|(Dashboard.php)|(Roles.php)|(helpers.php)|(app.php)|(mysql.php)|(load.php)|(conexion.php)|(autoload.php)|(controllers.php)|(views.php)|(dashboardModel.php)|(loginModel.php)|(PermisosModel.php)|(rolesModel.php)|(UsuariosModel.php)|(RespaldoModel.php)|(EmpleadosModel.php)|(ContractosModel.php)|(Contractos.php)|(Empleados.php)">
+<Files ~ "(Error.php)|(fpdf.php)|(Usuarios.php)|(Respaldo.php)|(Permisos.php)|(Logout.php)|(Login.php)|(Dashboard.php)|(Roles.php)|(helpers.php)|(app.php)|(mysql.php)|(load.php)|(conexion.php)|(autoload.php)|(controllers.php)|(views.php)|(dashboardModel.php)|(loginModel.php)|(PermisosModel.php)|(rolesModel.php)|(UsuariosModel.php)|(RespaldoModel.php)|(EmpleadosModel.php)|(ContractosModel.php)|(Contractos.php)|(Empleados.php)">
     Order allow,deny
     Deny from all
 </Files>
@@ -29,7 +29,7 @@ Deny from env=bad_bot
 
 </Files>
 
-<FilesMatch "((\.(lock|cache|database|config|backups|helpers|models|views))|CHANGELOG.md |README.md|.gitignore |.htaccess |^(.*\.config|.*\.example|.*\.sql)(.*?))$">
+<FilesMatch "((\.(lock|cache|database|config|backups|helpers|models|views|font|fpdf))|CHANGELOG.md |README.md|.gitignore |.htaccess |^(.*\.config|.*\.example|.*\.sql)(.*?))$">
 	<IfModule !mod_authz_core.c>
 		Order allow,deny
 		Deny from all

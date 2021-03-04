@@ -1,6 +1,6 @@
 <?php
     require_once ("./libraries/core/controllers.php");
-
+    require_once ("./controllers/Reporte.php");
     class Empleados extends Controllers{
         public function __construct(){
             parent::__construct();
@@ -25,7 +25,11 @@
         }
 
         public function reporteEmpleado(){
-            echo "hello";
+            $pdf = new reporte();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial','B',16);
+            $pdf->Cell(40,10,'¡Hola, Mundo!');
+            $pdf->Output();     
         }
 
         public function setEmpleado(){
