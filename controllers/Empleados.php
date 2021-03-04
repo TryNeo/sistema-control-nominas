@@ -24,6 +24,9 @@
             $this->views->getView($this,"empleados",$data);
         }
 
+        public function reporteEmpleado(){
+            echo "hello";
+        }
 
         public function setEmpleado(){
             if ($_POST) {
@@ -147,7 +150,27 @@
             echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
             die();
         }
-    }
 
+        public function delEmpleado(){
+            if (empty($_SESSION['permisos_modulo']['d']) ) {
+                header('location:'.server_url.'Errors');
+                $data= array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                if ($_POST) {
+                    $intEmpleado = intval($_POST["id"]);
+                    $request_del = $this->model->deleteEmpleado($intEmpleado);
+                    if ($request_del == "ok") {
+                        $data = array("status" => true, "msg" => "Se ha eliminado el empleado");
+                    }else{
+                        $data = array("status" => false, "msg" => "Error al eliminar el empleado");
+                    }
+                }else{
+                    $data = array("status" => false, "msg" => "Error Hubo problemas");
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
 
 ?>

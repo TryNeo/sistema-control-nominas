@@ -48,7 +48,7 @@
                   <label class="col-form-label text-right" for="id_rol">Rol:</label>
                   <div class="input-group mb-3">
                     <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
-                    <select class="form-control" id="id_rol" data-live-search="true"  name="id_rol">
+                    <select class="form-control" id="id_rol" name="id_rol">
                     </select>
                   </div>
               </div>

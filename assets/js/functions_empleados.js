@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded',function(){
                                 tableempleados.ajax.reload(function(){
                                     baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
                                     'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
-                                    'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');                           
+                                    'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');
+                                    baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
+                                    'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
                                 });
                             }else{
                                 mensaje("error","Error",objData.msg);
@@ -122,6 +124,8 @@ window.addEventListener('click',function(){
         baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
         'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
         'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');
+        baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
+        'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
     },500);
 })
 
@@ -129,6 +133,9 @@ baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
     'Actualizar el empleado',["nombre","apellido","cedula","email","telefono","sueldo"],
     'id_empleado','#modalEmpleado',ExistSelect = true,'id_contracto',ImagePreview = false,'');
 
+
+baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
+'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
 
 
 function abrir_modal_empleado(){

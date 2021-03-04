@@ -19,7 +19,7 @@
         public function selectEmpleados(){
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.cedula,empl.telefono,
             empl.sueldo,cont.nombre_contracto,empl.estado FROM empleados as empl 
-            INNER JOIN contractos as cont ON empl.id_contracto = cont.id_contracto WHERE empl.estado !=0";
+            INNER JOIN contractos as cont ON empl.id_contracto = cont.id_contracto";
             $request = $this->select_sql_all($sql);
             return $request;
         }
@@ -88,6 +88,15 @@
             }
             return $request_update;
         }        
+
+        public function deleteEmpleado(int $id_empleado){
+            $this->int_id_empleado = $id_empleado;
+            $sql = "UPDATE empleados SET estado = ?, fecha_modifica = now() WHERE id_empleado = $this->int_id_empleado";
+            $data = array(0);
+            $request_delete = $this->update_sql($sql,$data);
+            return $request_delete;
+        }
+
 
     }
 

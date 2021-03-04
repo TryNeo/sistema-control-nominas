@@ -20,7 +20,7 @@
             $data["tag_pag"] = "Dashboard";
             $data["page_title"] = "Dashboard | Inicio";
             $data["page_name"] = "dashboard";
-            $data["total_empleados"] = 0;
+            $data["total_empleados"] = $this->model->getTotalEmpleado();
             $this->views->getView($this,"dashboard",$data);
 
         }
