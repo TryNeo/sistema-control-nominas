@@ -259,3 +259,27 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
 		});
 	});
 }( document, window, 0 ));
+
+
+
+var actualizarHora = function(){
+	let fecha = new Date(),
+		horas = fecha.getHours(),
+		ampm,
+		minutos = fecha.getMinutes(),
+		segundos = fecha.getSeconds()
+
+        if (horas >= 12) {
+            horas = horas - 12;
+            ampm = 'PM';
+        } else {
+            ampm = 'AM';
+        }
+
+        if (minutos < 10){ minutos = "0" + minutos; }
+		if (segundos < 10){ segundos = "0" + segundos; }
+    document.querySelector('.reloj').innerHTML =horas+":"+minutos+":"+segundos+"<div class='ampm'>&nbsp;"+ampm+"</div>";
+};
+
+actualizarHora();
+var intervalo = setInterval(actualizarHora, 1000);

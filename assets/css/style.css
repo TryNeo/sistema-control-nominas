@@ -101,3 +101,15 @@ a{
 .img-100{
     width: 60%;
 }
+
+
+.reloj{
+    letter-spacing:1px;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.ampm{
+    font-size:10px;
+    display:inline-block;
+}

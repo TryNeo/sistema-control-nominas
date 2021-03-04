@@ -37,11 +37,21 @@
     <div class="dashboard-header">
                 <nav class="navbar navbar-expand-lg bg-white fixed-top">
                     <a class="navbar-brand" href="../index.html">W@SECURITY</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-angle-double-down"></i>
                     </button>
                     <div class="collapse navbar-collapse " id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto navbar-right-top">
+                            <li class="nav-item dropdown reloj">
+                                <a class="nav-link reloj" href="#">
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown password">
+                                <a class="nav-link" href="#" id="navbarDropdown" ><i class="fas fa-key"></i></a>
+                            </li>
+
                             <li class="nav-item dropdown nav-user">
                                 <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?php echo server_url_image.$_SESSION['user_data']['foto']; ?>" alt="" class="user-avatar-md rounded-circle"></a>
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">

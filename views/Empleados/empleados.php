@@ -11,11 +11,16 @@
                 </div>
             </div>
             <?php  if ($_SESSION['permisos_modulo']['w']) {?>
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 ">
                 <button onclick="return abrir_modal_empleado();" class="btn btn-outline-secondary btnModal" data-target="#modalEmpleado"><i class="fa fa-plus" aria-hidden="true"></i>
                 Añadir nuevo empleado</button>     
             </div>
             <?php } ?>
+
+            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-4 col-12 text-right">
+                <a href="#" class="btn btn-outline-primary" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i>
+                    Reporte empleados</a>
+            </div>
         </div>
         <hr>
         <div class="row">

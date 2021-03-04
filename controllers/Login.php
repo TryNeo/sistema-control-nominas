@@ -16,6 +16,7 @@
             $data["tag_pag"] = "Login";
             $data["page_title"] = "Login | Iniciar sesión";
             $data["page_name"] = "login";
+            $data["page"] = "login";
             $this->views->getView($this,"login",$data);
 
         }
