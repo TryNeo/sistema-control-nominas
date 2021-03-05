@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded',function(){
         let imagenInput = document.querySelector('#foto').value;
         let id_rol = document.querySelector('#id_rol').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(nombreInput,apellidoInput,usuarioInput,passwordInput,estadoInput,id_rol);
-        campsRegex.push(nombreInput,apellidoInput,passwordInput)
+        camps.push(nombreInput,apellidoInput,usuarioInput,estadoInput,id_rol);
+        campsRegex.push(nombreInput,apellidoInput)
         if(validateCamps(camps)){
             if (isValidString(campsRegex)){
                 let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -86,9 +86,10 @@ document.addEventListener('DOMContentLoaded',function(){
                             tableusuarios.ajax.reload(function() {
                                 setTimeout(function(){ 
                                     baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
-                                    'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+                                    'Actualizar el usuario',["nombre","apellido","usuario","email"],
                                     'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
-                                    baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
+                                    baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',
+                                    "¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
                                 }, 500);
                             });
                         }else{
@@ -113,7 +114,7 @@ document.addEventListener('DOMContentLoaded',function(){
 window.addEventListener('click',function(){
     setTimeout(function(){ 
         baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
-        'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+        'Actualizar el usuario',["nombre","apellido","usuario","email"],
         'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
         baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
     },500);
@@ -121,7 +122,7 @@ window.addEventListener('click',function(){
 
 
 baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
-    'Actualizar el usuario',["nombre","apellido","usuario","email","password"],
+    'Actualizar el usuario',["nombre","apellido","usuario","email"],
     'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
 
 /*

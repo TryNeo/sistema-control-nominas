@@ -4,7 +4,6 @@
     class Login extends Controllers{
         public function __construct(){
             session_start();
-            session_regenerate_id(true);
             if (isset($_SESSION['login'])) {
                 header('location:'.server_url.'dashboard');
             }
@@ -27,19 +26,23 @@
                     $data = array('status' => false,'msg' => 'Error de datos');
                 }else{
                     $str_usuario = strtolower(strclean($_POST['username']));
-                    $str_password = hash("SHA256",$_POST['password']);
-                    $request_user = $this->model->login_user($str_usuario,$str_password);
+                    $str_password = strclean($_POST['password']);
+                    $request_user = $this->model->login_user($str_usuario);
                     if (empty($request_user)) {
                         $data = array('status' => false,'msg' => 'El usuario o la contraseña es incorrecto');
 
                     }else{
                         $data = $request_user;
                         if ($data['estado'] == 1) {
-                            $_SESSION['id_usuario'] = $data['id_usuario'];
-                            $_SESSION['login'] = true;
-                            $arrResponse = $this->model->sessionLogin($_SESSION['id_usuario']);
-                            $_SESSION['user_data'] = $arrResponse;
-                            $data = array('status' => true,'msg' => 'Usuario y contraseña correctas');
+                            if(password_verify($str_password,$data['password'])){
+                                $_SESSION['id_usuario'] = $data['id_usuario'];
+                                $_SESSION['login'] = true;
+                                $arrResponse = $this->model->sessionLogin($_SESSION['id_usuario']);
+                                $_SESSION['user_data'] = $arrResponse;
+                                $data = array('status' => true,'msg' => 'Usuario y contraseña correctas');
+                            }else{
+                                $data = array('status' => false,'msg' => 'La contraseña es incorrecto');
+                            }
                         }else{
                             $data = array('status' => false,'msg' => 'Este usuario no existe en la base de datos');
                         }

@@ -5,7 +5,6 @@
         public function __construct(){
             parent::__construct();
             session_start();
-            session_regenerate_id(true);
             if (empty($_SESSION['login'])) {
                 header('location:'.server_url.'login');
             }
@@ -113,19 +112,19 @@
                     if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamagno < 2000000))) {
                         $data = array("status" => false, "msg" => ">Error. La extensión o el tamaño de los archivos no es correcta.
                         - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.");
-                    }else{
-                        $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
-                        $fecha = new DateTime();
-                        $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
-                        $tmp_foto = $_FILES['foto']['tmp_name'];
-                        if ($tmp_foto!=""){
-                            move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
-                        }     
                     }
+                    $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
+                    $fecha = new DateTime();
+                    $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
+                    $tmp_foto = $_FILES['foto']['tmp_name'];
+                    if ($tmp_foto!=""){
+                        move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                    }     
+                    
                     
                     if($int_id_usuario == 0){
                         $option = 1;
-                        $str_password = hash("SHA256",$_POST['password']);
+                        $str_password = password_hash(strclean($_POST['password']),PASSWORD_DEFAULT,['cost' => 10]);
                         $request_user = $this->model->insertUsuario($str_nombre,
                                                                 $str_apellido,
                                                                 $str_imagen,
@@ -144,30 +143,42 @@
                             if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamagno < 2000000))) {
                                 $data = array("status" => false, "msg" => ">Error. La extensión o el tamaño de los archivos no es correcta.
                                 - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.");
-                            }else{
-                                $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
-                                $fecha = new DateTime();
-                                $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
-                                $tmp_foto = $_FILES['foto']['tmp_name'];
-                                if ($tmp_foto!=""){
-                                    unlink("./assets/images/".$request_image['foto']);
-                                    move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
-                                }
                             }
-
-
+                            $route_imagen = (isset($_FILES['foto']['name'])) ?$_FILES['foto']['name']:"";
+                            $fecha = new DateTime();
+                            $str_imagen = ($route_imagen!="")?$fecha->getTimestamp()."_".$_FILES['foto']['name']:"user-default.png";
+                            $tmp_foto = $_FILES['foto']['tmp_name'];
+                            if ($tmp_foto!=""){
+                                unlink("./assets/images/".$request_image['foto']);
+                                move_uploaded_file($tmp_foto,"./assets/images/".$str_imagen);
+                            }
                         }
+
+
                         $option = 2;
-                        $str_password =  $_POST['password'];
-                        $request_user = $this->model->updateUsuario($int_id_usuario,
-                                                                    $str_nombre,
-                                                                    $str_apellido,
-                                                                    $str_imagen,
-                                                                    $str_usuario,
-                                                                    $str_email,
-                                                                    $int_id_rol,
-                                                                    $str_password,
-                                                                    $int_estado);
+                        if(empty($_POST['password'])){
+                            $str_password = $_POST['password'];
+                            $request_user = $this->model->updateUsuario($int_id_usuario,
+                            $str_nombre,
+                            $str_apellido,
+                            $str_imagen,
+                            $str_usuario,
+                            $str_email,
+                            $int_id_rol,
+                            $str_password,
+                            $int_estado);
+                        }else{
+                            $str_password = password_hash(strclean($_POST['password']),PASSWORD_DEFAULT,['cost' => 10]);
+                            $request_user = $this->model->updateUsuario($int_id_usuario,
+                                                                        $str_nombre,
+                                                                        $str_apellido,
+                                                                        $str_imagen,
+                                                                        $str_usuario,
+                                                                        $str_email,
+                                                                        $int_id_rol,
+                                                                        $str_password,
+                                                                        $int_estado);
+                        }
                     }
 
                     if ($request_user > 0) {

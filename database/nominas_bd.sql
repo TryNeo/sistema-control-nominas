@@ -99,4 +99,4 @@ INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (4,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (5,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (6,1,1,1,1,1);
 
-INSERT INTO usuarios (nombre,apellido,foto,usuario,email,id_rol,password,estado,fecha_crea) VALUES ("joel josue","huacon lopez","user-default.png","josu3","jjhuacon@est.itsgg.edu.ec",1,sha2("josue",256),1,now())
+INSERT INTO usuarios (nombre,apellido,foto,usuario,email,id_rol,password,estado,fecha_crea) VALUES ("joel josue","huacon lopez","user-default.png","josu3","jjhuacon@est.itsgg.edu.ec",1,"$2y$10$nLtnKbUrAQnMMfWi9bqsEuQ53U5k1pKCRsKYWEw0x/R5hgKNcHiYK",1,now())

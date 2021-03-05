@@ -3,16 +3,14 @@
     class LoginModel extends Mysql{
         public $int_id_usuario;
         public $str_username;
-        public $str_password;
         
         public function __construct(){
             parent::__construct();
         }
 
-        public function login_user(string $str_username, string $str_password ){
+        public function login_user(string $str_username){
             $this->str_username = $str_username;
-            $this->str_password = $str_password;
-            $sql = "SELECT id_usuario,estado FROM usuarios WHERE usuario = '$this->str_username' and password = '$this->str_password'";
+            $sql = "SELECT id_usuario,password,estado FROM usuarios WHERE usuario = '$this->str_username'";
             $request = $this->select_sql($sql);
             return $request;
         }        
