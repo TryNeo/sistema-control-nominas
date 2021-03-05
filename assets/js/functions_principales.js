@@ -262,7 +262,7 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
 
 
 
-var actualizarHora = function(){
+let actualizarHora = function(){
 	let fecha = new Date(),
 		horas = fecha.getHours(),
 		ampm,
@@ -282,4 +282,27 @@ var actualizarHora = function(){
 };
 
 actualizarHora();
-var intervalo = setInterval(actualizarHora, 1000);
+let intervalo = setInterval(actualizarHora, 1000);
+
+
+
+function abrir_modal_restaurar(){
+    let options = {
+        "backdrop" : "static",
+        "keyboard": false,
+        "show":true
+    }
+    $('#modalRestaurar').appendTo("body").modal(options);
+}
+
+
+function mostrarPassword(){
+    var cambio = document.getElementById("password");
+    if(cambio.type == "password"){
+        cambio.type = "text";
+        $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    }else{
+        cambio.type = "password";
+        $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+} 
