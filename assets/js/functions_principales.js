@@ -306,3 +306,48 @@ function mostrarPassword(){
         $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
     }
 } 
+
+
+
+
+function fntRestaurarPassword(){
+    let formRestaurar = document.querySelector('#formRestaurar');
+    formRestaurar.addEventListener('submit', function (e){
+        e.preventDefault();
+        let camps = new Array();
+        let idUsuario =  document.querySelector('#id_usuario').value;
+        let passwordInput = document.querySelector('#password').value;
+        let passwordRepInput = document.querySelector('#rep_password').value;
+        camps.push(passwordInput,passwordRepInput);
+        if(validateCamps(camps)){
+            if (passwordInput === passwordRepInput){
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+"usuarios/resUsuario";
+                let formData = new FormData(formRestaurar);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText); 
+                        if (objData.status){
+                            $('#modalRestaurar').modal("hide");
+                            let passwordInput = document.querySelector('#password').value = '';
+                            let passwordRepInput = document.querySelector('#rep_password').value = '';
+                            mensaje("success","Exitoso",objData.msg);
+                            setTimeout(function(){window.location.replace(base_url+"logout")},1500);
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
+                    }
+                }
+            }else{
+                return mensaje("error","Error","Las contraseñas no coinciden")
+            }
+        }else{
+            return validateCamps(camps);
+        }
+    });
+}
+
+
+fntRestaurarPassword();

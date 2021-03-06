@@ -100,6 +100,24 @@
             return $request_image;
         }
 
+
+        public function selectPassword(int $int_id_usuario){
+            $this->int_id_usuario = $int_id_usuario;
+            $sql = "SELECT * FROM usuarios WHERE id_usuario = $this->int_id_usuario" ;
+            $request_password = $this->select_sql_all($sql);
+            return $request_password;
+        }
+
+
+        public function updatePassword(int $int_id_usuario,string $str_password){
+            $this->int_id_usuario = $int_id_usuario;
+            $this->str_password = $str_password;
+            $sql_update = "UPDATE usuarios SET password = ?,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario";
+            $data = array($this->str_password);
+            $request = $this->update_sql($sql_update,$data);
+            return $request;
+        }
+
         public function deleteUsuario(int $int_id_usuario){
             $this->int_id_usuario = $int_id_usuario;
             $sql = "UPDATE usuarios SET estado = ?, fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario";

@@ -53,7 +53,7 @@
                                 class="nav-link" onclick="return abrir_modal_restaurar();"><i class="fas fa-key"></i></a>
 
                                 <div class="modal fade" id="modalRestaurar" tabindex="-1" role="dialog"  aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="modalTitle">Restaurar contraseña <i class="fas fa-lock"></i></h5>
@@ -80,7 +80,7 @@
                                                 </div>
                                                 <div class="col-md-12 mb-3">
                                                     <button type="submit" class="btn btn-info">
-                                                    <i class="fas fa-save"></i><span class="text-center"> Guardar Registro</span></button>
+                                                    <i class="fas fa-save"></i><span class="text-center"> Actualizar</span></button>
                                                     <button type="button" class="btn btn-danger"
                                                     onclick="return cerrar_modal('#modalRestaurar')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                                                 </div>
