@@ -119,6 +119,17 @@ pero no se repiten en determinadas fechas, produciendo discontinuidad en el tiem
 INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos en prácticas','Sirven para facilitar las prácticas profesionales 
 a los trabajadores con título universitario o formación profesional,',1,now());
 
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato Para La Formación','Este contrato tiene como finalidad la adquisición de formación teórico-práctica 
+necesaria para la realización adecuada de un trabajo que requiera algún tipo de cualificación o acreditación.,',1,now());
+
+
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato De Obra O Servicio Determinado','Es aquel que se firma para la realización de
+una obra o servicio, con autonomía y cuya duración sea incierta.,',1,now());
+
+
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos De Inserción','Para participar en programas públicos de realización de obras y servicios de interés general y social. El objetivo que se persigue es por un lado,
+la adquisición de experiencia laboral, y por otro, facilitar la mejora de la ocupación al desempleado.',1,now());
+
 
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Dashboard','modulo de dashboard',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Usuarios','modulo de usuarios',1,now());

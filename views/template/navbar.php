@@ -32,6 +32,9 @@
                                 </li>
                             <?php } ?>
 
+                            <a class='nav-link' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+
+
                             <?php if (!empty($_SESSION['permisos'][7]['r'])) {?>
                                 <li class="nav-item">
                                     <?php if($data['page_id'] == 7 ){ ?>

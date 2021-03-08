@@ -18,7 +18,7 @@
             <?php } ?>
 
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-4 col-12 text-right">
-                <a href="#" class="btn btn-outline-primary" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i>
+                <a href="#" class="btn btn-outline-primary" target="_blank"><i class="fas fa-print" aria-hidden="true"></i>
                     Reporte empleados</a>
             </div>
         </div>
