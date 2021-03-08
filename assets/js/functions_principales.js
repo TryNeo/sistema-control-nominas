@@ -135,7 +135,8 @@ function mensaje(icon,title,text){
 
 
 
-function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,nameSelectorId,nameSelectorModal,ExistSelect = false,selectId,ImagePreview = false, imageId){
+function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,
+    nameSelectorId,nameSelectorModal,ExistSelect = false,selectId,ImagePreview = false, imageId,ExistSelect_two = false,selectId_two){
 let btnBaseEdit = document.querySelectorAll(nameSelector);
     btnBaseEdit.forEach(function(btnBaseEdit){
         btnBaseEdit.addEventListener('click',function(){
@@ -164,10 +165,19 @@ let btnBaseEdit = document.querySelectorAll(nameSelector);
                             for (let item of a){
                                 if (item.value === objData.msg['id_rol']) {
                                     item.setAttribute("selected","");
-                                    $("#"+selectId).selectpicker('render');
                                 }else{
                                     item.removeAttribute("selected");
-                                    $("#"+selectId).selectpicker('render');
+                                }
+                            }
+                        }
+
+                        if(ExistSelect_two){
+                            let b = document.querySelector("#"+selectId_two).getElementsByTagName('option');
+                            for (let item of b){
+                                if (item.value === objData.msg['id_rol']) {
+                                    item.setAttribute("selected","");
+                                }else{
+                                    item.removeAttribute("selected");
                                 }
                             }
                         }
@@ -232,6 +242,20 @@ function baseAjaxDelete(nameSelector,nameId,urlName,nameMethod,title,text,modalN
         })
       })
 }
+
+
+function baseAjaxSelect(nameSelector,nameMethod,urlName,nameMensaje){
+    let ajaxUrl = base_url+urlName+"/"+nameMethod;
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState==4 && request.status == 200){
+            document.querySelector("#"+nameSelector).innerHTML = "<option  selected disabled='disabled'  value=''>"+nameMensaje+"</option>"+request.responseText;
+        }
+    }
+};
+
 
 
 'use strict';

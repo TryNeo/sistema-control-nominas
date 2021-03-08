@@ -1,7 +1,8 @@
-let tablecontracto;
+let tablepuesto;
+
 
 document.addEventListener('DOMContentLoaded',function(){
-    tablecontracto = $('.tableContracto').DataTable({
+    tablepuesto = $('.tablePuesto').DataTable({
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -30,12 +31,12 @@ document.addEventListener('DOMContentLoaded',function(){
         },
         responsive:true,
         "ajax":{
-            "url" :base_url+"contractos/getContractos",
+            "url" :base_url+"puestos/getPuestos",
             "dataSrc":""
         },
         "columns":[
-            {"data":"id_contracto"},
-            {"data":"nombre_contracto"},
+            {"data":"id_puesto"},
+            {"data":"nombre_puesto"},
             {"data":"descripcion"},
             {"data":"estado"},
             {"data":"opciones"}
@@ -43,21 +44,20 @@ document.addEventListener('DOMContentLoaded',function(){
         "order":[[0,"desc"]]
     });
 
-    let formContracto = document.querySelector('#formContracto');
-    formContracto.addEventListener('submit', function (e) {
+    let formPuesto = document.querySelector('#formPuesto');
+    formPuesto.addEventListener('submit', function (e) {
         e.preventDefault();        
         let camps = new Array();
         let campsRegx = new Array();
-        let idContracto = document.querySelector('#id_contracto').value;
-        let contractoInput = document.querySelector('#nombre_contracto').value;
+        let puestoInput = document.querySelector('#nombre_puesto').value;
         let descriInput = document.querySelector('#descripcion').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(contractoInput,descriInput,estadoInput);
-        campsRegx.push(contractoInput);
+        camps.push(puestoInput,descriInput,estadoInput);
+        campsRegx.push(puestoInput);
         if(validateCamps(camps)){
             if(isValidString(campsRegx)){
                 let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"contractos/setContracto";
+                let ajaxUrl = base_url+"puestos/setPuesto";
                 let formData = new FormData(formContracto);
                 request.open("POST",ajaxUrl,true);
                 request.send(formData);
@@ -65,19 +65,19 @@ document.addEventListener('DOMContentLoaded',function(){
                     if(request.readyState==4 && request.status == 200){
                         let objData = JSON.parse(request.responseText); 
                         if (objData.status){
-                            $('#modalContracto').modal("hide");
-                            let idContracto = document.querySelector('#id_contracto').value = '';
-                            let contractoInput = document.querySelector('#nombre_contracto').value = '';
+                            $('#modalPuesto').modal("hide");
+                            let id_puesto = document.querySelector('#id_puesto').value = '';
+                            let puestoInput = document.querySelector('#nombre_puesto').value = '';
                             let descriInput = document.querySelector('#descripcion').value = '';
                             mensaje("success","Exitoso",objData.msg);
-                            tablecontracto.ajax.reload(function(){
+                            tablepuesto.ajax.reload(function(){
                                 setTimeout(function(){ 
-                                    baseAjaxEdit('.btnEditarContracto','cont','contractos',
-                                    'getContracto','Actualizacion de contracto',['nombre_contracto','descripcion'],
-                                    'id_contracto','#modalContracto',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-                                    baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto',
-                                    'Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);
-                                },500);
+                                    baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+                                    ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
+                                    ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+                                    baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+                                    'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
+                                }, 500);
                             });
                         }else{
                             mensaje("error","Error",objData.msg);
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 
 
-
 function abrir_modal(){
     var options = {
         "backdrop" : "static",
@@ -105,26 +104,34 @@ function abrir_modal(){
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Creacion de nuevo contractos";
     document.querySelector('#btnDisabled').style.display = 'inline-block';
-    let idContracto = document.querySelector('#id_contracto').value = '';
-    let contractoInput = document.querySelector('#nombre_contracto').value = '';
+    let idPuesto = document.querySelector('#id_puesto').value = '';
+    let ṕuestoInput = document.querySelector('#nombre_puesto').value = '';
     let descriInput = document.querySelector('#descripcion').value = '';
     let estadoInput = document.querySelector('#estadoInput').value;
-    $('#modalContracto').modal(options);
+    $('#modalPuesto').modal(options);
 }
+
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        baseAjaxEdit('.btnEditarContracto','cont','contractos','getContracto',
-        'Actualizacion de contracto',['nombre_contracto','descripcion'],'id_contracto',
-        '#modalContracto',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-        baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto',
-        'Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);
+        baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+        ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
+        ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+        baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+        'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
     }, 500);
 },false);
 
-baseAjaxEdit('.btnEditarContracto','cont','contractos','getContracto','Actualizacion de contracto',
-['nombre_contracto','descripcion'],'id_contracto','#modalContracto',
+
+baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
 ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
 
-baseAjaxDelete('.btnEliminarContracto','cont','contractos','delContracto',
-'Eliminar contracto',"¿Desea eliminar este contracto?",'#modalContracto',tablecontracto);
+baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
+
+
+
+
+
+

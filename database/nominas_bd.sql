@@ -1,9 +1,8 @@
 DROP DATABASE  IF EXISTS nominas_bd;
 CREATE DATABASE IF NOT EXISTS nominas_bd;
 USE nominas_bd;
-DROP TABLE IF EXISTS empleados;
 
-
+DROP TABLE IF EXISTS contractos;
 CREATE TABLE contractos(
 id_contracto int(11) auto_increment,
 nombre_contracto varchar(50),
@@ -13,20 +12,50 @@ fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_contracto));
 
+DROP TABLE IF EXISTS puestos;
+CREATE TABLE puestos(
+id_puesto int(11) auto_increment,
+nombre_puesto varchar(50),
+descripcion text,
+estado boolean,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
+PRIMARY KEY (id_puesto));
 
+
+DROP TABLE IF EXISTS empleados;
 CREATE TABLE empleados(
 id_empleado int(11) auto_increment,
 nombre varchar(50),
 apellido varchar(50),
 cedula varchar(10),
-email varchar(100),
 telefono varchar(14),
 sueldo float,
+id_puesto int(11),
 id_contracto int(11),
 estado boolean,
 fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_empleado));
+
+
+
+
+DROP TABLE IF EXISTS nominas;
+CREATE TABLE nominas(
+id_nominas int(11) auto_increment,
+num_comprobante int(11),
+id_empleado int(11),
+
+
+nota text,
+forma_pago varchar(50),
+estado_comprobante varchar(20),
+estado boolean,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
+PRIMARY KEY (id_nominas));
+
 
 DROP TABLE IF EXISTS roles;
 CREATE TABLE roles(
@@ -89,6 +118,7 @@ INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Roles','modul
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Respaldo','modulo de respaldo',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Empleados','modulo de empleados',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Contractos','modulo de contractos',1,now());
+INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Puestos','modulo de contractos',1,now());
 
 INSERT INTO roles (nombre_rol,descripcion,estado,fecha_crea) values ("Administrador","permisos de acceso a todo el sistema",1,now());
 
@@ -98,5 +128,7 @@ INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (3,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (4,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (5,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (6,1,1,1,1,1);
+INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (7,1,1,1,1,1);
+
 
 INSERT INTO usuarios (nombre,apellido,foto,usuario,email,id_rol,password,estado,fecha_crea) VALUES ("joel josue","huacon lopez","user-default.png","josu3","jjhuacon@est.itsgg.edu.ec",1,"$2y$10$nLtnKbUrAQnMMfWi9bqsEuQ53U5k1pKCRsKYWEw0x/R5hgKNcHiYK",1,now())

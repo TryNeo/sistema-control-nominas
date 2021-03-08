@@ -74,8 +74,10 @@ document.addEventListener('DOMContentLoaded',function(){
                                 setTimeout(function(){ 
                                     fntPermRol();
                                     baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-                                    ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'')
-                                    baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
+                                    ['nombre_rol','descripcion'],'id_rol','#modalRol',
+                                    ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+                                    baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',
+                                    "¿Desea eliminar este rol?",'#modalRol',tableroles);
                                 }, 500);
                             });
                         }else{
@@ -115,14 +117,16 @@ window.addEventListener('click',function(){
     setTimeout(function(){ 
             fntPermRol();
             baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-            ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'');
-            baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
+            ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'');
+            baseAjaxDelete('.btnEliminarRol','rl','roles','delRol',
+            'Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
      }, 500);
 },false);
 
 
 baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'')
+['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,
+'',ImagePreview = false,'',ExistSelect_two = false,'')
 
 /*
 function fntEditRol(){

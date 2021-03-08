@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded',function(){
                                 setTimeout(function(){ 
                                     baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
                                     'Actualizar el usuario',["nombre","apellido","usuario","email"],
-                                    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
+                                    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview',ExistSelect_two = false,'');
                                     baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',
                                     "¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
                                 }, 500);
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded',function(){
     });
 
     setTimeout(() => {
-        fntRolesUsuario();
+        baseAjaxSelect('id_rol','getSelectRoles','roles','Seleciona el rol');
     }, 1000);
 },false);
 
@@ -115,7 +115,7 @@ window.addEventListener('click',function(){
     setTimeout(function(){ 
         baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
         'Actualizar el usuario',["nombre","apellido","usuario","email"],
-        'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
+        'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview',ExistSelect_two = false,'');
         baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
     },500);
 })
@@ -123,7 +123,7 @@ window.addEventListener('click',function(){
 
 baseAjaxEdit('.btnEditarUsuario','us','usuarios','getUsuario',
     'Actualizar el usuario',["nombre","apellido","usuario","email"],
-    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview');
+    'id_usuario','#modalUsuario',ExistSelect = true,'id_rol',ImagePreview = true,'#ImagePreview',ExistSelect_two = false,'');
 
 /*
 function fntEditUsuario(){
@@ -183,7 +183,8 @@ function fntEditUsuario(){
 }
 */
 
-baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario','Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
+baseAjaxDelete('.btnEliminarUsuario','us','usuarios','delUsuario',
+'Eliminar usuario',"¿Desea eliminar este usuario?",'#modalUsuario',tableusuarios);
 
 /*
 function fntDelUsuario(){
@@ -231,19 +232,9 @@ function fntDelUsuario(){
 }
 */
 
-function fntRolesUsuario() {
-    let ajaxUrl = base_url+"roles/getSelectRoles";
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open("GET",ajaxUrl,true);
-    request.send();
-    request.onreadystatechange = function(){
-        if(request.readyState==4 && request.status == 200){
-            document.querySelector("#id_rol").innerHTML = "<option  selected disabled='disabled'  value='0'>Seleciona el rol</option>"+request.responseText;
-            $('#id_rol').selectpicker('render');
-        }
-    }
 
-}
+baseAjaxSelect('id_rol','getSelectRoles','roles','Seleciona el rol');
+
 
 function abrir_modal_user(){
     let options = {

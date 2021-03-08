@@ -31,14 +31,6 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="col-form-label text-right" for="email">Email:</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-envelope"></i></span></span>
-                        <input type="email" name="email" class="form-control" id="email" placeholder="ingrese el email">
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
                     <label class="col-form-label text-right" for="sueldo">Telefono:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-phone"></i></span></span>
@@ -55,13 +47,23 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
+                    <label class="col-form-label text-right" for="id_puesto">Puesto:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
+                        <select class="form-control" id="id_puesto"  name="id_puesto">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
                     <label class="col-form-label text-right" for="id_contracto">Tipos de contracto:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
                         <select class="form-control" id="id_contracto"  name="id_contracto">
-                    </select>
+                        </select>
+                    </div>
                 </div>
-                </div>
+
                 <div class="col-md-6 mb-3">
                     <label class="col-form-label text-right" for="estadoInput">Estado:</label>
                     <div class="input-group mb-3">

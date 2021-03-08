@@ -37,9 +37,9 @@
                 $str_nombre = ucwords(strclean($_POST['nombre']));
                 $str_apellido = ucwords(strclean($_POST['apellido']));
                 $str_cedula = strclean($_POST['cedula']);
-                $str_email = strclean($_POST['email']);
                 $str_telefono = strclean($_POST['telefono']);
                 $float_sueldo = floatval($_POST['sueldo']);
+                $int_id_puesto = intval($_POST['id_puesto']);
                 $int_id_contracto = intval($_POST['id_contracto']);
                 $int_estado = intval(strclean($_POST['estadoInput']));
 
@@ -49,9 +49,9 @@
                         $str_nombre,
                         $str_apellido,
                         $str_cedula,
-                        $str_email,
                         $str_telefono,
                         $float_sueldo,
+                        $int_id_puesto,
                         $int_id_contracto,
                         $int_estado
                     );
@@ -62,9 +62,9 @@
                         $str_nombre,
                         $str_apellido,
                         $str_cedula,
-                        $str_email,
                         $str_telefono,
                         $float_sueldo,
+                        $int_id_puesto,
                         $int_id_contracto,
                         $int_estado
                     );

@@ -2,10 +2,10 @@
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
             <div class="menu-list" style="overflow: hidden; width: auto; height: 100%;">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                   <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                    <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" 
                     data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                       <i class="fas fa-bars"></i>
+                        <i class="fas fa-bars"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav flex-column">
@@ -22,8 +22,18 @@
                                 </li>
                             <?php } ?>
                             
+                            <?php if (!empty($_SESSION['permisos'][5]['r'])) {?>
+                                <li class="nav-item">
+                                    <?php if($data['page_id'] == 5 ){ ?>
+                                        <a class='nav-link active' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
+                                    <?php }else{ ?>
+                                        <a class='nav-link' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+
                             <li class="nav-item">
-                                <a class='nav-link' href="<?php echo server_url ?>empleados/"><i class="fas fa-users"></i>Empleados</a>
+                                <a class='nav-link' href="<?php echo server_url ?>puestos/"><i class="fas fa-clipboard"></i>Puestos</a>
                             </li>
 
                             <?php if (!empty($_SESSION['permisos'][6]['r'])) {?>
