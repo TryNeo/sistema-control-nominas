@@ -35,6 +35,7 @@
                                 <th>Cedula</th>
                                 <th>Telefono</th>
                                 <th>Sueldo</th>
+                                <th>Puesto</th>
                                 <th>Contracto</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>

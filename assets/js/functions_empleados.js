@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded',function(){
             {"data":"cedula"},
             {"data":"telefono"},
             {"data":"sueldo"},
+            {"data":"nombre_puesto"},
             {"data":"nombre_contracto"},
             {"data":"estado"},
             {"data":"opciones"}
