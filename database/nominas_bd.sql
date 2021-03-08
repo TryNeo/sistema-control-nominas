@@ -43,18 +43,26 @@ PRIMARY KEY (id_empleado));
 
 DROP TABLE IF EXISTS nominas;
 CREATE TABLE nominas(
-id_nominas int(11) auto_increment,
-num_comprobante int(11),
-id_empleado int(11),
-
-
+id_nomina int(11) auto_increment,
+nombre_nomina varchar(50),
+periodo_inicio DATE,
+periodo_fin DATE,
 nota text,
 forma_pago varchar(50),
-estado_comprobante varchar(20),
+estado_nominado varchar(20),
 estado boolean,
 fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
-PRIMARY KEY (id_nominas));
+PRIMARY KEY (id_nomina));
+
+
+DROP TABLE IF EXISTS detalle_nomina;
+CREATE TABLE detalle_nomina(
+id_detalle_nomina int (11),
+id_nomina int(11),
+id_empleado int(11),
+PRIMARY KEY (id_detalle_nomina));
+
 
 
 DROP TABLE IF EXISTS roles;
@@ -137,7 +145,8 @@ INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Roles','modul
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Respaldo','modulo de respaldo',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Empleados','modulo de empleados',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Contractos','modulo de contractos',1,now());
-INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Puestos','modulo de contractos',1,now());
+INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Puestos','modulo de puestos',1,now());
+INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Nominas','modulo de nominas',1,now());
 
 INSERT INTO roles (nombre_rol,descripcion,estado,fecha_crea) values ("Administrador","permisos de acceso a todo el sistema",1,now());
 
@@ -148,6 +157,7 @@ INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (4,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (5,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (6,1,1,1,1,1);
 INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (7,1,1,1,1,1);
+INSERT INTO permisos (id_modulo,id_rol,r,w,u,d) VALUES (8,1,1,1,1,1);
 
 
 INSERT INTO usuarios (nombre,apellido,foto,usuario,email,id_rol,password,estado,fecha_crea) VALUES ("joel josue","huacon lopez","user-default.png","josu3","jjhuacon@est.itsgg.edu.ec",1,"$2y$10$nLtnKbUrAQnMMfWi9bqsEuQ53U5k1pKCRsKYWEw0x/R5hgKNcHiYK",1,now())

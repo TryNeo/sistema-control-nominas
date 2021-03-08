@@ -35,7 +35,7 @@
 <div class="dashboard-main-wrapper">
     <div class="dashboard-header">
                 <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                    <a class="navbar-brand" href="../index.html">W@SECURITY</a>
+                    <a class="navbar-brand" href="<?php echo server_url ?>dashboard">W@SECURITY</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" 
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-angle-double-down"></i>

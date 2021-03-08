@@ -32,7 +32,15 @@
                                 </li>
                             <?php } ?>
 
-                            <a class='nav-link' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+                            <?php if (!empty($_SESSION['permisos'][8]['r'])) {?>
+                                <li class="nav-item">
+                                    <?php if($data['page_id'] == 8 ){ ?>
+                                        <a class='nav-link active' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+                                    <?php }else{ ?>
+                                        <a class='nav-link' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
 
 
                             <?php if (!empty($_SESSION['permisos'][7]['r'])) {?>
