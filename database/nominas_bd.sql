@@ -107,9 +107,17 @@ CREATE TABLE permisos(
 
 
 ALTER TABLE empleados ADD CONSTRAINT fk_contracto FOREIGN KEY (id_contracto) REFERENCES contractos(id_contracto);
-ALTER TABLE usuarios ADD CONSTRAINT fk_usuario FOREIGN KEY (id_rol)  REFERENCES roles(id_rol);
+ALTER TABLE empleados ADD CONSTRAINT fk_puesto FOREIGN KEY (id_puesto) REFERENCES puestos(id_puesto);
+ALTER TABLE usuarios ADD CONSTRAINT fk_roles FOREIGN KEY (id_rol)  REFERENCES roles(id_rol);
 ALTER TABLE permisos ADD CONSTRAINT fk_modulo FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo);
 ALTER TABLE permisos ADD CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES roles(id_rol);
+
+
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido','Es todo contrato que concierta la prestación de servicios por un tiempo ilimitado.',1,now());
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido de fijos-discontinuos','Es el que se realiza para trabajos que son fijos
+pero no se repiten en determinadas fechas, produciendo discontinuidad en el tiempo.',1,now());
+INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos en prácticas','Sirven para facilitar las prácticas profesionales 
+a los trabajadores con título universitario o formación profesional,',1,now());
 
 
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Dashboard','modulo de dashboard',1,now());

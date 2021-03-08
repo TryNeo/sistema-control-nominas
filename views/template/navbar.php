@@ -32,9 +32,16 @@
                                 </li>
                             <?php } ?>
 
-                            <li class="nav-item">
-                                <a class='nav-link' href="<?php echo server_url ?>puestos/"><i class="fas fa-clipboard"></i>Puestos</a>
-                            </li>
+                            <?php if (!empty($_SESSION['permisos'][7]['r'])) {?>
+                                <li class="nav-item">
+                                    <?php if($data['page_id'] == 7 ){ ?>
+                                        <a class='nav-link active' href="<?php echo server_url ?>puestos/"><i class="fas fa-clipboard"></i>Puestos</a>
+                                    <?php }else{ ?>
+                                        <a class='nav-link' href="<?php echo server_url ?>puestos/"><i class="fas fa-clipboard"></i>Puestos</a>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+
 
                             <?php if (!empty($_SESSION['permisos'][6]['r'])) {?>
                                 <li class="nav-item">

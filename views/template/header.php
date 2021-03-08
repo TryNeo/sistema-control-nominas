@@ -8,14 +8,13 @@
     <link href="<?php echo server_url; ?>assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/css/style.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/boostrap-select/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="<?php echo server_url; ?>assets/css/style.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/inputmask/css/inputmask.css">
     <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina.png" sizes="16x16" />
-    
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css"/>
+    <link rel="stylesheet" href="<?php echo server_url; ?>assets/css/style.css">
     <style>
         html,
         body {
