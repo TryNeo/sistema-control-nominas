@@ -43,7 +43,9 @@
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/boostrap-select/js/bootstrap-select.min.js"></script>
-
+<script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/moment.js"></script>
+<script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
+<script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/datepicker.js"></script>
 <!--------------------------------------CDN -------------------------------->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>

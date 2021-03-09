@@ -1,6 +1,5 @@
 <?php getHeader($data);
     getModal('modals_nominas',$data);
-
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">

@@ -36,7 +36,9 @@ jQuery(document).ready(function($) {
 
     }
     if ($("#datetimepicker5").length) {
-        $('#datetimepicker5').datetimepicker();
+        $('#datetimepicker5').datetimepicker({
+            format: 'L'
+        });
 
     }
 
