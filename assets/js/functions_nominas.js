@@ -40,7 +40,18 @@ document.addEventListener('DOMContentLoaded',function(){
         "order":[[0,"desc"]]
     });
 
-    
+    let formNomina = document.querySelector('#formNomina');
+    formNomina.addEventListener('submit', function (e) {
+        e.preventDefault();        
+        let camps = new Array();
+        let nombre_nomina = document.querySelector('#nombre_nomina').value;
+        let periodo_inicio = document.querySelector('#periodo_inicio').value;
+        let periodo_fin = document.querySelector('#periodo_fin').value;
+        let estado_nomina = document.querySelector('#estado_nomina').value;
+        let estadoInput = document.querySelector('#estadoInput').value;
+        console.log(periodo_inicio,periodo_fin,estado_nomina,estadoInput,nombre_nomina)
+    });
+
 },false);
 
 

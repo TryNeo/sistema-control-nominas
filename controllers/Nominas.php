@@ -23,6 +23,19 @@
             $this->views->getView($this,"nominas",$data);
         }
 
+
+
+        public function detalle(int $int_id_nomina){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }
+            $data["tag_pag"] = "Detalle Nominas";
+            $data["page_title"] = "Detalle nominas | Inicio";
+            $data["page_name"] = "Detalle de nominas";
+
+            $this->views->getView($this,"detalle",$data);
+        }
+
     }
 
 

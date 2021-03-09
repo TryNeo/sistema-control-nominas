@@ -24,7 +24,7 @@
                                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                     </div>
                                     <input type="text" id="periodo_inicio" 
-                                    name="periodo_inicio" class="form-control datetimepicker-input" data-target="#datetimepicker4">
+                                    name="periodo_inicio" class="form-control datetimepicker-input" placeholder="ingrese la fecha de inicio" data-target="#datetimepicker4">
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <div class="input-group date" id="datetimepicker5" data-target-input="nearest">
                                     <input type="text" id="periodo_fin" 
-                                    name="periodo_fin" class="form-control datetimepicker-input" data-target="#datetimepicker5">
+                                    name="periodo_fin" class="form-control datetimepicker-input" data-target="#datetimepicker5" placeholder="ingrese la fecha de fin">
                                     <div class="input-group-append" data-target="#datetimepicker5" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                     </div>
@@ -67,7 +67,7 @@
                         </div>
                 </div>
                 <div class="col-md-12 mb-3">
-                <button id="btnActionForm"type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center">Generar Registro</span></button>
+                <button id="btnActionForm"type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Generar Registro</span></button>
                 <button type="button" class="btn btn-danger" onclick="return cerrar_modal('#modalNomina')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                 </div>
             </form>
