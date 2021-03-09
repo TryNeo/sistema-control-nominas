@@ -33,13 +33,19 @@
                             <?php } ?>
 
                             <?php if (!empty($_SESSION['permisos'][8]['r'])) {?>
-                                <li class="nav-item">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" aria-expanded="false"
+                                data-target="#submenu-2" aria-controls="submenu-2"><i class="fas fa-id-badge"></i>Nominas</a>
+                                <div id="submenu-2" class="submenu collapse" >
+                                    <ul class="nav flex-column">
                                     <?php if($data['page_id'] == 8 ){ ?>
-                                        <a class='nav-link active' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+                                        <a class='nav-link active' href="<?php echo server_url ?>nominas/">
+                                        <i class="fas fa-file"></i>Procesamiento de nominas</a>
                                     <?php }else{ ?>
-                                        <a class='nav-link' href="<?php echo server_url ?>nominas/"><i class="fas fa-id-badge"></i>Nominas</a>
+                                        <a class='nav-link' href="<?php echo server_url ?>nominas/">
+                                        <i class="fas fa-file"></i>Procesamiento de nominas</a>
                                     <?php } ?>
-                                </li>
+                                    </ul>
+                                </div>
                             <?php } ?>
 
 

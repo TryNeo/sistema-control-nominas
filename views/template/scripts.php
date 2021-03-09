@@ -34,6 +34,9 @@
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_puestos.js"></script>
     <?php } ?>
 
+    <?php if ($data['page'] == 'nominas') { ?>
+        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_nominas.js"></script>
+    <?php } ?>
 <?php }else {?>
 
 

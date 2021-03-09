@@ -1,4 +1,6 @@
-<?php getHeader($data); 
+<?php getHeader($data);
+    getModal('modals_nominas',$data);
+
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
@@ -10,9 +12,9 @@
             </div>
             <?php  if ($_SESSION['permisos_modulo']['w']) {?>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                <button onclick="return abrir_modal();" class="btn btn-outline-secondary btnModal"
+                <button onclick="return abrir_modal_nomina();" class="btn btn-outline-secondary btnModal"
                 data-target="#modalNomina"><i class="fa fa-plus" aria-hidden="true"></i>
-                Generar nomina</button>     
+                Generar nueva nomina</button>     
             </div>
             <?php } ?>
         </div>
