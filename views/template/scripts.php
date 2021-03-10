@@ -34,7 +34,7 @@
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_puestos.js"></script>
     <?php } ?>
 
-    <?php if ($data['page'] == 'nominas') { ?>
+    <?php if ($data['page'] == 'nominas' || $data['page'] == 'detalle') { ?>
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_nominas.js"></script>
     <?php } ?>
 <?php }else {?>
@@ -46,6 +46,7 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/moment.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/datepicker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!--------------------------------------CDN -------------------------------->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>

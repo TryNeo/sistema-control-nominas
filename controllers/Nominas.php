@@ -68,13 +68,52 @@
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
             }
+            $data["page_id"] = 8;
             $data["tag_pag"] = "Detalle Nominas";
             $data["page_title"] = "Detalle nominas | Inicio";
             $data["page_name"] = "Detalle de nominas";
+            $data["page"] = "detalle";
 
             $this->views->getView($this,"detalle",$data);
         }
 
+        public function getNominaEmpleado(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $html_options = "";
+                $data = $this->model->selectNominaEmpleado();
+                if (count($data) > 0) {
+                    for ($i=0; $i < count($data) ; $i++) { 
+                        $html_options .='<option value="'.$data[$i]['id_empleado'].'">'.$data[$i]['nombre']." ".$data[$i]['apellido'].'</option>';
+                    }
+                }
+                echo $html_options;                
+                die();
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+        }
+
+
+        public function getSearchNominaEmpleado(int $int_id_empleado){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data_response = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $intEmpleado  = Intval(strclean($int_id_empleado));
+                if ($intEmpleado > 0){
+                    $data = $this->model->selectSearchNominaEmpleado($int_id_empleado);
+                    if (empty($data)){
+                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                    }else{
+                        $data_response = array('status' => true,'msg'=> $data);
+                    }
+                }
+            }
+            echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 
 

@@ -2,6 +2,7 @@
     require_once("./libraries/core/mysql.php");
     class NominasModel extends Mysql{
         public $int_id_nomina;
+        public $int_id_empleado;
         public $str_nombre_nomina;
         public $date_periodo_inicio;
         public $date_periodo_fin;
@@ -12,6 +13,19 @@
             parent::__construct();
         }
 
+
+        public function selectNominaEmpleado(){
+            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE estado!=0";
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
+        public function selectSearchNominaEmpleado(int $id_empleado){
+            $this->int_id_empleado = $id_empleado;
+            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE empl.id_empleado = $this->int_id_empleado and estado!=0";
+            $request = $this->select_sql($sql);
+            return $request;
+        }
 
         public function insertNomina(string $str_nombre_nomina, string $date_periodo_inicio,
         string $date_periodo_fin ,int $int_estado_nomina,int $int_estado){
