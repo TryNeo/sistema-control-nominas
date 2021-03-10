@@ -49,7 +49,33 @@ document.addEventListener('DOMContentLoaded',function(){
         let periodo_fin = document.querySelector('#periodo_fin').value;
         let estado_nomina = document.querySelector('#estado_nomina').value;
         let estadoInput = document.querySelector('#estadoInput').value;
-        console.log(periodo_inicio,periodo_fin,estado_nomina,estadoInput,nombre_nomina)
+        camps.push(nombre_nomina,periodo_inicio,periodo_fin,estado_nomina,estadoInput);
+        if (validateCamps(camps)) {
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+"nominas/setNomina";
+            let formData = new FormData(formNomina);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText); 
+                    if (objData.status){
+                        $('#modalNomina').modal("hide");
+                        let idNomina = document.querySelector('#id_nomina').value = '';
+                        let nombre_nomina = document.querySelector('#nombre_nomina').value = '';
+                        let periodo_inicio = document.querySelector('#periodo_inicio').value = '';
+                        let periodo_fin = document.querySelector('#periodo_fin').value = '';
+                        let estado_nomina = document.querySelector('#estado_nomina').value = '';
+                        let estadoInput = document.querySelector('#estadoInput').value = '';
+                        mensaje("success","Exitoso",objData.msg);
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
+                }
+            }
+        }else{
+            return validateCamps(camps);
+        };
     });
 
 },false);

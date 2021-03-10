@@ -92,8 +92,7 @@
                     
                 }else{
                         $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
-                    }
-
+                }
             }else{
                 header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error Hubo problemas");

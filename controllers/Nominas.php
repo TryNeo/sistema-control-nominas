@@ -23,6 +23,45 @@
             $this->views->getView($this,"nominas",$data);
         }
 
+        
+        public function setNomina(){
+            if ($_POST) {
+                $intNomina = intval(strclean($_POST['id_nomina']));
+                $nombre_nomina = strclean($_POST['nombre_nomina']);
+                $periodo_inicio = strclean($_POST['periodo_inicio']);
+                $periodo_fin = strclean($_POST['periodo_fin']);
+                $estado_nomina = intval($_POST['estado_nomina']);
+                $estado = intval($_POST['estadoInput']);
+
+                if($intNomina == 0){
+                    $request_nomina = $this->model->insertNomina($nombre_nomina,$periodo_inicio,
+                    $periodo_fin,$estado_nomina,$estado);
+                    $option = 1;
+                }else{
+
+                }
+
+                if ($request_nomina > 0){ 
+                    if (empty($_SESSION['permisos_modulo']['w'])){
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 1){
+                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                        }
+                    }
+
+                }else{
+                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                }
+
+            }else{
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error Hubo problemas");
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
 
 
         public function detalle(int $int_id_nomina){
