@@ -13,6 +13,31 @@
             parent::__construct();
         }
 
+        public function selectNominas(){
+            $sql = "SELECT nom.id_nomina,
+            nom.nombre_nomina,
+            nom.periodo_inicio,
+            nom.periodo_fin,
+            nom.nota,
+            nom.total,
+            nom.estado_nomina,
+            nom.estado
+            FROM nominas as nom";
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
+        public function selectNomina(int $int_id_nomina){
+            $this->int_id_nomina = $int_id_nomina;
+            $sql = "SELECT nom.id_nomina,
+                    nom.nombre_nomina,
+                    nom.periodo_inicio,
+                    nom.periodo_fin,
+                    nom.estado_nomina
+                    FROM nominas as nom WHERE nom.id_nomina = $this->int_id_nomina";
+            $request = $this->select_sql($sql);
+            return $request;
+        }
 
         public function selectNominaEmpleado(){
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE estado!=0";

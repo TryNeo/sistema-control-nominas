@@ -25,6 +25,13 @@
                         <table class="table tableNomina table-striped  first display responsive" cellspacing="0"  style="width:100%">
                             <thead>
                                 <th>ID</th>
+                                <th>Nomina</th>
+                                <th>Periodo de inicio</th>
+                                <th>Periodo de fin</th>
+                                <th>Estado nomina</th>
+                                <th>Nota</th>
+                                <th>total</th>
+                                <th>Estado</th>
                                 <th>Opciones</th>
                             </thead>
                             <tbody>

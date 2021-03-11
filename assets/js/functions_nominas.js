@@ -78,11 +78,18 @@ document.addEventListener('DOMContentLoaded',function(){
         },
         responsive:true,
         "ajax":{
-            "url" : base_url,
+            "url" : base_url+"nominas/getNominas",
             "dataSrc":""
         },
         "columns":[
             {"data":"id_nomina"},
+            {"data":"nombre_nomina"},
+            {"data":"periodo_inicio"},
+            {"data":"periodo_fin"},
+            {"data":"estado_nomina"},
+            {"data":"nota"},
+            {"data":"total"},
+            {"data":"estado"},
             {"data":"opciones"}
         ],
         "order":[[0,"desc"]]
@@ -117,6 +124,7 @@ document.addEventListener('DOMContentLoaded',function(){
                             let estado_nomina = document.querySelector('#estado_nomina').value = '';
                             let estadoInput = document.querySelector('#estadoInput').value = '';
                             mensaje("success","Exitoso",objData.msg);
+                            tablenominas.ajax.reload();
                         }else{
                             mensaje("error","Error",objData.msg);
                         }
