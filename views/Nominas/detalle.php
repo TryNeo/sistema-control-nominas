@@ -28,7 +28,7 @@ getHeader($data);
                                             <label class="control-label">Periodo Fin: </label>
                                             <input type="text" disabled class="form-control" value="<?php echo $data["data_nomina"]["periodo_fin"]; ?>"name="periodo_fin" id="periodo_fin">
                                         </div>
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-8 form-group">
                                             <label class="control-label">Buscar empleado:</label>
                                             <select class="form-control select2" style="width:100%;" id="SearchEmpl"></select>
                                         </div>

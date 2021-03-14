@@ -3,6 +3,7 @@
     class NominasModel extends Mysql{
         public $int_id_nomina;
         public $int_id_empleado;
+        public $int_id_detalle_nomina;
         public $str_nombre_nomina;
         public $date_periodo_inicio;
         public $date_periodo_fin;
@@ -47,7 +48,7 @@
         public function selectNominaEmpleadoAll(int $id_nomina,int $id_empleado){
             $this->int_id_nomina = $id_nomina;
             $this->int_id_empleado = $id_empleado;
-            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM detalle_nomina as det
+            $sql = "SELECT det.id_detalle_nomina,empl.nombre,empl.apellido FROM detalle_nomina as det
             INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
             WHERE det.id_nomina = $this->int_id_nomina and det.id_empleado = $this->int_id_empleado";
             $request = $this->select_sql($sql);
@@ -63,7 +64,7 @@
 
         public function selectEmpleadosNominas(int $id_nomina){
             $this->int_id_nomina = $id_nomina;
-            $sql = "SELECT id_empleado FROM nominas_empleados WHERE id_nomina = $this->int_id_nomina";
+            $sql = "SELECT id_empleado FROM detalle_nomina WHERE id_nomina = $this->int_id_nomina";
             $request = $this->select_sql_all($sql);
             return $request;
         }
@@ -83,15 +84,6 @@
             return $return;
         }
 
-        public function updateEmpleadoNomina(int $id_empleado,int $id_nomina){
-            $this->int_id_empleado = $id_empleado;
-            $this->int_id_nomina = $id_nomina;
-            $sql = "INSERT INTO nominas_empleados(id_nomina,id_empleado) VALUES (?,?)";
-            $data = array($this->int_id_nomina,$this->int_id_empleado);
-            $request = $this->insert_sql($sql,$data);
-            return $request;
-        }
-
         public function insertDetalle(int $id_empleado,int $id_nomina){
             $this->int_id_empleado = $id_empleado;
             $this->int_id_nomina = $id_nomina;
@@ -106,6 +98,13 @@
                 $return = "exist";
             }
             return $return;
+        }
+
+        public function deleteDetalle(int $id_detalle_nomina){
+            $this->int_id_detalle_nomina = $id_detalle_nomina;
+            $sql_delete = "DELETE FROM detalle_nomina WHERE id_detalle_nomina = $this->int_id_detalle_nomina";
+            $request_delete = $this->delete_sql($sql_delete);
+            return $request_delete;
         }
 
     }

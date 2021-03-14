@@ -51,13 +51,6 @@ estado boolean,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_empleado));
 
-DROP TABLE IF EXISTS nominas_empleados;
-CREATE TABLE nominas_empleados(
-id_nominas_empleados int(11) auto_increment,
-id_nomina int(11),
-id_empleado  int(11),
-PRIMARY KEY(id_nominas_empleados));
-
 
 DROP TABLE IF EXISTS detalle_nomina;
 CREATE TABLE detalle_nomina(
@@ -142,6 +135,7 @@ una obra o servicio, con autonomía y cuya duración sea incierta.,',1,now());
 INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos De Inserción','Para participar en programas públicos de realización de obras y servicios de interés general y social. El objetivo que se persigue es por un lado,
 la adquisición de experiencia laboral, y por otro, facilitar la mejora de la ocupación al desempleado.',1,now());
 
+INSERT INTO puestos(nombre_puesto,descripcion,estado,fecha_crea) values("Gerente general","dueño",1,now());
 
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Dashboard','modulo de dashboard',1,now());
 INSERT INTO modulos (nombre,descripcion,estado,fecha_crea) values('Usuarios','modulo de usuarios',1,now());

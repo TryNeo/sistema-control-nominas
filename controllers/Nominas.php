@@ -76,6 +76,8 @@
                     $intEmpleado = '';
                     $intEmpleado = $request_get_empl_nomina[$i]['id_empleado'];
                     $data[$i]= $this->model->selectNominaEmpleadoAll($intNomina,$intEmpleado);
+                    $data[$i]['id_detalle_nomina'] = '<button  type="button" class="btn btn-danger btn-circle btnEliminarDetalle" 
+                    title="eliminar" det="'.$data[$i]['id_detalle_nomina'].'"><i class="far fa-trash-alt"></i></button>';
                 }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
@@ -149,7 +151,6 @@
             if ($_POST) {
                 $intEmpleado = Intval(strclean($_POST['id_empleado']));
                 $intNomina = Intval(strclean($_POST['id_nomina']));
-                $request_detalle_empl = $this->model->updateEmpleadoNomina($intEmpleado,$intNomina);
                 $request_insert_detalle = $this->model->insertDetalle($intEmpleado,$intNomina);
                 $option =1;
                 if ($request_insert_detalle > 0){ 
@@ -210,6 +211,24 @@
                 }
             }
             echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+
+        public function delDetalleNomina(){
+            if (empty($_SESSION['permisos_modulo']['d']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                if($_POST){
+                    $int_id_detalle_nomina = intval(strclean($_POST['id_detalle_nomina']));
+                    $request_del = $this->model->deleteDetalle($int_id_detalle_nomina);
+                    $data = array("status" => true, "msg" => "Se ha eliminado el detalle");
+                }else{
+                    $data = array("status" => false, "msg" => "Error Hubo problemas");
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

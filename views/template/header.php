@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/css/style.css">
     <style>
         html,

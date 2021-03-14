@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded',function(){
                     "dataSrc":""
                 },
                 "columns":[
-                    {"data":"id_empleado"},
+                    {"data":"id_detalle_nomina"},
                     {"data":"nombre"},
                     {"data":"apellido"}
                 ],
@@ -138,6 +138,13 @@ document.addEventListener('DOMContentLoaded',function(){
 },false);
 
 
+
+window.addEventListener('click',function(){
+    setTimeout(function(){ 
+        fntEliminarDetalle()
+    }, 500);
+},false);
+
 function abrir_modal_nomina(){
     let options = {
         "backdrop" : "static",
@@ -163,14 +170,16 @@ function fntSelectEmpleado(){
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#SearchEmpl").innerHTML = "<option  selected disabled='disabled'  value=''>Selecione el empleado</option>"+request.responseText;
+            document.querySelector("#SearchEmpl").innerHTML = "<option  selected disabled='disabled'  value=''>Buscar ...</option>"+request.responseText;
         }
     }
 }
 
 
 function fntSearchEmpleado(){
-    $('#SearchEmpl').select2().on('select2:select',function(e){
+    $('#SearchEmpl').select2({
+        theme: 'bootstrap4',
+    }).on('select2:select',function(e){
         e.preventDefault();
         let  id_empleado = document.querySelector('#SearchEmpl').value;
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -192,8 +201,10 @@ function fntSearchEmpleado(){
                         if(request_two.readyState==4 && request_two.status == 200){
                             let objData = JSON.parse(request_two.responseText); 
                             if (objData.status){
-                                mensaje("success","Exitoso",objData.msg);
-                                dataNomina.ajax.reload();
+                                dataNomina.ajax.reload(function(){
+                                    fntSelectEmpleado();
+                                    fntEliminarDetalle()
+                                });
                             }else{
                                 mensaje("error","Error",objData.msg);
                             }
@@ -204,5 +215,35 @@ function fntSearchEmpleado(){
                 }
             }
         } 
+    });
+}
+
+
+function fntEliminarDetalle(){
+    let btnEliminarDetalle = document.querySelectorAll('.btnEliminarDetalle');
+    btnEliminarDetalle.forEach(function(btnEliminarDetalle){
+        btnEliminarDetalle.addEventListener('click',function(e){
+            e.preventDefault();
+            let id = this.getAttribute('det');
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+"nominas/delDetalleNomina";
+            let formData = new FormData();
+            formData.append("id_detalle_nomina",id);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText); 
+                    if (objData.status){
+                        dataNomina.ajax.reload(function(){
+                            fntSelectEmpleado();
+                            fntEliminarDetalle()
+                        });
+                    }else{
+                        mensaje("error","Error",objData.msg);
+                    }
+                }
+            }
+        });
     });
 }
