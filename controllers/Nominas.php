@@ -1,6 +1,5 @@
 <?php
     require_once ("./libraries/core/controllers.php");
-
     class Nominas extends Controllers{
         public function __construct(){
             parent::__construct();
@@ -59,6 +58,24 @@
                     }
 
                     $data[$i]['opciones'] = '<div class="text-center">'.$btnDetalleNomina.' '.$btnEliminarNomina.'</div>';
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getNominaEmpleados(int $int_id_nomina){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $intNomina = intval(strclean($int_id_nomina));
+                $request_get_empl_nomina = $this->model->selectEmpleadosNominas($intNomina);
+                $data = array();
+                for ($i=0; $i < count($request_get_empl_nomina) ; $i++) {
+                    $intEmpleado = '';
+                    $intEmpleado = $request_get_empl_nomina[$i]['id_empleado'];
+                    $data[$i]= $this->model->selectNominaEmpleadoAll($intNomina,$intEmpleado);
                 }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
@@ -127,6 +144,37 @@
             $this->views->getView($this,"detalle",$data);
         }
 
+
+        public function setDetalleNomina(){
+            if ($_POST) {
+                $intEmpleado = Intval(strclean($_POST['id_empleado']));
+                $intNomina = Intval(strclean($_POST['id_nomina']));
+                $request_detalle_empl = $this->model->updateEmpleadoNomina($intEmpleado,$intNomina);
+                $request_insert_detalle = $this->model->insertDetalle($intEmpleado,$intNomina);
+                $option =1;
+                if ($request_insert_detalle > 0){ 
+                    if (empty($_SESSION['permisos_modulo']['w'])){
+                        header('location:'.server_url.'Errors');
+                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                    }else{
+                        if ($option == 1){
+                            $data = array('status' => true, 'msg' => 'Empleado agregado correctamente');
+                        }
+                    }
+                }else if ($request_insert_detalle == 'exist'){
+                    $data = array('status' => false,'msg' => 'Error no puedes añadirlo de nuevo');
+                
+                }else{
+                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                }
+            }else{
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error Hubo problemas");
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         public function getNominaEmpleado(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
@@ -165,6 +213,5 @@
             die();
         }
     }
-
 
 ?>

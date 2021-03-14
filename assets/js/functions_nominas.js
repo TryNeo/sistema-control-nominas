@@ -1,15 +1,10 @@
 let tablenominas;
 let dataNomina;
-
+let id_nomina;
 
 document.addEventListener('DOMContentLoaded',function(){
-
-    dataNomina = {
-        data:{
-            empleados : []
-        },
-        list: function(){
-            $('#tableNominaEmpleado').DataTable({
+    id_nomina = document.querySelector('#id_nomina').value;
+    dataNomina = $('#tableNominaEmpleado').DataTable({
                 "aProcessing":true,
                 "aServerSide":true,
                 "language": {
@@ -38,7 +33,10 @@ document.addEventListener('DOMContentLoaded',function(){
                 },
                 responsive:true,
                 destroy : true,
-                "data" : this.data.empleados,
+                "ajax":{
+                    "url" : base_url+"nominas/getNominaEmpleados/"+id_nomina,
+                    "dataSrc":""
+                },
                 "columns":[
                     {"data":"id_empleado"},
                     {"data":"nombre"},
@@ -46,8 +44,6 @@ document.addEventListener('DOMContentLoaded',function(){
                 ],
                 "order":[[0,"desc"]]
             });
-        }
-    };
 
     tablenominas = $('.tableNomina').DataTable({
         "aProcessing":true,
@@ -87,7 +83,6 @@ document.addEventListener('DOMContentLoaded',function(){
             {"data":"periodo_inicio"},
             {"data":"periodo_fin"},
             {"data":"estado_nomina"},
-            {"data":"nota"},
             {"data":"total"},
             {"data":"estado"},
             {"data":"opciones"}
@@ -174,7 +169,6 @@ function fntSelectEmpleado(){
 }
 
 
-
 function fntSearchEmpleado(){
     $('#SearchEmpl').select2().on('select2:select',function(e){
         e.preventDefault();
@@ -187,8 +181,24 @@ function fntSearchEmpleado(){
             if(request.readyState==4 && request.status == 200){
                 let objData = JSON.parse(request.responseText); 
                 if (objData.status){
-                    dataNomina.data.empleados.push(objData.msg);
-                    dataNomina.list();
+                    let request_two =  (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl_two = base_url+"nominas/setDetalleNomina";
+                    let formData = new FormData();
+                    formData.append("id_empleado",objData.msg['id_empleado']);
+                    formData.append("id_nomina",id_nomina);
+                    request_two.open("POST",ajaxUrl_two,true);
+                    request_two.send(formData);
+                    request_two.onreadystatechange = function(){
+                        if(request_two.readyState==4 && request_two.status == 200){
+                            let objData = JSON.parse(request_two.responseText); 
+                            if (objData.status){
+                                mensaje("success","Exitoso",objData.msg);
+                                dataNomina.ajax.reload();
+                            }else{
+                                mensaje("error","Error",objData.msg);
+                            }
+                        }
+                    }
                 }else{
                     mensaje("error","Error",objData.msg);
                 }

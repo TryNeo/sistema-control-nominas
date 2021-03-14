@@ -18,7 +18,6 @@
             nom.nombre_nomina,
             nom.periodo_inicio,
             nom.periodo_fin,
-            nom.nota,
             nom.total,
             nom.estado_nomina,
             nom.estado
@@ -45,10 +44,27 @@
             return $request;
         }
 
+        public function selectNominaEmpleadoAll(int $id_nomina,int $id_empleado){
+            $this->int_id_nomina = $id_nomina;
+            $this->int_id_empleado = $id_empleado;
+            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM detalle_nomina as det
+            INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
+            WHERE det.id_nomina = $this->int_id_nomina and det.id_empleado = $this->int_id_empleado";
+            $request = $this->select_sql($sql);
+            return $request;
+        }
+
         public function selectSearchNominaEmpleado(int $id_empleado){
             $this->int_id_empleado = $id_empleado;
-            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE empl.id_empleado = $this->int_id_empleado and estado!=0";
+            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.sueldo FROM empleados as empl WHERE empl.id_empleado = $this->int_id_empleado and estado!=0";
             $request = $this->select_sql($sql);
+            return $request;
+        }
+
+        public function selectEmpleadosNominas(int $id_nomina){
+            $this->int_id_nomina = $id_nomina;
+            $sql = "SELECT id_empleado FROM nominas_empleados WHERE id_nomina = $this->int_id_nomina";
+            $request = $this->select_sql_all($sql);
             return $request;
         }
 
@@ -64,6 +80,31 @@
             $data = array($this->str_nombre_nomina,$this->date_periodo_inicio,$this->$date_periodo_fin,$this->$int_estado_nomina,$this->$int_estado);
             $request_insert = $this->insert_sql($sql_insert,$data);
             $return = $request_insert;
+            return $return;
+        }
+
+        public function updateEmpleadoNomina(int $id_empleado,int $id_nomina){
+            $this->int_id_empleado = $id_empleado;
+            $this->int_id_nomina = $id_nomina;
+            $sql = "INSERT INTO nominas_empleados(id_nomina,id_empleado) VALUES (?,?)";
+            $data = array($this->int_id_nomina,$this->int_id_empleado);
+            $request = $this->insert_sql($sql,$data);
+            return $request;
+        }
+
+        public function insertDetalle(int $id_empleado,int $id_nomina){
+            $this->int_id_empleado = $id_empleado;
+            $this->int_id_nomina = $id_nomina;
+            $sql = "SELECT * FROM detalle_nomina WHERE id_empleado = $this->int_id_empleado and id_nomina = $this->int_id_nomina";
+            $request = $this->select_sql_all($sql);
+            if (empty($request)) {
+                $sql_insert = "INSERT INTO detalle_nomina(id_nomina,id_empleado) VALUES (?,?)";
+                $data = array($this->int_id_nomina,$this->int_id_empleado);
+                $request_insert = $this->insert_sql($sql_insert,$data);
+                $return = $request_insert;
+            }else{
+                $return = "exist";
+            }
             return $return;
         }
 

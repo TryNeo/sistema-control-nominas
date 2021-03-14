@@ -29,7 +29,6 @@
                                 <th>Periodo de inicio</th>
                                 <th>Periodo de fin</th>
                                 <th>Estado nomina</th>
-                                <th>Nota</th>
                                 <th>total</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>

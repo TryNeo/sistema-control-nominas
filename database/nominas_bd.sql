@@ -22,6 +22,19 @@ fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_puesto));
 
+DROP TABLE IF EXISTS nominas;
+CREATE TABLE nominas(
+id_nomina int(11) auto_increment,
+nombre_nomina varchar(50),
+periodo_inicio varchar(50),
+periodo_fin varchar(50),
+total float,
+estado_nomina int(11),
+estado boolean,
+fecha_crea DATETIME,
+fecha_modifica DATETIME default now(),
+PRIMARY KEY (id_nomina));
+
 
 DROP TABLE IF EXISTS empleados;
 CREATE TABLE empleados(
@@ -32,33 +45,23 @@ cedula varchar(10),
 telefono varchar(14),
 sueldo float,
 id_puesto int(11),
+fecha_crea DATETIME,
 id_contracto int(11),
 estado boolean,
-fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_empleado));
 
-
-
-
-DROP TABLE IF EXISTS nominas;
-CREATE TABLE nominas(
-id_nomina int(11) auto_increment,
-nombre_nomina varchar(50),
-periodo_inicio varchar(50),
-periodo_fin varchar(50),
-nota text,
-total float,
-estado_nomina int(11),
-estado boolean,
-fecha_crea DATETIME,
-fecha_modifica DATETIME default now(),
-PRIMARY KEY (id_nomina));
+DROP TABLE IF EXISTS nominas_empleados;
+CREATE TABLE nominas_empleados(
+id_nominas_empleados int(11) auto_increment,
+id_nomina int(11),
+id_empleado  int(11),
+PRIMARY KEY(id_nominas_empleados));
 
 
 DROP TABLE IF EXISTS detalle_nomina;
 CREATE TABLE detalle_nomina(
-id_detalle_nomina int (11),
+id_detalle_nomina int (11) auto_increment,
 id_nomina int(11),
 id_empleado int(11),
 PRIMARY KEY (id_detalle_nomina));
@@ -119,7 +122,8 @@ ALTER TABLE empleados ADD CONSTRAINT fk_puesto FOREIGN KEY (id_puesto) REFERENCE
 ALTER TABLE usuarios ADD CONSTRAINT fk_roles FOREIGN KEY (id_rol)  REFERENCES roles(id_rol);
 ALTER TABLE permisos ADD CONSTRAINT fk_modulo FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo);
 ALTER TABLE permisos ADD CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES roles(id_rol);
-
+ALTER TABLE detalle_nomina ADD CONSTRAINT fk_detalle_nomina FOREIGN KEY (id_nomina) REFERENCES nominas(id_nomina);
+ALTER TABLE detalle_nomina ADD CONSTRAINT fk_detalle_empleado FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado);
 
 INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido','Es todo contrato que concierta la prestación de servicios por un tiempo ilimitado.',1,now());
 INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido de fijos-discontinuos','Es el que se realiza para trabajos que son fijos
