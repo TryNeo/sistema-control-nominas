@@ -57,8 +57,7 @@ CREATE TABLE detalle_nomina(
 id_detalle_nomina int (11) auto_increment,
 id_nomina int(11),
 id_empleado int(11),
-pago_dia float DEFAULT 0.00,
-pago_hora float DEFAULT 0.00,
+meses int(11) default 0,
 valor_total float DEFAULT 0.00,
 PRIMARY KEY (id_detalle_nomina));
 

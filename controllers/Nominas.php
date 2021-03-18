@@ -23,6 +23,28 @@
         }
 
 
+        public function detalle(int $int_id_nomina){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }
+            $intNomina = intval(strclean($int_id_nomina));
+            $request_nomina = $this->model->selectNomina($intNomina);
+            if (empty($request_nomina)){
+                header('location:'.server_url.'nominas');
+            }else{
+
+            }            
+            
+            $data["page_id"] = 8;
+            $data["tag_pag"] = "Detalle Nominas";
+            $data["page_title"] = "Detalle nominas | Inicio";
+            $data["page_name"] = "Detalle de nominas";
+            $data["data_nomina"] = $request_nomina;
+            $data["page"] = "detalle";
+            $this->views->getView($this,"detalle",$data);
+        }
+
+
         public function getNominas(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
@@ -98,10 +120,7 @@
                     $request_nomina = $this->model->insertNomina($nombre_nomina,$periodo_inicio,
                     $periodo_fin,$estado_nomina,$estado);
                     $option = 1;
-                }else{
-
                 }
-
                 if ($request_nomina > 0){ 
                     if (empty($_SESSION['permisos_modulo']['w'])){
                         header('location:'.server_url.'Errors');
@@ -122,28 +141,6 @@
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
-        }
-
-
-        public function detalle(int $int_id_nomina){
-            if (empty($_SESSION['permisos_modulo']['r']) ) {
-                header('location:'.server_url.'Errors');
-            }
-            $intNomina = intval(strclean($int_id_nomina));
-            $request_nomina = $this->model->selectNomina($intNomina);
-            if (empty($request_nomina)){
-                header('location:'.server_url.'nominas');
-            }else{
-
-            }            
-            
-            $data["page_id"] = 8;
-            $data["tag_pag"] = "Detalle Nominas";
-            $data["page_title"] = "Detalle nominas | Inicio";
-            $data["page_name"] = "Detalle de nominas";
-            $data["data_nomina"] = $request_nomina;
-            $data["page"] = "detalle";
-            $this->views->getView($this,"detalle",$data);
         }
 
 
@@ -211,6 +208,44 @@
                 }
             }
             echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+
+        public function setDetalleGeneral(){
+            if ($_POST) {
+                $intNomina = intval(strclean($_POST['id_nomina']));
+                $nombre_nomina = strclean($_POST['nombre_nomina']);
+                $meses_nomina = intval(strclean($_POST['meses_detalle']));
+                $estado_nomina = intval(strclean($_POST['estado_nomina']));
+                $total_pagar = floatval(strclean($_POST['total']));
+                $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);
+                $array_total = array();
+                foreach ($request_sueldo as $clave => $valor){
+                    $total = 0;
+                    $total = $meses_nomina*$request_sueldo[$clave]{'sueldo'};
+                    array_push($array_total,array('id_nomina'=>$intNomina,
+                    'id_empleado' => $request_sueldo[$clave]['id_empleado'],
+                    'nombre_nomina' => $nombre_nomina,
+                    'meses_nomina' => $meses_nomina,
+                    'estado_nomina'=> $estado_nomina,
+                    'valor_total' => $total,
+                    'total_pagar' => $total+=$total));
+                }
+
+                dep($array_total);
+                
+                foreach ($array_total as $clave => $valor) {
+                    $update_detalle = $array_total[$clave];
+                    $request_update = $this->model->updateDetalle($update_detalle['id_nomina'],
+                    $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],$update_detalle['meses_nomina'],
+                    $update_detalle['estado_nomina'],$update_detalle['valor_total'],$update_detalle['total_pagar']);
+                }
+                $data = array("status" => true, "msg" => "s");
+            }else{
+                $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
 

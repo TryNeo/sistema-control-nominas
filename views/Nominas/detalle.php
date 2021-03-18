@@ -3,7 +3,7 @@ getHeader($data);
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
-        <form class="formDetalleNomina">
+        <form id="formDetalleNomina">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card border-3 border-top border-top-primary shadow h-100 py-2">
@@ -58,8 +58,7 @@ getHeader($data);
                                                         <th>Nombres</th>
                                                         <th>Apellidos</th>
                                                         <th>Sueldo</th>
-                                                        <th>Pago/Dia</th>
-                                                        <th>Pago/Hora</th>
+                                                        <th>Meses</th>
                                                         <th>Total</th>
                                                     </thead>
                                                     <tbody>
@@ -70,13 +69,9 @@ getHeader($data);
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="col-md-12 form-group">
-                                                        <label class="control-label">Dias:</label>
-                                                        <input type="text" class="form-control" name="dias_detalle" id="dias_detalle">
+                                                        <label class="control-label">Meses:</label>
+                                                        <input type="text" class="form-control" name="meses_detalle" id="meses_detalle">
                                                     </div>  
-                                                    <div class="col-md-12 form-group">
-                                                        <label class="control-label">Horas:</label>
-                                                        <input type="text" class="form-control" name="horas_detalle" id="horas_detalle">
-                                                    </div> 
                                                     <div class="col-md-12 form-group">
                                                         <label class="control-label">Total a pagar:</label>
                                                         <div class="input-group mb-3">

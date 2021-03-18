@@ -44,8 +44,7 @@ document.addEventListener('DOMContentLoaded',function(){
                     {"data":"nombre"},
                     {"data":"apellido"},
                     {"data":"sueldo"},
-                    {"data":"pago_dia"},
-                    {"data":"pago_hora"},
+                    {"data":"meses"},
                     {"data":"valor_total"}
                 ],
                 "order":[[0,"desc"]]
@@ -137,7 +136,7 @@ document.addEventListener('DOMContentLoaded',function(){
         });
     }
 
-    $("input[name='dias_detalle']").TouchSpin({
+    $("input[name='meses_detalle']").TouchSpin({
         min: -1000000000,
         max: 1000000000,
         stepinterval: 50,
@@ -146,15 +145,7 @@ document.addEventListener('DOMContentLoaded',function(){
         postfix:"<i class='far fa-calendar-alt'></i>"
     });
 
-    $("input[name='horas_detalle']").TouchSpin({
-        min: -1000000000,
-        max: 1000000000,
-        stepinterval: 50,
-        maxboostedstep: 10000000,
-        initval :0,
-        postfix:"<i class='fa fa-clock'></i>"
-    });
-
+    fntSetDetalleNomina();
 
     setTimeout(() => {
         fntSelectEmpleado();
@@ -187,6 +178,32 @@ function abrir_modal_nomina(){
     document.querySelector('.text-center').innerHTML = " Guardar Registro";
     document.querySelector('#modalTitle').innerHTML = "Generar nueva Nomina";
     $('#modalNomina').modal(options);
+}
+
+function fntSetDetalleNomina(){
+    let formDetalleNomina = document.querySelector('#formDetalleNomina');
+    if(formDetalleNomina != null){
+        formDetalleNomina.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let id_nomina = document.querySelector('#id_nomina').value;        
+            let nombre_nomina = document.querySelector('#nombre_nomina').value;
+            let estado_nomina = document.querySelector('#estado_nomina').value;
+            let meses_detalle = document.querySelector('#meses_detalle').value;
+            if(meses_detalle >= 1){
+                if(nombre_nomina === ""){
+                    mensaje("error","Error","Ingrese el nombre la nomina");
+                }else{
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = base_url+"nominas/setDetalleGeneral";
+                    let formData = new FormData(formDetalleNomina);
+                    request.open("POST",ajaxUrl,true);
+                    request.send(formData);
+                }
+            }else{
+                mensaje("error","Error","Ingrese un numero de meses valido");
+            }
+        });
+    }
 }
 
 
