@@ -33,7 +33,8 @@
                     nom.nombre_nomina,
                     nom.periodo_inicio,
                     nom.periodo_fin,
-                    nom.estado_nomina
+                    nom.estado_nomina,
+                    nom.total
                     FROM nominas as nom WHERE nom.id_nomina = $this->int_id_nomina";
             $request = $this->select_sql($sql);
             return $request;
@@ -48,7 +49,7 @@
         public function selectNominaEmpleadoAll(int $id_nomina,int $id_empleado){
             $this->int_id_nomina = $id_nomina;
             $this->int_id_empleado = $id_empleado;
-            $sql = "SELECT det.id_detalle_nomina,empl.nombre,empl.apellido FROM detalle_nomina as det
+            $sql = "SELECT det.id_detalle_nomina,empl.nombre,empl.apellido,empl.sueldo,det.pago_dia,det.pago_hora,det.valor_total FROM detalle_nomina as det
             INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
             WHERE det.id_nomina = $this->int_id_nomina and det.id_empleado = $this->int_id_empleado";
             $request = $this->select_sql($sql);

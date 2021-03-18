@@ -28,7 +28,7 @@ id_nomina int(11) auto_increment,
 nombre_nomina varchar(50),
 periodo_inicio varchar(50),
 periodo_fin varchar(50),
-total float,
+total float DEFAULT 0.00,
 estado_nomina int(11),
 estado boolean,
 fecha_crea DATETIME,
@@ -57,6 +57,9 @@ CREATE TABLE detalle_nomina(
 id_detalle_nomina int (11) auto_increment,
 id_nomina int(11),
 id_empleado int(11),
+pago_dia float DEFAULT 0.00,
+pago_hora float DEFAULT 0.00,
+valor_total float DEFAULT 0.00,
 PRIMARY KEY (id_detalle_nomina));
 
 

@@ -57,73 +57,37 @@ function isValidString(listCamps) {
 
 function validateCedula(cedula){
     const validRegEx = /[0-9]{0,10}/;
-    let validation = cedula.match(validRegEx);
-    if (validation === null){
-        mensaje("error","Error","La cedula es incorrecta");
+    if (cedula.match(validRegEx) === null){
         return false;
     }else{
-        let validate = Object.assign([],validation[0])
-        let ultimo_digito = validate[ validate.length - 1 ];
-        let primeros_digitos = [validate[0],validate[1],validate[2],validate[3],validate[4],
-        validate[5],validate[6],validate[7],validate[8]];
-        primeros_digitos = primeros_digitos.map( x => x == 0 ? 0 : (parseInt(x) || x));
-        let array_1 = new Array()
-        let array_2 = new Array()
-        let array_3 = new Array()
-        let array_4 = new Array()
-        let array_5 = new Array()
-        let array_6 = new Array()
-        let digito  = new Array()
+        let validado = [...cedula].map( x => x == 0 ? 0 : (parseInt(x) || x));
+        let ultimo_numero = parseInt(validado.splice(9,1));
+        let cedula_impar = validado.filter((x,c)=> {if (c%2==1){return validado[c]}});
+        let cedula_pares = validado.filter((x,c)=> {if (c%2==0){return validado[c]}}).map((x)=>x+=x);
 
-        for (i = 0; i < primeros_digitos.length; i++) {
-            if(i%2 == 1){
-                array_1.push(primeros_digitos[i])
+        let totales = cedula_pares.filter(
+            (x,c) => {if (cedula_pares[c] <= 9){return cedula_pares[c]
+            }}).concat(cedula_pares.filter((x,c) => {if (cedula_pares[c] >= 9){ 
+                return cedula_pares[c]
+                }
             }
-        }
+            ).map(x => x-9))
+
+        let total_a = totales.reduce((acum,total)=> acum+total)+cedula_impar.reduce((acum,total)=> acum+total);
     
-        
-        for (i = 0; i < primeros_digitos.length; i++) {
-            if(i%2 == 0){
-            array_2.push(primeros_digitos[i])
-            }
-        }
-  
-        for (i = 0; i < array_2.length; i++) {
-            array_3.push(array_2[i]+array_2[i])
-        }
-  
-  
-        for (i = 0; i < array_3.length; i++) {
-            if (array_3[i] <= 9 ){
-            array_4.push(array_3[i])
-            }
-        }
-        
-        for (i = 0; i < array_3.length; i++) {
-            if (array_3[i] >= 9 ){
-            array_5.push(array_3[i]-9)
-            }
-        }
-        
-        let total_a = 0;
-        let total_b = 0;
-        array_6 = array_4.concat(array_5);
-        array_6.forEach(function(a){total_b += a;});
-        array_1.forEach(function(a){total_a += a;});
-        let total = (parseInt(String(total_a+total_b).charAt(0))+1)*10
+        let total = (parseInt(String(total_a).charAt(0))+1)*10
         if (total == 10){
             total = 0
         }
 
-        if((total- (total_a+total_b)) == ultimo_digito  ){
+        if((total - (total_a)) == ultimo_numero  ){
             return true
         }else{
-            mensaje("error","Error","La cedula es incorrecta");
             return false
         }
-    };
-};  
-
+    
+        }
+}
 
 function mensaje(icon,title,text){
     Swal.fire({

@@ -3,6 +3,7 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/slimscroll/jquery.slimscroll.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/inputmask/js/jquery.inputmask.bundle.js"></script>
+<script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/boostrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
 <?php if(isset($data['page'])) {?>

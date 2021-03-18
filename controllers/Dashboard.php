@@ -20,6 +20,7 @@
             $data["page_title"] = "Dashboard | Inicio";
             $data["page_name"] = "dashboard";
             $data["total_empleados"] = $this->model->getTotalEmpleado();
+            $data["total_nominas"] = $this->model->getTotalNominas();
             $this->views->getView($this,"dashboard",$data);
 
         }

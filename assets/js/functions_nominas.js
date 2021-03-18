@@ -5,8 +5,10 @@ let id_nomina;
 document.addEventListener('DOMContentLoaded',function(){
     id_nomina = document.querySelector('#id_nomina').value;
     dataNomina = $('#tableNominaEmpleado').DataTable({
+                "pageLength": 5,
                 "aProcessing":true,
                 "aServerSide":true,
+                "info":     false,
                 "language": {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",
@@ -40,7 +42,11 @@ document.addEventListener('DOMContentLoaded',function(){
                 "columns":[
                     {"data":"id_detalle_nomina"},
                     {"data":"nombre"},
-                    {"data":"apellido"}
+                    {"data":"apellido"},
+                    {"data":"sueldo"},
+                    {"data":"pago_dia"},
+                    {"data":"pago_hora"},
+                    {"data":"valor_total"}
                 ],
                 "order":[[0,"desc"]]
             });
@@ -131,10 +137,31 @@ document.addEventListener('DOMContentLoaded',function(){
         });
     }
 
+    $("input[name='dias_detalle']").TouchSpin({
+        min: -1000000000,
+        max: 1000000000,
+        stepinterval: 50,
+        maxboostedstep: 10000000,
+        initval :0,
+        postfix:"<i class='far fa-calendar-alt'></i>"
+    });
+
+    $("input[name='horas_detalle']").TouchSpin({
+        min: -1000000000,
+        max: 1000000000,
+        stepinterval: 50,
+        maxboostedstep: 10000000,
+        initval :0,
+        postfix:"<i class='fa fa-clock'></i>"
+    });
+
+
     setTimeout(() => {
         fntSelectEmpleado();
     }, 1000);
     fntSearchEmpleado()
+
+
 },false);
 
 

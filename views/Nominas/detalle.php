@@ -6,7 +6,7 @@ getHeader($data);
         <form class="formDetalleNomina">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card border-3 border-top border-top-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -57,36 +57,43 @@ getHeader($data);
                                                         <th>ID</th>
                                                         <th>Nombres</th>
                                                         <th>Apellidos</th>
+                                                        <th>Sueldo</th>
+                                                        <th>Pago/Dia</th>
+                                                        <th>Pago/Hora</th>
+                                                        <th>Total</th>
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
                                                 </table>
                                         </div>
-                                    </div>
-
-                                    <!---
-                                    <div class="row">  
-                                    <label class="control-label" >Buscar empleado:</label>
-                                            <div class="form-group">
-                                                <select class="form-control select2" style="width:30%;" id="SearchEmpl"></select>
-                                            </div>    
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                            <div class="col-sm-8 col-8">
-                                                <table id="tableNominaEmpleado" class="table table-striped  first display responsive" cellspacing="0"  style="width:100%">
-                                                    <thead>
-                                                        <th>ID</th>
-                                                        <th>Nombres</th>
-                                                        <th>Apellidos</th>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="col-md-12 form-group">
+                                                        <label class="control-label">Dias:</label>
+                                                        <input type="text" class="form-control" name="dias_detalle" id="dias_detalle">
+                                                    </div>  
+                                                    <div class="col-md-12 form-group">
+                                                        <label class="control-label">Horas:</label>
+                                                        <input type="text" class="form-control" name="horas_detalle" id="horas_detalle">
+                                                    </div> 
+                                                    <div class="col-md-12 form-group">
+                                                        <label class="control-label">Total a pagar:</label>
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign"></i></span></span>
+                                                            <input type="text" readonly value="<?php echo $data["data_nomina"]["total"]; ?>" class="form-control" name="total" id="total">
+                                                        </div>
+                                                    </div>  
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    ---->
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Guardar Nomina</span></button>
+                            <button type="button" class="btn btn-danger" ><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                         </div>
                     </div>
                 </div>
