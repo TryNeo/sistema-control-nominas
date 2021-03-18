@@ -25,7 +25,7 @@
             nom.total,
             nom.estado_nomina,
             nom.estado
-            FROM nominas as nom";
+            FROM nominas as nom WHERE nom.estado !=0" ;
             $request = $this->select_sql_all($sql);
             return $request;
         }
@@ -43,6 +43,16 @@
             return $request;
         }
 
+        public function selectNominaTotal(int $int_id_nomina,int $int_id_detalle_nomina){
+            $this->int_id_nomina = $int_id_nomina;
+            $this->int_id_detalle_nomina= $int_id_detalle_nomina;
+            $sql = "SELECT det.valor_total,nom.total FROM detalle_nomina as det
+            INNER JOIN nominas as nom ON nom.id_nomina = det.id_nomina
+            WHERE det.id_nomina = $this->int_id_nomina";
+            $request = $this->select_sql($sql);
+            return $request;
+        }
+
         public function selectNominaEmpleado(){
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE estado!=0";
             $request = $this->select_sql_all($sql);
@@ -52,8 +62,9 @@
         public function selectNominaEmpleadoAll(int $id_nomina,int $id_empleado){
             $this->int_id_nomina = $id_nomina;
             $this->int_id_empleado = $id_empleado;
-            $sql = "SELECT det.id_detalle_nomina,empl.nombre,empl.apellido,empl.sueldo,det.meses,det.valor_total FROM detalle_nomina as det
+            $sql = "SELECT det.id_detalle_nomina,empl.nombre,puest.nombre_puesto,empl.sueldo,det.meses,det.valor_total FROM detalle_nomina as det
             INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
+            INNER JOIN puestos as puest ON puest.id_puesto = empl.id_puesto
             WHERE det.id_nomina = $this->int_id_nomina and det.id_empleado = $this->int_id_empleado";
             $request = $this->select_sql($sql);
             return $request;
@@ -131,6 +142,14 @@
             $request_update_detalle_nomina =  $this->update_sql($sql_update_detalle_nomina,$data_detalle_nomina);
         }
 
+
+        public function updateTotalNomina(int $int_id_nomina, int $int_total_pagar){
+            $this->int_id_nomina = $int_id_nomina;
+            $this->int_total_pagar = $int_total_pagar;
+            $sql_update = "UPDATE nominas SET total = ? ,fecha_modifica = now() WHERE id_nomina = $this->int_id_nomina";
+            $data_total = array($this->int_total_pagar);
+            $request_update_total =  $this->update_sql($sql_update,$data_total);
+        }
         public function deleteDetalle(int $id_detalle_nomina){
             $this->int_id_detalle_nomina = $id_detalle_nomina;
             $sql_delete = "DELETE FROM detalle_nomina WHERE id_detalle_nomina = $this->int_id_detalle_nomina";

@@ -77,7 +77,7 @@
                 </table>
             </div>
                 <div class="col-md-12 mb-3 text-center">
-                  <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar</span></button>
+                  <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center"> Guardar</span></button>
                   <button type="button" class="btn btn-danger" onclick="return cerrar_modal('.modalPermisos')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                 </div>
             </div>

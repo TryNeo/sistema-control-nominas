@@ -30,7 +30,9 @@ getHeader($data);
                                         </div>
                                         <div class="col-md-8 form-group">
                                             <label class="control-label">Buscar empleado:</label>
-                                            <select class="form-control select2" style="width:100%;" id="SearchEmpl"></select>
+                                            <?php  if ($_SESSION['permisos_modulo']['u']) {?>
+                                                <select class="form-control select2" style="width:100%;" id="SearchEmpl"></select>
+                                            <?php } ?>
                                         </div>
                                         <div class="col-md-4 form-group">
                                             <label class="control-label">Estado nomina:</label>
@@ -54,9 +56,9 @@ getHeader($data);
                                         <div class="col-md-8">
                                                 <table id="tableNominaEmpleado" class="table table-striped  first display responsive" cellspacing="0"  style="width:100%">
                                                     <thead>
-                                                        <th>ID</th>
-                                                        <th>Nombres</th>
-                                                        <th>Apellidos</th>
+                                                        <th>#</th>
+                                                        <th>Nombre</th>
+                                                        <th>Puesto</th>
                                                         <th>Sueldo</th>
                                                         <th>Meses</th>
                                                         <th>Total</th>
@@ -87,8 +89,10 @@ getHeader($data);
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Guardar Nomina</span></button>
-                            <button type="button" class="btn btn-danger" ><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
+                            <?php  if ($_SESSION['permisos_modulo']['u']) {?>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Guardar Nomina</span></button>
+                            <?php } ?>
+                            <a  href="<?php  echo server_url; ?>nominas" class="btn btn-danger" ><i class=" fas fa-exclamation-circle"></i> Cancelar</a>  
                         </div>
                     </div>
                 </div>

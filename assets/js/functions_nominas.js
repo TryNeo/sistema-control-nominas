@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 "columns":[
                     {"data":"id_detalle_nomina"},
                     {"data":"nombre"},
-                    {"data":"apellido"},
+                    {"data":"nombre_puesto"},
                     {"data":"sueldo"},
                     {"data":"meses"},
                     {"data":"valor_total"}
@@ -193,11 +193,28 @@ function fntSetDetalleNomina(){
                 if(nombre_nomina === ""){
                     mensaje("error","Error","Ingrese el nombre la nomina");
                 }else{
-                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                    let ajaxUrl = base_url+"nominas/setDetalleGeneral";
-                    let formData = new FormData(formDetalleNomina);
-                    request.open("POST",ajaxUrl,true);
-                    request.send(formData);
+                    $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
+                        if(!data.length){
+                            mensaje("error","Error","Ingrese los empleados respectivos de la nomina");
+                        }else{
+                            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                            let ajaxUrl = base_url+"nominas/setDetalleGeneral";
+                            let formData = new FormData(formDetalleNomina);
+                            request.open("POST",ajaxUrl,true);
+                            request.send(formData);
+                            request.onreadystatechange = function(){
+                                if(request.readyState==4 && request.status == 200){
+                                    let objData = JSON.parse(request.responseText); 
+                                    if (objData.status){
+                                        mensaje("success","Exitoso",objData.msg);
+                                        dataNomina.ajax.reload();
+                                    }else{
+                                        mensaje("error","Error",objData.msg);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             }else{
                 mensaje("error","Error","Ingrese un numero de meses valido");
@@ -269,10 +286,12 @@ function fntEliminarDetalle(){
         btnEliminarDetalle.addEventListener('click',function(e){
             e.preventDefault();
             let id = this.getAttribute('det');
+            let id_nomina = document.querySelector('#id_nomina').value;
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+"nominas/delDetalleNomina";
             let formData = new FormData();
             formData.append("id_detalle_nomina",id);
+            formData.append("id_nomina",id_nomina);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
             request.onreadystatechange = function(){

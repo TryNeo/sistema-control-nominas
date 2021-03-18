@@ -22,7 +22,6 @@
             $this->views->getView($this,"nominas",$data);
         }
 
-
         public function detalle(int $int_id_nomina){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
@@ -43,7 +42,6 @@
             $data["page"] = "detalle";
             $this->views->getView($this,"detalle",$data);
         }
-
 
         public function getNominas(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
@@ -92,20 +90,19 @@
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 $intNomina = intval(strclean($int_id_nomina));
-                $request_get_empl_nomina = $this->model->selectEmpleadosNominas($intNomina);
-                $data = array();
-                for ($i=0; $i < count($request_get_empl_nomina) ; $i++) {
-                    $intEmpleado = '';
-                    $intEmpleado = $request_get_empl_nomina[$i]['id_empleado'];
-                    $data[$i]= $this->model->selectNominaEmpleadoAll($intNomina,$intEmpleado);
-                    $data[$i]['id_detalle_nomina'] = '<button  type="button" class="btn btn-danger btn-circle btnEliminarDetalle" 
-                    title="eliminar" det="'.$data[$i]['id_detalle_nomina'].'"><i class="far fa-trash-alt"></i></button>';
-                }
+                    $request_get_empl_nomina = $this->model->selectEmpleadosNominas($intNomina);
+                    $data = array();
+                    for ($i=0; $i < count($request_get_empl_nomina) ; $i++) {
+                        $intEmpleado = '';
+                        $intEmpleado = $request_get_empl_nomina[$i]['id_empleado'];
+                        $data[$i]= $this->model->selectNominaEmpleadoAll($intNomina,$intEmpleado);
+                        $data[$i]['id_detalle_nomina'] = '<button  type="button" class="btn btn-danger btn-circle btnEliminarDetalle" 
+                        title="eliminar" det="'.$data[$i]['id_detalle_nomina'].'"><i class="far fa-trash-alt"></i></button>';
+                    }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
-
         
         public function setNomina(){
             if ($_POST) {
@@ -142,7 +139,6 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
-
 
         public function setDetalleNomina(){
             if ($_POST) {
@@ -191,7 +187,6 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
         }
 
-
         public function getSearchNominaEmpleado(int $int_id_empleado){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
@@ -211,44 +206,48 @@
             die();
         }
 
-
         public function setDetalleGeneral(){
-            if ($_POST) {
-                $intNomina = intval(strclean($_POST['id_nomina']));
-                $nombre_nomina = strclean($_POST['nombre_nomina']);
-                $meses_nomina = intval(strclean($_POST['meses_detalle']));
-                $estado_nomina = intval(strclean($_POST['estado_nomina']));
-                $total_pagar = floatval(strclean($_POST['total']));
-                $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);
-                $array_total = array();
-                foreach ($request_sueldo as $clave => $valor){
-                    $total = 0;
-                    $total = $meses_nomina*$request_sueldo[$clave]{'sueldo'};
-                    array_push($array_total,array('id_nomina'=>$intNomina,
-                    'id_empleado' => $request_sueldo[$clave]['id_empleado'],
-                    'nombre_nomina' => $nombre_nomina,
-                    'meses_nomina' => $meses_nomina,
-                    'estado_nomina'=> $estado_nomina,
-                    'valor_total' => $total,
-                    'total_pagar' => $total+=$total));
-                }
-
-                dep($array_total);
-                
-                foreach ($array_total as $clave => $valor) {
-                    $update_detalle = $array_total[$clave];
-                    $request_update = $this->model->updateDetalle($update_detalle['id_nomina'],
-                    $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],$update_detalle['meses_nomina'],
-                    $update_detalle['estado_nomina'],$update_detalle['valor_total'],$update_detalle['total_pagar']);
-                }
-                $data = array("status" => true, "msg" => "s");
+            if (empty($_SESSION['permisos_modulo']['u']) ) {
+                header('location:'.server_url.'nominas');
+                $data= array("status" => false, "msg" => "Error no tiene permisos");
             }else{
-                $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                if ($_POST) {
+                    $intNomina = intval(strclean($_POST['id_nomina']));
+                    $nombre_nomina = strclean($_POST['nombre_nomina']);
+                    $meses_nomina = intval(strclean($_POST['meses_detalle']));
+                    $estado_nomina = intval(strclean($_POST['estado_nomina']));
+                    $total_pagar = floatval(strclean($_POST['total']));
+                    $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);
+                    $array_total = array();
+                    $array_total_pagar = array();
+                    foreach ($request_sueldo as $clave => $valor){
+                            $total = 0;
+                            $total_new = 0;
+                            $total = $meses_nomina*$request_sueldo[$clave]{'sueldo'};
+                            array_push($array_total_pagar,$total);
+                            array_push($array_total,array('id_nomina'=>$intNomina,
+                            'id_empleado' => $request_sueldo[$clave]['id_empleado'],
+                            'nombre_nomina' => $nombre_nomina,
+                            'meses_nomina' => $meses_nomina,
+                            'estado_nomina'=> $estado_nomina,
+                            'valor_total' => $total,
+                            'total_pagar' => ''));
+                        }
+                    foreach ($array_total as $clave => $valor) {
+                        $update_detalle = $array_total[$clave];
+                        $update_detalle['total_pagar'] = array_sum($array_total_pagar);
+                        $request_update = $this->model->updateDetalle($update_detalle['id_nomina'],
+                        $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],$update_detalle['meses_nomina'],
+                        $update_detalle['estado_nomina'],$update_detalle['valor_total'],$update_detalle['total_pagar']);
+                    }
+                    $data = array('status' => true,'msg' => 'La nomina ha sido generada correctamente');
+                }else{
+                    $data = array('status' => false,'msg' => 'Errores internos , vuelva intentarlo mas tarde');
+                }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
-
 
         public function delDetalleNomina(){
             if (empty($_SESSION['permisos_modulo']['d']) ) {
@@ -256,8 +255,12 @@
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 if($_POST){
+                    $int_id_nomina = intval(strclean($_POST['id_nomina']));
                     $int_id_detalle_nomina = intval(strclean($_POST['id_detalle_nomina']));
+                    $request_update_del_one = $this->model->selectNominaTotal($int_id_nomina,$int_id_detalle_nomina);
+                    $total = intval($request_update_del_one['valor_total'] - $request_update_del_one['total']);
                     $request_del = $this->model->deleteDetalle($int_id_detalle_nomina);
+                    $request_update_nomina = $this->model->updateTotalNomina($int_id_nomina,$total);
                     $data = array("status" => true, "msg" => "Se ha eliminado el detalle");
                 }else{
                     $data = array("status" => false, "msg" => "Error Hubo problemas");
