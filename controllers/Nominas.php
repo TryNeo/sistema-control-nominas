@@ -219,23 +219,21 @@
                     $total_pagar = floatval(strclean($_POST['total']));
                     $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);
                     $array_total = array();
-                    $array_total_pagar = array();
                     foreach ($request_sueldo as $clave => $valor){
                             $total = 0;
                             $total_new = 0;
                             $total = $meses_nomina*$request_sueldo[$clave]{'sueldo'};
-                            array_push($array_total_pagar,$total);
                             array_push($array_total,array('id_nomina'=>$intNomina,
                             'id_empleado' => $request_sueldo[$clave]['id_empleado'],
                             'nombre_nomina' => $nombre_nomina,
                             'meses_nomina' => $meses_nomina,
                             'estado_nomina'=> $estado_nomina,
                             'valor_total' => $total,
-                            'total_pagar' => ''));
+                            'total_pagar' => $total_pagar));
                         }
-                    foreach ($array_total as $clave => $valor) {
+
+                        foreach ($array_total as $clave => $valor) {
                         $update_detalle = $array_total[$clave];
-                        $update_detalle['total_pagar'] = array_sum($array_total_pagar);
                         $request_update = $this->model->updateDetalle($update_detalle['id_nomina'],
                         $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],$update_detalle['meses_nomina'],
                         $update_detalle['estado_nomina'],$update_detalle['valor_total'],$update_detalle['total_pagar']);
@@ -249,7 +247,8 @@
             die();
         }
 
-        public function delDetalleNomina(){
+        
+        public function delDetalleEmpleado(){
             if (empty($_SESSION['permisos_modulo']['d']) ) {
                 header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
@@ -257,11 +256,23 @@
                 if($_POST){
                     $int_id_nomina = intval(strclean($_POST['id_nomina']));
                     $int_id_detalle_nomina = intval(strclean($_POST['id_detalle_nomina']));
-                    $request_update_del_one = $this->model->selectNominaTotal($int_id_nomina,$int_id_detalle_nomina);
-                    $total = intval($request_update_del_one['valor_total'] - $request_update_del_one['total']);
-                    $request_del = $this->model->deleteDetalle($int_id_detalle_nomina);
-                    $request_update_nomina = $this->model->updateTotalNomina($int_id_nomina,$total);
-                    $data = array("status" => true, "msg" => "Se ha eliminado el detalle");
+                    $del_detalle_empl = $this->model->deleteDetalle($int_id_detalle_nomina);
+                    if ($del_detalle_empl == "ok"){
+                        $up_nomina_total = $this->model->selectNominaTotal($int_id_nomina);
+                        if(empty($up_nomina_total)){
+                            $data = array("status" => false, "msg" => "El empleado no existe");
+                        }else{
+                            $total = ($up_nomina_total['total'] == '') ? 0 : $up_nomina_total['total'];
+                            $up_nomina_total = $this->model->updateNominaTotal($int_id_nomina,$total);
+                            if($up_nomina_total == 'ok'){
+                                $data = array("status" => true, "msg" => "El empleado ha sido eliminado correctamente");
+                            }else{
+                                $data = array("status" => false, "msg" => "Error hubo problemas al actualizar el total de la nomina");
+                            }
+                        }
+                    }else{
+                        $data = array("status" => false, "msg" => "Error hubo problemas al eliminar el empleado");
+                    }
                 }else{
                     $data = array("status" => false, "msg" => "Error Hubo problemas");
                 }
@@ -270,5 +281,3 @@
             die();
         }
     }
-
-?>
