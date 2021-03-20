@@ -152,7 +152,6 @@ document.addEventListener('DOMContentLoaded',function(){
     }, 1000);
     fntSearchEmpleado()
 
-
 },false);
 
 
@@ -160,7 +159,7 @@ document.addEventListener('DOMContentLoaded',function(){
 window.addEventListener('click',function(){
     setTimeout(function(){ 
         fntEliminarDetalle()
-    }, 500);
+    }, 100);
 },false);
 
 function abrir_modal_nomina(){
@@ -208,6 +207,7 @@ function fntSetDetalleNomina(){
                                     if (objData.status){
                                         mensaje("success","Exitoso",objData.msg);
                                         dataNomina.ajax.reload();
+                                        let meses_detalle = document.querySelector('#meses_detalle').value = 0;
                                     }else{
                                         mensaje("error","Error",objData.msg);
                                     }
@@ -242,40 +242,54 @@ function fntSearchEmpleado(){
         theme: 'bootstrap4',
     }).on('select2:select',function(e){
         e.preventDefault();
-        let  id_empleado = document.querySelector('#SearchEmpl').value;
-        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        let ajaxUrl = base_url+"nominas/getSearchNominaEmpleado/"+id_empleado;
-        request.open("GET",ajaxUrl,true);
-        request.send();
-        request.onreadystatechange = function(){
-            if(request.readyState==4 && request.status == 200){
-                let objData = JSON.parse(request.responseText); 
-                if (objData.status){
-                    let request_two =  (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                    let ajaxUrl_two = base_url+"nominas/setDetalleNomina";
-                    let formData = new FormData();
-                    formData.append("id_empleado",objData.msg['id_empleado']);
-                    formData.append("id_nomina",id_nomina);
-                    request_two.open("POST",ajaxUrl_two,true);
-                    request_two.send(formData);
-                    request_two.onreadystatechange = function(){
-                        if(request_two.readyState==4 && request_two.status == 200){
-                            let objData = JSON.parse(request_two.responseText); 
-                            if (objData.status){
-                                dataNomina.ajax.reload(function(){
-                                    fntSelectEmpleado();
-                                    fntEliminarDetalle()
-                                });
-                            }else{
-                                mensaje("error","Error",objData.msg);
+        let meses_detalle = document.querySelector('#meses_detalle').value;
+        if(meses_detalle>=1){
+            let  id_empleado = document.querySelector('#SearchEmpl').value;
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+"nominas/getSearchNominaEmpleado/"+id_empleado;
+            request.open("GET",ajaxUrl,true);
+            request.send();
+            request.onreadystatechange = function(){
+                if(request.readyState==4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText); 
+                    if (objData.status){
+                        let request_two =  (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                        let ajaxUrl_two = base_url+"nominas/setDetalleNomina";
+                        let formData = new FormData();
+                        formData.append("id_empleado",objData.msg['id_empleado']);
+                        formData.append("id_nomina",id_nomina);
+                        request_two.open("POST",ajaxUrl_two,true);
+                        request_two.send(formData);
+                        request_two.onreadystatechange = function(){
+                            if(request_two.readyState==4 && request_two.status == 200){
+                                let objData = JSON.parse(request_two.responseText); 
+                                if (objData.status){
+                                    let array_total = new Array();
+                                    let meses = document.querySelector('#meses_detalle').value;
+                                    dataNomina.ajax.reload(function(){
+                                        fntSelectEmpleado();
+                                        fntEliminarDetalle()
+                                    });
+                                    $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
+                                        data.forEach((key,value) => {
+                                            array_total.push(key['sueldo'])
+                                            let total = document.querySelector('#total').value = array_total.reduce((acum,total)=> 
+                                            parseInt(acum)+parseInt(total))*meses;
+                                        })
+                                    }) ;
+                                }else{
+                                    mensaje("error","Error",objData.msg);
+                                }
                             }
                         }
+                    }else{
+                        mensaje("error","Error",objData.msg);
                     }
-                }else{
-                    mensaje("error","Error",objData.msg);
                 }
-            }
-        } 
+            } 
+        }else{
+            mensaje("error","Error","Ingrese la cantidad de meses primero");
+        }
     });
 }
 
@@ -288,7 +302,7 @@ function fntEliminarDetalle(){
             let id = this.getAttribute('det');
             let id_nomina = document.querySelector('#id_nomina').value;
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"nominas/delDetalleNomina";
+            let ajaxUrl = base_url+"nominas/delDetalleEmpleado";
             let formData = new FormData();
             formData.append("id_detalle_nomina",id);
             formData.append("id_nomina",id_nomina);
@@ -298,10 +312,20 @@ function fntEliminarDetalle(){
                 if(request.readyState==4 && request.status == 200){
                     let objData = JSON.parse(request.responseText); 
                     if (objData.status){
+                        let array_total = new Array();
                         dataNomina.ajax.reload(function(){
                             fntSelectEmpleado();
                             fntEliminarDetalle()
                         });
+
+                        $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
+                            data.forEach((key,value) => {
+                                array_total.push(key['valor_total'])
+                            })
+                            let total = document.querySelector('#total').value = (array_total.reduce((a, b) => parseInt(a) + parseInt(b),0) === 0) ? 0 : array_total.reduce((a, b) => parseInt(a) + parseInt(b),0) ;
+                        }) ;
+                        let meses_detalle = document.querySelector('#meses_detalle').value = 0;
+
                     }else{
                         mensaje("error","Error",objData.msg);
                     }

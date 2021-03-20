@@ -21,67 +21,64 @@
             $data['page'] = "nominas";
             $this->views->getView($this,"nominas",$data);
         }
-
-        public function detalle(int $int_id_nomina){
-            if (empty($_SESSION['permisos_modulo']['r']) ) {
-                header('location:'.server_url.'Errors');
-            }
-            $intNomina = intval(strclean($int_id_nomina));
-            $request_nomina = $this->model->selectNomina($intNomina);
-            if (empty($request_nomina)){
-                header('location:'.server_url.'nominas');
-            }else{
-
-            }            
-            
-            $data["page_id"] = 8;
-            $data["tag_pag"] = "Detalle Nominas";
-            $data["page_title"] = "Detalle nominas | Inicio";
-            $data["page_name"] = "Detalle de nominas";
-            $data["data_nomina"] = $request_nomina;
-            $data["page"] = "detalle";
-            $this->views->getView($this,"detalle",$data);
-        }
-
+                
         public function getNominas(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 $data = $this->model->selectNominas();
-                for ($i=0; $i < count($data); $i++) {
+                foreach($data  as $clave => $valor){
                     $btnDetalleNomina = '';
                     $btnEliminarNomina = '';
-                    if ($data[$i]['estado'] == 1){
-                        $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
+                    $data[$clave]['estado'] = ($data[$clave]['estado'] == 1) ? '<span  class="btn btn-success btn-icon-split btn-sm">
+                        <i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>': 
+                        '<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
+                    
+                    if ($data[$clave]['estado_nomina'] == 1) {
+                        $data[$clave]['estado_nomina'] = 'Pediente';
+                    }else if($data[$clave]['estado_nomina'] == 2){
+                        $data[$clave]['estado_nomina'] = 'Aceptado';
+                    }else if($data[$clave]['estado_nomina'] == 3){
+                        $data[$clave]['estado_nomina'] = 'Rechazado';
                     }else{
-                        $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
-                    }
-
-                    if ($data[$i]['estado_nomina'] == 1) {
-                        $data[$i]['estado_nomina'] = 'Pediente';
-                    }else if($data[$i]['estado_nomina'] == 2){
-                        $data[$i]['estado_nomina'] = 'Aceptado';
-                    }else if($data[$i]['estado_nomina'] == 3){
-                        $data[$i]['estado_nomina'] = 'Rechazado';
-                    }else{
-                        $data[$i]['estado_nomina'] = 'Pediente';
+                        $data[$clave]['estado_nomina'] = 'Pediente';
                     }
 
                     if ($_SESSION['permisos_modulo']['u']) {
                         $btnDetalleNomina = '<a  class="btn btn-primary btn-circle" 
-                        title="editar" href="http://localhost/sistema-control-nominas/nominas/detalle/'.$data[$i]['id_nomina'].'"><i class="fas fa-eye"></i></a>';
+                        title="editar" href="http://localhost/sistema-control-nominas/nominas/detalle/'.$data[$clave]['id_nomina'].'"><i class="fas fa-eye"></i></a>';
                     }
 
                     if ($_SESSION['permisos_modulo']['d']) {
-                        $btnEliminarNomina = '<button  class="btn btn-danger btn-circle btnEliminarNomina" title="eliminar" nom="'.$data[$i]['id_nomina'].'"><i class="far fa-thumbs-down"></i></button>';
+                        $btnEliminarNomina = '<button  class="btn btn-danger btn-circle btnEliminarNomina" title="eliminar" nom="'.$data[$clave]['id_nomina'].'"><i class="far fa-thumbs-down"></i></button>';
                     }
 
-                    $data[$i]['opciones'] = '<div class="text-center">'.$btnDetalleNomina.' '.$btnEliminarNomina.'</div>';
+                    $data[$clave]['opciones'] = '<div class="text-center">'.$btnDetalleNomina.' '.$btnEliminarNomina.'</div>';
                 }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
+        }
+
+        public function detalle(int $int_id_nomina){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $id_nomina = intval(strclean($int_id_nomina));
+                $request_nomina = $this->model->selectNomina($id_nomina);
+                if (empty($request_nomina)){
+                    header('location:'.server_url.'nominas');
+                }else{
+                    $data["page_id"] = 8;
+                    $data["tag_pag"] = "Detalle Nominas";
+                    $data["page_title"] = "Detalle nominas | Inicio";
+                    $data["page_name"] = "Detalle de nominas";
+                    $data["data_nomina"] = $request_nomina;
+                    $data["page"] = "detalle";
+                    $this->views->getView($this,"detalle",$data);
+                }
+            }
         }
 
         public function getNominaEmpleados(int $int_id_nomina){
@@ -246,7 +243,6 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
-
         
         public function delDetalleEmpleado(){
             if (empty($_SESSION['permisos_modulo']['d']) ) {
