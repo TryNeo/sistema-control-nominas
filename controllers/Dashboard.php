@@ -22,6 +22,8 @@
             $data["page"] = "dashboard";
             $data["total_empleados"] = $this->model->getTotalEmpleado();
             $data["total_nominas"] = $this->model->getTotalNominas();
+            $data["total_usuarios"] = $this->model->getTotalUsuarios();
+            $data["total_general"]  = ($this->model->getTotalGeneral()[0]['total']>=1) ? number_format($this->model->getTotalGeneral()[0]['total'],1,".",".") : 0.00;
             $this->views->getView($this,"dashboard",$data);
 
         }
@@ -44,6 +46,22 @@
             die();
         }
 
+
+        public function grahpNominaTotal(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $data = '';
+                $nomina_totales = $this->model->getNominaTotal();
+                if ($nomina_totales >= 1) {
+                    $data = json_encode($nomina_totales,JSON_UNESCAPED_UNICODE);
+                }else{
+                    $data = json_encode(array(),JSON_UNESCAPED_UNICODE);
+                }
+            }
+            echo $data;
+            die();
+        }
     }
 
 

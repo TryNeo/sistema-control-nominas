@@ -9,6 +9,7 @@
 <?php if(isset($data['page'])) {?>
     <?php if($data['page'] == 'dashboard'){?>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts-3d.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/exporting.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/export-data.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/accessibility.js"></script>
