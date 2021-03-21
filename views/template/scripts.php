@@ -7,6 +7,13 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
 <?php if(isset($data['page'])) {?>
+    <?php if($data['page'] == 'dashboard'){?>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/exporting.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/export-data.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/accessibility.js"></script>
+        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_dashboard.js"></script>
+    <?php }?>
     <?php if($data['page'] == 'login'){?>
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_login.js"></script>
     <?php } ?>

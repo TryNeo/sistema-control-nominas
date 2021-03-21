@@ -231,7 +231,9 @@ function fntSelectEmpleado(){
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#SearchEmpl").innerHTML = "<option  selected disabled='disabled'  value=''>Buscar ...</option>"+request.responseText;
+            if ( document.querySelector("#SearchEmpl") != null){
+                document.querySelector("#SearchEmpl").innerHTML = "<option  selected disabled='disabled'  value=''>Buscar ...</option>"+request.responseText;
+            }
         }
     }
 }
