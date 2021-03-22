@@ -6,6 +6,7 @@
         public $int_id_detalle_nomina;
         public $int_meses_nomina;
         public $str_nombre_nomina;
+        public $str_search_empleado;
         public $date_periodo_inicio;
         public $date_periodo_fin;
         public $int_estado_nomina;
@@ -51,8 +52,12 @@
             return $request;
         }
 
-        public function selectNominaEmpleado(){
-            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido FROM empleados as empl WHERE estado!=0";
+        public function selectNominaEmpleado(string $str_search_empleado){
+            $this->str_search_empleado = $str_search_empleado;
+            $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.sueldo,puest.nombre_puesto 
+            FROM empleados as empl
+            INNER JOIN puestos as puest ON puest.id_puesto = empl.id_puesto
+            WHERE nombre like '%".$this->str_search_empleado."%' and empl.estado!=0";
             $request = $this->select_sql_all($sql);
             return $request;
         }

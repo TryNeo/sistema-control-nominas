@@ -23,12 +23,14 @@
             $this->views->getView($this,"empleados",$data);
         }
 
-        public function reporteEmpleado(){
+        public function reporteEmpleados(){
             $pdf = new reporte();
+            $pdf->AliasNbPages();
             $pdf->AddPage();
-            $pdf->SetFont('Arial','B',16);
-            $pdf->Cell(40,10,'¡Hola, Mundo!');
-            $pdf->Output();     
+            $pdf->SetTitle('Reporte | Empleados');
+            $pdf->renderHeader('','./assets/images/logo-wosecurity.png',13,15,40);
+            $pdf->Output('', 'reporte_empleados_'.date("d_m_Y_H_i").'.pdf','I');
+
         }
 
         public function setEmpleado(){

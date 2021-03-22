@@ -6,6 +6,7 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/boostrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/libs/js/main-js.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_principales.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js'></script>
 <?php if(isset($data['page'])) {?>
     <?php if($data['page'] == 'dashboard'){?>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts.js"></script>
@@ -55,7 +56,6 @@
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/moment.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
 <script type="text/javascript" src="<?php echo server_url; ?>assets/vendor/datepicker/datepicker.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!--------------------------------------CDN -------------------------------->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>

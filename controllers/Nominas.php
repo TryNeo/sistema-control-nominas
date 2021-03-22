@@ -171,17 +171,23 @@
                 header('location:'.server_url.'Errors');
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
-                $html_options = "";
-                $data = $this->model->selectNominaEmpleado();
-                if (count($data) > 0) {
-                    for ($i=0; $i < count($data) ; $i++) { 
-                        $html_options .='<option value="'.$data[$i]['id_empleado'].'">'.$data[$i]['nombre']." ".$data[$i]['apellido'].'</option>';
+                if(empty($_POST)){
+                    $request_data = $this->model->selectNominaEmpleado('');
+                    foreach ($request_data as $row) {    
+                        $data[] = array("id"=>$row['id_empleado'], "text"=>$row['nombre'],
+                        "apellido" => $row['apellido'],"sueldo" => $row['sueldo'],"puesto" => $row['nombre_puesto']);
+                    }
+                }else{
+                    $search_empleado = strclean($_POST['search']);
+                    $request_data = $this->model->selectNominaEmpleado($search_empleado);
+                    foreach ($request_data as $row) {    
+                        $data[] = array("id"=>$row['id_empleado'], "text"=>$row['nombre'],
+                        "apellido" => $row['apellido'],"sueldo" => $row['sueldo'],"puesto" => $row['nombre_puesto']);
                     }
                 }
-                echo $html_options;                
-                die();
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
         }
 
         public function getSearchNominaEmpleado(int $int_id_empleado){

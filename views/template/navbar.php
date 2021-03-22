@@ -63,9 +63,9 @@
                             <?php if (!empty($_SESSION['permisos'][6]['r'])) {?>
                                 <li class="nav-item">
                                 <?php if($data['page_id'] == 6 ){ ?>
-                                    <a class='nav-link active' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contractos</a>
+                                    <a class='nav-link active' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contratos</a>
                                 <?php }else{ ?>
-                                    <a class='nav-link' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contractos</a>
+                                    <a class='nav-link' href="<?php echo server_url ?>contractos/"><i class="fas fa-book"></i>Tipos de Contratos</a>
                                 <?php } ?>
                                 </li>
                             <?php } ?>
