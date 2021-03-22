@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/datepicker/tempusdominus-bootstrap-4.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/inputmask/css/inputmask.css">
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/boostrap-touchspin/css/jquery.bootstrap-touchspin.css">
-    <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina-icon.png" sizes="16x16" />
     <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css"/>

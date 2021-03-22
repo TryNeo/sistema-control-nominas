@@ -23,7 +23,7 @@
             $data["total_empleados"] = $this->model->getTotalEmpleado();
             $data["total_nominas"] = $this->model->getTotalNominas();
             $data["total_usuarios"] = $this->model->getTotalUsuarios();
-            $data["total_general"]  = ($this->model->getTotalGeneral()[0]['total']>=1) ? number_format($this->model->getTotalGeneral()[0]['total'],1,".",".") : 0.00;
+            $data["total_general"]  = ($this->model->getTotalGeneral()[0]['total']>=1) ? number_format($this->model->getTotalGeneral()[0]['total'],0,".",",") : 0.00;
             $this->views->getView($this,"dashboard",$data);
 
         }

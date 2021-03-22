@@ -45,7 +45,7 @@
                         <div class="card border-3 border-top border-top-primary">
                             <div class="card-body">
                                 <div class="d-inline-block">
-                                    <h5 class="text-muted">Total General</h5>
+                                    <h5 class="text-muted">Ingresos totales</h5>
                                     <h2 class="mb-0"><?php echo $data["total_general"]; ?></h2>
                                 </div>
                                 <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">

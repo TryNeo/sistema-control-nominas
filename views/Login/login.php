@@ -8,7 +8,7 @@
         <link href="<?php echo server_url; ?>assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo server_url; ?>assets/libs/css/style.css">
         <link rel="stylesheet" href="<?php echo server_url; ?>assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-        <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="<?php echo server_url; ?>assets/images/nomina-icon.png" sizes="16x16" />
         <style>
             html,
             body {
