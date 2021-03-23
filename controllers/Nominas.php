@@ -165,6 +165,25 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
+        
+        public function setDetalleMesesTotal(){
+            if (empty($_SESSION['permisos_modulo']['u']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $id_detalle_nomina = strclean($_POST['id_detalle_nomina']);
+                $meses = Intval(strclean($_POST['meses']));
+                $total = Intval(strclean($_POST['total']));
+                $response_data = $this->model->updateDetalleMesesTotal($id_detalle_nomina,$meses,$total);
+                if($response_data =="ok"){
+                    $data = array('status' => true,'msg' => 'todo correctamente');
+                }else{
+                    $data = array('status' => false,'msg' => 'Hubo un error en la base de datos');
+                }
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
 
         public function getNominaEmpleado(){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
@@ -282,4 +301,6 @@
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        
     }

@@ -146,6 +146,21 @@
             $request_update_detalle_nomina =  $this->update_sql($sql_update_detalle_nomina,$data_detalle_nomina);
         }
 
+        public function updateDetalleMesesTotal(string $id_detalle_nomina,int $int_meses_nomina,int $int_total_pagar){
+            $this->int_id_detalle_nomina = $id_detalle_nomina;
+            $this->int_meses_nomina = $int_meses_nomina;
+            $this->int_total_pagar = $int_total_pagar;
+            $sql_update = "UPDATE detalle_nomina SET meses = ? ,valor_total = ? WHERE id_detalle_nomina = $this->int_id_detalle_nomina";
+            $data_total = array($this->int_meses_nomina,$this->int_total_pagar);
+            $request_update_total =  $this->update_sql($sql_update,$data_total);
+            if ($request_update_total ){
+                $request_update_total = 'ok';
+            }else{
+                $request_update_total = 'error';
+            }
+            return $request_update_total;
+        }
+
 
         public function updateNominaTotal(int $int_id_nomina, int $int_total_pagar){
             $this->int_id_nomina = $int_id_nomina;
