@@ -71,8 +71,6 @@ document.addEventListener('DOMContentLoaded',function(){
                         let total =meses*parseInt(data.sueldo);
                         let detalle_nomina = data.id_detalle_nomina;
                         let id_detalle_nomina = detalle_nomina.split(' ')[32].split('det=')[1].split("><i")[0]
-
-                        console.log(id_detalle_nomina)
                         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
                         let ajaxUrl = base_url+"nominas/setDetalleMesesTotal";
                         let formData = new FormData();

@@ -2,6 +2,16 @@ const base_url = "http://localhost/sistema-control-nominas/";
 const base_url_image = "http://localhost/sistema-control-nominas/assets/images/";
 
 
+document.addEventListener('DOMContentLoaded',function(){
+
+    fntRestaurarPassword();
+
+})
+
+
+
+
+
 function validateCamps(listCamps){
   let newlistCamps = new Array();
   let errorCamps = new Array();
@@ -96,7 +106,6 @@ function mensaje(icon,title,text){
         text: text,
     })
 }
-
 
 
 function baseAjaxEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCamps,
@@ -215,7 +224,7 @@ function baseAjaxSelect(nameSelector,nameMethod,urlName,nameMensaje){
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#"+nameSelector).innerHTML = "<option  selected disabled='disabled'  value=''>"+nameMensaje+"</option>"+request.responseText;
+            document.querySelector("#"+nameSelector).innerHTML = "<option  selected disabled='disabled'  value='0'>"+nameMensaje+"</option>"+request.responseText;
         }
     }
 };
@@ -257,16 +266,17 @@ let actualizarHora = function(){
 		minutos = fecha.getMinutes(),
 		segundos = fecha.getSeconds()
 
-        if (horas >= 12) {
-            horas = horas - 12;
-            ampm = 'PM';
-        } else {
-            ampm = 'AM';
-        }
-
-        if (minutos < 10){ minutos = "0" + minutos; }
-		if (segundos < 10){ segundos = "0" + segundos; }
-    document.querySelector('.reloj').innerHTML =horas+":"+minutos+":"+segundos+"<div class='ampm'>&nbsp;"+ampm+"</div>";
+    if (horas >= 12) {
+        horas = horas - 12;
+        ampm = 'PM';
+    } else {
+        ampm = 'AM';
+    }
+    if (minutos < 10){ minutos = "0" + minutos; }
+	if (segundos < 10){ segundos = "0" + segundos; }
+    if(document.querySelector('.reloj') != null){
+        document.querySelector('.reloj').innerHTML =horas+":"+minutos+":"+segundos+"<div class='ampm'>&nbsp;"+ampm+"</div>";
+    }
 };
 
 actualizarHora();
@@ -297,45 +307,44 @@ function mostrarPassword(){
 
 
 
-
 function fntRestaurarPassword(){
     let formRestaurar = document.querySelector('#formRestaurar');
-    formRestaurar.addEventListener('submit', function (e){
-        e.preventDefault();
-        let camps = new Array();
-        let idUsuario =  document.querySelector('#id_usuario').value;
-        let passwordInput = document.querySelector('#password').value;
-        let passwordRepInput = document.querySelector('#rep_password').value;
-        camps.push(passwordInput,passwordRepInput);
-        if(validateCamps(camps)){
-            if (passwordInput === passwordRepInput){
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"usuarios/resUsuario";
-                let formData = new FormData(formRestaurar);
-                request.open("POST",ajaxUrl,true);
-                request.send(formData);
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText); 
-                        if (objData.status){
-                            $('#modalRestaurar').modal("hide");
-                            let passwordInput = document.querySelector('#password').value = '';
-                            let passwordRepInput = document.querySelector('#rep_password').value = '';
-                            mensaje("success","Exitoso",objData.msg);
-                            setTimeout(function(){window.location.replace(base_url+"logout")},1500);
-                        }else{
-                            mensaje("error","Error",objData.msg);
+    if(formRestaurar !=null){
+        formRestaurar.addEventListener('submit', function (e){
+            e.preventDefault();
+            let camps = new Array();
+            let idUsuario =  document.querySelector('#id_usuario_ses').value;
+            let passwordInput = document.querySelector('#password_new').value;
+            let passwordRepInput = document.querySelector('#rep_password').value;
+            camps.push(passwordInput,passwordRepInput);
+            if(validateCamps(camps)){
+                if (passwordInput === passwordRepInput){
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = base_url+"usuarios/resUsuario";
+                    let formData = new FormData(formRestaurar);
+                    request.open("POST",ajaxUrl,true);
+                    request.send(formData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState==4 && request.status == 200){
+                            let objData = JSON.parse(request.responseText); 
+                            if (objData.status){
+                                mensaje("success","Exitoso",objData.msg);
+                                $('#modalRestaurar').modal("hide");
+                                let passwordInput = document.querySelector('#password_new').value = '';
+                                let passwordRepInput = document.querySelector('#rep_password').value = '';
+                                setTimeout(function(){window.location.replace(base_url+"logout")},1500);
+                            }else{
+                                mensaje("error","Error",objData.msg);
+                            }
                         }
                     }
+                }else{
+                    return mensaje("error","Error","Las contraseñas no coinciden")
                 }
             }else{
-                return mensaje("error","Error","Las contraseñas no coinciden")
+                return validateCamps(camps);
             }
-        }else{
-            return validateCamps(camps);
-        }
-    });
+        });        
+    }
 }
 
-
-fntRestaurarPassword();

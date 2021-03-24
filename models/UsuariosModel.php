@@ -74,16 +74,22 @@
             $this->str_password = $str_password;
             $this->int_estado = $int_estado;
             
-            $sql = "SELECT * FROM usuarios WHERE (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario ) and ( email = '{$this->str_email}' and id_usuario =  $this->int_id_usuario )";
-            $request = $this->select_sql_all($sql);
+            $sql = "SELECT * FROM usuarios WHERE
+                (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario )";
+            
+            $request = $this->select_sql($sql);
             
             if (empty($request)){
                 if ($this->str_password != "" ) {
-                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,foto = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
-                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,$this->str_email, $this->int_id_rol,$this->str_password,$this->int_estado);
+                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,
+                    foto = ?,usuario = ?,email = ?, id_rol = ?,password = ?,estado = ? ,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
+                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,
+                    $this->str_email, $this->int_id_rol,$this->str_password,$this->int_estado);
                 }else{
-                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,foto = ?,usuario = ?,email = ?,estado = ?,id_rol = ?,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
-                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,$this->str_email,$this->int_estado,$this->int_id_rol);
+                    $sql_update = "UPDATE usuarios SET nombre = ?, apellido = ?,
+                    foto = ?,usuario = ?,email = ?,estado = ?,id_rol = ?,fecha_modifica = now() WHERE id_usuario = $this->int_id_usuario  ";
+                    $data = array($this->str_nombre,$this->str_apellido,$this->str_imagen,$this->str_usuario,
+                    $this->str_email,$this->int_estado,$this->int_id_rol);
                 }
                 $request = $this->update_sql($sql_update,$data);
             }else{

@@ -64,12 +64,12 @@
                                             <div class="modal-body">
                                             <form id="formRestaurar">
                                                 <div class="card-body row">
-                                                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['user_data']['id_usuario']; ?>">
+                                                    <input type="hidden" id="id_usuario_ses" name="id_usuario_ses" value="<?php echo $_SESSION['user_data']['id_usuario']; ?>">
                                                     <div class="col-md-10 mb-3">
                                                         <label class="control-label">Nueva contraseña:</label>
                                                         <div class="input-group mb-3">
                                                             <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-key"></i></span></span>
-                                                            <input type="password" name="password" class="form-control" id="password"  placeholder="ingrese la nueva contraseña">
+                                                            <input type="password" name="password_new" class="form-control" id="password_new"  placeholder="ingrese la nueva contraseña">
                                                         </div>
                                                     </div>
 

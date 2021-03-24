@@ -99,8 +99,8 @@
 
         public function resUsuario(){
             if ($_POST) {
-                $int_id_usuario = intval($_POST['id_usuario']);
-                $str_password = strclean($_POST['password']);
+                $int_id_usuario = intval($_POST['id_usuario_ses']);
+                $str_password = strclean($_POST['password_new']);
                 $str_rep_password = strclean($_POST['rep_password']);
                 if (empty($int_id_usuario) || empty($str_password) || empty($str_rep_password)){
                     $data = array("status" => false, "msg" => "Los datos ingresados estan vacios");
@@ -109,7 +109,7 @@
                     if(empty($request_user_pass)){
                         $data = array("status" => false, "msg" => "No existe este usuario,imposible realizar esta accion");
                     }else{
-                        $str_password = password_hash(strclean($_POST['password']),PASSWORD_DEFAULT,['cost' => 10]);
+                        $str_password = password_hash(strclean($_POST['password_new']),PASSWORD_DEFAULT,['cost' => 10]);
                         $request_password_update = $this->model->updatePassword($int_id_usuario,$str_password);
                         if($request_password_update > 0){
                             $data= array("status" => true, "msg" => "Contraseña actualizada correctamente");

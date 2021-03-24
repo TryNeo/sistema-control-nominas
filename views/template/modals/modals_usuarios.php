@@ -74,7 +74,7 @@
             
             </div>
             <div class="col-md-12 mb-3">
-              <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center">Guardar Registro</span></button>
+              <button type="submit" class="btn btn-info"><i class="fas fa-save"></i><span class="text-center"> Guardar Registro</span></button>
               <button type="reset" class="btn btn-primary " id="btnDisabled" name="reset"> <i class="fas fa-undo"></i>Limpiar Registro</button>                    
               <button type="button" class="btn btn-danger" onclick="return cerrar_modal('#modalUsuario')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
             </div>
