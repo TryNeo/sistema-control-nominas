@@ -16,6 +16,12 @@
             parent::__construct();
         }
 
+        public function getTotalEmpleado(){
+            $query = "SELECT * FROM empleados WHERE estado !=0";
+            $request_query = $this->select_count($query);
+            return $request_query;
+        }
+
         public function selectEmpleados(){
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.cedula,empl.telefono,
             empl.sueldo,puest.nombre_puesto,cont.nombre_contracto,empl.estado FROM empleados as empl 
@@ -24,6 +30,15 @@
             $request = $this->select_sql_all($sql);
             return $request;
         }
+
+        public function selectEmpleadosReporte(){
+            $sql = "SELECT empl.id_empleado,empl.cedula,empl.nombre,empl.apellido,empl.telefono,empl.sueldo,puest.nombre_puesto FROM empleados as empl 
+            INNER JOIN contractos as cont ON empl.id_contracto = cont.id_contracto 
+            INNER JOIN puestos as puest ON empl.id_puesto = puest.id_puesto";
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
 
 
         public function selectEmpleado(int $id_empleado){

@@ -28,8 +28,60 @@
             $pdf->AliasNbPages();
             $pdf->AddPage();
             $pdf->SetTitle('Reporte | Empleados');
-            $pdf->renderHeader('','./assets/images/logo-wosecurity.png',13,15,40);
-            $pdf->Output('', 'reporte_empleados_'.date("d_m_Y_H_i").'.pdf','I');
+            $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:XXX-XXX-XXXX','./assets/images/logo-wosecurity.png',13,15,40);
+            $pdf->renderText('Listado | Empleados');
+            $pdf->SetFont('arial', '', 10);
+            $y = $pdf->GetY() + 8;
+            
+            $pdf->SetXY(10, $y);
+            $pdf->MultiCell(8, 8, utf8_decode("Nº"), 1, 'C');
+            
+            $pdf->SetXY(18, $y); 
+            $pdf->MultiCell(22, 8, utf8_decode("Cedula"), 1, 'C');
+            
+            $pdf->SetXY(40, $y); 
+            $pdf->MultiCell(30, 8, utf8_decode("Nombre"), 1, 'C');
+
+            $pdf->SetXY(70, $y); 
+            $pdf->MultiCell(30, 8, utf8_decode("Apellido"), 1, 'C');
+
+            $pdf->SetXY(100, $y); 
+            $pdf->MultiCell(30, 8, utf8_decode("Telefono"), 1, 'C');
+
+            $pdf->SetXY(130, $y); 
+            $pdf->MultiCell(25, 8, utf8_decode("Sueldo"), 1, 'C');
+
+            $pdf->SetXY(155, $y); 
+            $pdf->MultiCell(40, 8, utf8_decode("Cargo"), 1, 'C');
+
+
+            $data = $this->model->selectEmpleadosReporte();
+            foreach ($data as $value) {
+                $y = $pdf->GetY();
+                $pdf->SetXY(10, $y);
+                $pdf->MultiCell(8, 8, $value['id_empleado'], 1, 'C');
+                $pdf->SetXY(18, $y);
+                $pdf->MultiCell(22, 8, $value['cedula'], 1, 'C');
+                $pdf->SetXY(40, $y);
+                $pdf->MultiCell(30, 8, $value['nombre'], 1, 'C');
+                $pdf->SetXY(70, $y);
+                $pdf->MultiCell(30, 8, $value['apellido'], 1, 'C');
+                $pdf->SetXY(100, $y); 
+                $pdf->MultiCell(30, 8, $value['telefono'], 1, 'C');
+                $pdf->SetXY(130, $y); 
+                $pdf->MultiCell(25, 8, "$".$value['sueldo'], 1, 'C');
+                $pdf->SetXY(155, $y); 
+                $pdf->MultiCell(40, 8, $value['nombre_puesto'], 1, 'C');                
+            }
+
+            $y = $pdf->GetY() + 8;
+            $pdf->SetY(120);
+            $pdf->SetXY(155, $y);
+            $pdf->MultiCell(30, 8, utf8_decode("Total Empleados"),1, 'C');
+            $pdf->SetXY(185, $y);
+            $pdf->MultiCell(10, 8, $this->model->getTotalEmpleado(),1, 'C');
+
+            $pdf->Output('', 'reporte_empleados_'.date("d_m_Y_H_i").'.pdf');
 
         }
 
