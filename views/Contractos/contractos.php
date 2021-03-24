@@ -13,7 +13,7 @@
             <?php  if ($_SESSION['permisos_modulo']['w']) {?>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                 <button onclick="return abrir_modal();" class="btn btn-outline-secondary btnModal" data-target="#modalContractos"><i class="fa fa-plus" aria-hidden="true"></i>
-                Añadir nuevo contracto</button>     
+                Añadir nuevo contrato</button>     
             </div>
             <?php } ?>
         </div>

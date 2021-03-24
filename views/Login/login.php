@@ -28,14 +28,14 @@
     <body>
         <div class="splash-container new-style">
             <div class="card ">
-                <div class="card-header text-center"><a href="#"><img class="logo-img" src="<?php echo server_url; ?>assets/images/wosecurity.png" alt="logo" width="200"></a><span class="splash-description"><strong>W@SECURITY</strong></span></div>
+                <div class="card-header text-center"><a href="<?php echo server_url?>/login"><img class="logo-img" src="<?php echo server_url; ?>assets/images/wosecurity.png" alt="logo" width="200"></a><span class="splash-description"><strong>W@SECURITY</strong></span></div>
                 <div class="card-body">
                     <form name="formLogin" id="formLogin" action="">
                         <div class="form-group">
-                            <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="ingrese su username" autocomplete="off">
+                            <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="ingrese su usuario" autocomplete="off">
                         </div>
                         <div class="form-group input-group">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="ingrese su password">
+                            <input class="form-control" id="password" name="password" type="password" placeholder="ingrese su contraseña">
                             <span class="input-group-btn">
                                 <button id="show_password" class="btn btn-dark btn-lg" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
                             </span>
@@ -48,7 +48,7 @@
                         <div class="card-footer-item card-footer-item-bordered">
                             <a class="btn btn-info btn-circle"href="#" class="footer-link">Facebook <i class="fab fa-facebook"></i></a></div>
                         <div class="card-footer-item card-footer-item-bordered">
-                            <a class="btn btn-danger btn-circle" href="#">Instgram <i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-danger btn-circle" href="#">Instagram <i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>

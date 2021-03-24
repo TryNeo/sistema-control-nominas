@@ -16,9 +16,9 @@
                 header('location:'.server_url.'Errors');
             }
             $data["page_id"] = 6;
-            $data["tag_pag"] = "Contractos";
-            $data["page_title"] = "Contractos | Inicio";
-            $data["page_name"] = "Tipos de contractos";
+            $data["tag_pag"] = "Contratos";
+            $data["page_title"] = "Contratos | Inicio";
+            $data["page_name"] = "Tipos de contratos";
             $data['page'] = "contractos";
             $this->views->getView($this,"contractos",$data);
         }

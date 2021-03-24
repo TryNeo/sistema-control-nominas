@@ -71,14 +71,12 @@ getHeader($data);
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="col-md-12 form-group">
-                                                        <label class="control-label">Meses:</label>
-                                                        <input type="text" class="form-control" name="meses_detalle" id="meses_detalle">
-                                                    </div>  
-                                                    <div class="col-md-12 form-group">
                                                         <label class="control-label">Total a pagar:</label>
                                                         <div class="input-group mb-3">
                                                             <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign"></i></span></span>
-                                                            <input type="text" readonly value="<?php echo $data["data_nomina"]["total"]; ?>" class="form-control" name="total" id="total">
+                                                            <input type="text" readonly value="<?php 
+                                                                $total = ($data["data_nomina"]["total"] > 1) ? $data["data_nomina"]["total"] : 0;
+                                                            echo $total; ?>" class="form-control" name="total" id="total">
                                                         </div>
                                                     </div>  
                                                 </div>

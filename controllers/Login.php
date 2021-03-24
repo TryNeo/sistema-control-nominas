@@ -39,7 +39,7 @@
                                 $_SESSION['login'] = true;
                                 $arrResponse = $this->model->sessionLogin($_SESSION['id_usuario']);
                                 $_SESSION['user_data'] = $arrResponse;
-                                $data = array('status' => true,'msg' => 'Usuario y contraseña correctas');
+                                $data = array('status' => true,'msg' => 'Ha iniciado sesión correctamente');
                             }else{
                                 $data = array('status' => false,'msg' => 'La contraseña es incorrecto');
                             }

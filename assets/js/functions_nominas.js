@@ -88,6 +88,19 @@ document.addEventListener('DOMContentLoaded',function(){
                                             fntEliminarDetalle()
                                         }, 1000);
                                     });
+                                    $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
+                                        if(!data.length){
+                                            mensaje("error","Error","Ingrese los empleados respectivos de la nomina");
+                                        }else{
+                                            let valores_total = new Array();
+                                            data.forEach((element) => {
+                                                valores_total.push(element['valor_total'])
+                                            });
+                                            let total =valores_total.reduce((acum,total)=> parseInt(acum)+parseInt(total));
+                                            document.querySelector('#total').value = total;
+                                        }
+                                        
+                                    });
                                 }else{
                                     mensaje("error","Error",objData.msg);
                                 }
@@ -256,37 +269,29 @@ function fntSetDetalleNomina(){
             let id_nomina = document.querySelector('#id_nomina').value;        
             let nombre_nomina = document.querySelector('#nombre_nomina').value;
             let estado_nomina = document.querySelector('#estado_nomina').value;
-            let meses_detalle = document.querySelector('#meses_detalle').value;
-            if(meses_detalle >= 1){
-                if(nombre_nomina === ""){
+            if(nombre_nomina === ""){
                     mensaje("error","Error","Ingrese el nombre la nomina");
-                }else{
-                    $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
-                        if(!data.length){
-                            mensaje("error","Error","Ingrese los empleados respectivos de la nomina");
-                        }else{
-                            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                            let ajaxUrl = base_url+"nominas/setDetalleGeneral";
-                            let formData = new FormData(formDetalleNomina);
-                            request.open("POST",ajaxUrl,true);
-                            request.send(formData);
-                            request.onreadystatechange = function(){
-                                if(request.readyState==4 && request.status == 200){
-                                    let objData = JSON.parse(request.responseText); 
-                                    if (objData.status){
-                                        mensaje("success","Exitoso",objData.msg);
-                                        dataNomina.ajax.reload();
-                                        let meses_detalle = document.querySelector('#meses_detalle').value = 0;
-                                    }else{
-                                        mensaje("error","Error",objData.msg);
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
             }else{
-                mensaje("error","Error","Ingrese un numero de meses valido");
+                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrl = base_url+"nominas/setDetalleGeneral";
+                let formData = new FormData(formDetalleNomina);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState==4 && request.status == 200){
+                        let objData = JSON.parse(request.responseText); 
+                        if (objData.status){
+                            mensaje("success","Exitoso",objData.msg);
+                            dataNomina.ajax.reload(function(){
+                                setTimeout(function(){ 
+                                    fntEliminarDetalle()
+                                }, 1000);
+                            });
+                        }else{
+                            mensaje("error","Error",objData.msg);
+                        }
+                    }
+                }
             }
         });
     }
@@ -321,7 +326,6 @@ function fntSearchEmpleado(){
     }).on('select2:select',function(e){
         e.preventDefault();
         let data = e.params.data;
-        let meses_detalle = document.querySelector('#meses_detalle').value;
         let  id_empleado = data.id;
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+"nominas/getSearchNominaEmpleado/"+id_empleado;
@@ -344,19 +348,13 @@ function fntSearchEmpleado(){
                         if(request_two.readyState==4 && request_two.status == 200){
                             let objData = JSON.parse(request_two.responseText); 
                             if (objData.status){
-                                let array_total = new Array();
-                                let meses = document.querySelector('#meses_detalle').value;
                                 dataNomina.ajax.reload(function(){
                                     setTimeout(function(){ 
                                         fntEliminarDetalle()
-                                    }, 1000);                                    });
-                                $.getJSON(base_url+"nominas/getNominaEmpleados/"+id_nomina,function(data){
-                                    data.forEach((key,value) => {
-                                        array_total.push(key['sueldo'])
-                                        let total = document.querySelector('#total').value = array_total.reduce((acum,total)=> 
-                                        parseInt(acum)+parseInt(total))*meses;
-                                    })
-                                }) ;
+                                    }, 1000);
+                                
+                                });
+
                             }else{
                                 mensaje("error","Error",objData.msg);
                             }
@@ -403,8 +401,6 @@ function fntEliminarDetalle(){
                             })
                             let total = document.querySelector('#total').value = (array_total.reduce((a, b) => parseInt(a) + parseInt(b),0) === 0) ? 0 : array_total.reduce((a, b) => parseInt(a) + parseInt(b),0) ;
                         }) ;
-                        let meses_detalle = document.querySelector('#meses_detalle').value = 0;
-
                     }else{
                         mensaje("error","Error",objData.msg);
                     }

@@ -9,13 +9,10 @@ document.addEventListener('DOMContentLoaded',function(){
 })
 
 
-
-
-
 function validateCamps(listCamps){
-  let newlistCamps = new Array();
-  let errorCamps = new Array();
-  
+    let newlistCamps = new Array();
+    let errorCamps = new Array();
+
     listCamps.forEach(function(elements, index) {
         if(listCamps[index] === ""){
             errorCamps.push(listCamps[index]);

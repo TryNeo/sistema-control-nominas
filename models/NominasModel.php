@@ -89,7 +89,7 @@
 
         public function selectDetalleEmpleadosNominas(int $id_nomina){
             $this->int_id_nomina = $id_nomina;
-            $sql = "SELECT empl.id_empleado,empl.sueldo,(SELECT SUM(valor_total) FROM detalle_nomina WHERE id_nomina = $this->int_id_nomina) as total 
+            $sql = "SELECT empl.id_empleado
             FROM detalle_nomina as det
             INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
             WHERE det.id_nomina = $this->int_id_nomina";
@@ -128,22 +128,15 @@
             return $return;
         }
 
-        public function updateDetalle(int $int_id_nomina,int $int_id_empleado,string $str_nombre_nomina,
-            int $int_meses_nomina,int $estado_nomina,float $valor_total,int $int_total_pagar){
+        public function updateDetalle(int $int_id_nomina,int $int_id_empleado,string $str_nombre_nomina,int $estado_nomina,int $int_total_pagar){
             $this->int_id_nomina = $int_id_nomina;
             $this->int_id_empleado = $int_id_empleado;
             $this->str_nombre_nomina = $str_nombre_nomina;
-            $this->int_meses_nomina = $int_meses_nomina;
             $this->int_estado_nomina = $estado_nomina;
-            $this->float_valor_total = $valor_total;
             $this->int_total_pagar = $int_total_pagar;
             $sql_update_nomina = "UPDATE nominas SET nombre_nomina = ?, estado_nomina = ?,total = ?,fecha_modifica = now() WHERE id_nomina = $this->int_id_nomina";
             $data_nomina = array($this->str_nombre_nomina,$this->int_estado_nomina,$this->int_total_pagar);
             $request_update_nomina = $this->update_sql($sql_update_nomina,$data_nomina);
-
-            $sql_update_detalle_nomina = "UPDATE detalle_nomina SET meses = ?, valor_total = ? WHERE id_nomina = $this->int_id_nomina and id_empleado = $this->int_id_empleado";
-            $data_detalle_nomina = array($this->int_meses_nomina,$this->float_valor_total);
-            $request_update_detalle_nomina =  $this->update_sql($sql_update_detalle_nomina,$data_detalle_nomina);
         }
 
         public function updateDetalleMesesTotal(string $id_detalle_nomina,int $int_meses_nomina,int $int_total_pagar){

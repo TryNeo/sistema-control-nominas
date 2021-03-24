@@ -236,7 +236,6 @@
                 if ($_POST) {
                     $intNomina = intval(strclean($_POST['id_nomina']));
                     $nombre_nomina = strclean($_POST['nombre_nomina']);
-                    $meses_nomina = intval(strclean($_POST['meses_detalle']));
                     $estado_nomina = intval(strclean($_POST['estado_nomina']));
                     $total_pagar = floatval(strclean($_POST['total']));
                     $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);
@@ -244,21 +243,18 @@
                     foreach ($request_sueldo as $clave => $valor){
                             $total = 0;
                             $total_new = 0;
-                            $total = $meses_nomina*$request_sueldo[$clave]{'sueldo'};
                             array_push($array_total,array('id_nomina'=>$intNomina,
                             'id_empleado' => $request_sueldo[$clave]['id_empleado'],
                             'nombre_nomina' => $nombre_nomina,
-                            'meses_nomina' => $meses_nomina,
                             'estado_nomina'=> $estado_nomina,
-                            'valor_total' => $total,
                             'total_pagar' => $total_pagar));
                         }
 
                         foreach ($array_total as $clave => $valor) {
                         $update_detalle = $array_total[$clave];
                         $request_update = $this->model->updateDetalle($update_detalle['id_nomina'],
-                        $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],$update_detalle['meses_nomina'],
-                        $update_detalle['estado_nomina'],$update_detalle['valor_total'],$update_detalle['total_pagar']);
+                            $update_detalle['id_empleado'],$update_detalle['nombre_nomina'],
+                            $update_detalle['estado_nomina'],$update_detalle['total_pagar']);
                     }
                     $data = array('status' => true,'msg' => 'La nomina ha sido generada correctamente');
                 }else{
