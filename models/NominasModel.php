@@ -42,6 +42,21 @@
             return $request;
         }
 
+        public function selectDetalleNomina(int $int_id_nomina){
+            $this->int_id_nomina = $int_id_nomina;
+            $sql = "SELECT nom.nombre_nomina,nom.periodo_inicio,nom.periodo_fin,nom.estado_nomina,nom.total
+            FROM nominas as nom WHERE id_nomina = $this->int_id_nomina and nom.estado !=0" ;
+            $request = $this->select_sql($sql);
+
+            $sql_detalle = "SELECT empl.nombre,empl.apellido,puest.nombre_puesto,empl.sueldo,det.meses,det.valor_total FROM detalle_nomina as det
+            INNER JOIN empleados as empl ON empl.id_empleado = det.id_empleado
+            INNER JOIN puestos as puest ON puest.id_puesto = empl.id_puesto
+            WHERE det.id_nomina = $this->int_id_nomina" ;
+            $request_detalle = $this->select_sql_all($sql_detalle);
+
+            return [$request,$request_detalle];
+        }
+
 
         public function selectNominas(){
             $sql = "SELECT nom.id_nomina,

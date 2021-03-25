@@ -24,81 +24,173 @@
         }
 
         public function reporteNominas(){
-            $pdf = new reporte();
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->SetTitle('Reporte | Nominas');
-            $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:XXX-XXX-XXXX','./assets/images/logo-wosecurity.png',13,15,40);
-            $pdf->renderText('Listado | Nominas');
-            $pdf->SetFont('arial', '', 10);
-            $y = $pdf->GetY() + 8;
-            
-            $pdf->SetXY(10, $y);
-            $pdf->MultiCell(8, 8, utf8_decode("Nº"), 1, 'C');
-            
-            $pdf->SetXY(18, $y); 
-            $pdf->MultiCell(35, 8, utf8_decode("Nomina"), 1, 'C');
-            
-            $pdf->SetXY(53, $y); 
-            $pdf->MultiCell(35, 8, utf8_decode("Periodo inicio"), 1, 'C');
-
-            $pdf->SetXY(88, $y); 
-            $pdf->MultiCell(35, 8, utf8_decode("Periodo fin"), 1, 'C');
-
-            $pdf->SetXY(123, $y); 
-            $pdf->MultiCell(35, 8, utf8_decode("Estado nomina"), 1, 'C');
-
-            $pdf->SetXY(158, $y); 
-            $pdf->MultiCell(35, 8, utf8_decode("Total"), 1, 'C');
-            
-            $data = $this->model->selectNominasReporte();
-            foreach ($data as $value) {
-                $y = $pdf->GetY();
+            if (empty($_SESSION['permisos_modulo']['r'])) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                die();
+            }else{
+                $pdf = new reporte();
+                $pdf->AliasNbPages();
+                $pdf->AddPage();
+                $pdf->SetTitle('Reporte | Nominas');
+                $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
+                $pdf->renderText('Listado | Nominas');
+                $pdf->SetFont('arial', '', 10);
+                $y = $pdf->GetY() + 8;
+                
                 $pdf->SetXY(10, $y);
-                $pdf->MultiCell(8, 8, $value['id_nomina'], 1, 'C');
-                $pdf->SetXY(18, $y);
-                $pdf->MultiCell(35, 8, $value['nombre_nomina'], 1, 'C');
-                $pdf->SetXY(53, $y);
-                $pdf->MultiCell(35, 8, $value['periodo_inicio'], 1, 'C');
-                $pdf->SetXY(88, $y);
-                $pdf->MultiCell(35, 8, $value['periodo_fin'], 1, 'C');
+                $pdf->MultiCell(8, 8, utf8_decode("Nº"), 1, 'C');
+                
+                $pdf->SetXY(18, $y); 
+                $pdf->MultiCell(35, 8, utf8_decode("Nomina"), 1, 'C');
+                
+                $pdf->SetXY(53, $y); 
+                $pdf->MultiCell(35, 8, utf8_decode("Periodo inicio"), 1, 'C');
+
+                $pdf->SetXY(88, $y); 
+                $pdf->MultiCell(35, 8, utf8_decode("Periodo fin"), 1, 'C');
+
                 $pdf->SetXY(123, $y); 
-                if($value['estado_nomina'] == 1){
-                    $pdf->MultiCell(35, 8,'Pediente', 1, 'C');
-                }else if ($value['estado_nomina'] == 2){
-                    $pdf->MultiCell(35, 8,'Aceptado', 1, 'C');
-                }else{
-                    $pdf->MultiCell(35, 8,'Rechazado', 1, 'C');
-                }
+                $pdf->MultiCell(35, 8, utf8_decode("Estado nomina"), 1, 'C');
+
                 $pdf->SetXY(158, $y); 
-                $pdf->MultiCell(35, 8, "$".$value['total'], 1, 'C');
+                $pdf->MultiCell(35, 8, utf8_decode("Total"), 1, 'C');
+                
+                $data = $this->model->selectNominasReporte();
+                foreach ($data as $value) {
+                    $y = $pdf->GetY();
+                    $pdf->SetXY(10, $y);
+                    $pdf->MultiCell(8, 8, $value['id_nomina'], 1, 'C');
+                    $pdf->SetXY(18, $y);
+                    $pdf->MultiCell(35, 8, $value['nombre_nomina'], 1, 'C');
+                    $pdf->SetXY(53, $y);
+                    $pdf->MultiCell(35, 8, $value['periodo_inicio'], 1, 'C');
+                    $pdf->SetXY(88, $y);
+                    $pdf->MultiCell(35, 8, $value['periodo_fin'], 1, 'C');
+                    $pdf->SetXY(123, $y); 
+                    if($value['estado_nomina'] == 1){
+                        $pdf->MultiCell(35, 8,'Pediente', 1, 'C');
+                    }else if ($value['estado_nomina'] == 2){
+                        $pdf->MultiCell(35, 8,'Aceptado', 1, 'C');
+                    }else{
+                        $pdf->MultiCell(35, 8,'Rechazado', 1, 'C');
+                    }
+                    $pdf->SetXY(158, $y); 
+                    $pdf->MultiCell(35, 8, "$".$value['total'], 1, 'C');
+                }
+
+                $y = $pdf->GetY() + 8;
+                $pdf->SetY(120);
+                
+                $pdf->SetXY(123, $y);
+                $pdf->MultiCell(35, 8, utf8_decode("Total Nominas"),1, 'C');
+                $pdf->SetXY(158, $y);
+                $pdf->MultiCell(35, 8, $this->model->getTotalNominas(),1, 'C');
+
+                $y = $pdf->GetY();
+                $pdf->SetXY(123, $y);
+                $pdf->MultiCell(35, 8, utf8_decode("Total General"),1, 'C');
+                $pdf->SetXY(158, $y);
+                $pdf->MultiCell(35, 8, '$'.$this->model->getTotalGeneral()[0]['total'],1, 'C');
+
+                
+                $pdf->Output('', 'reporte_nominas_'.date("d_m_Y_H_i").'.pdf');
             }
-
-            $y = $pdf->GetY() + 8;
-            $pdf->SetY(120);
-            
-            $pdf->SetXY(123, $y);
-            $pdf->MultiCell(35, 8, utf8_decode("Total Nominas"),1, 'C');
-            $pdf->SetXY(158, $y);
-            $pdf->MultiCell(35, 8, $this->model->getTotalNominas(),1, 'C');
-
-            $y = $pdf->GetY();
-            $pdf->SetXY(123, $y);
-            $pdf->MultiCell(35, 8, utf8_decode("Total General"),1, 'C');
-            $pdf->SetXY(158, $y);
-            $pdf->MultiCell(35, 8, '$'.$this->model->getTotalGeneral()[0]['total'],1, 'C');
-
-            $pdf->Output('', 'reporte_nominas_'.date("d_m_Y_H_i").'.pdf');
         }
 
         public function reporteDetalle($id_nomina){
-            $pdf = new reporte();
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->SetTitle('Reporte | Detalle Nomina');
-            $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:XXX-XXX-XXXX','./assets/images/logo-wosecurity.png',13,15,40);
-            $pdf->renderText('Listado | Nominas');
-            $pdf->Output('', 'reporte_detalle_nominas_'.date("d_m_Y_H_i").'.pdf');
+            if (empty($_SESSION['permisos_modulo']['r'])) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                die();
+            }else{
+                if(empty($id_nomina)){
+                    header('location:'.server_url.'nominas');
+                }else{
+                    $data = $this->model->selectDetalleNomina($id_nomina);
+                    if (empty($data)){
+                        header('location:'.server_url.'nominas');
+                    }else{ 
+                        $pdf = new reporte();
+                        $pdf->AliasNbPages();
+                        $pdf->AddPage();
+                        $pdf->SetTitle('Reporte | Detalle Nomina');
+                        $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
+                        
+                        $pdf->SetY(70);
+                        $pdf->SetFont('Arial', 'B', 13);
+                        $pdf->Cell(0, 15,'Nomina # '.$id_nomina, 0,0,'R');
+                        $pdf->SetY(76);
+                        $pdf->SetFont('Arial', 'B', 10);
+                        $pdf->Cell(0, 15,'Fecha: '.date('d/m/Y'), 0,0,'R');
+
+                        $pdf->SetY(90);
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->Cell(0, 15,'Nomina: '.$data[0]['nombre_nomina'], 0,0,'L');
+                        $pdf->SetY(95);
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->Cell(0, 15,'Periodo de Inicio: '.$data[0]['periodo_inicio'], 0,0,'L');
+                        $pdf->SetY(100);
+                        $pdf->SetFont('Arial', '', 12);
+                        $pdf->Cell(0, 15,'Periodo de Fin: '.$data[0]['periodo_fin'], 0,0,'L');
+                        if($data[0]['estado_nomina'] == 1){
+                            $pdf->SetY(105);
+                            $pdf->SetFont('Arial', '', 12);
+                            $pdf->Cell(0, 15,'Estado nomina: Pediente', 0,0,'L');
+                        }else if ($data[0]['estado_nomina'] == 2){
+                            $pdf->SetY(105);
+                            $pdf->SetFont('Arial', '', 12);
+                            $pdf->Cell(0, 15,'Estado nomina: Aceptado', 0,0,'L');
+                        }else{
+                            $pdf->SetY(105);
+                            $pdf->SetFont('Arial', '', 12);
+                            $pdf->Cell(0, 15,'Estado nomina: Rechazado', 0,0,'L');
+                        }
+                        $pdf->Ln();
+                        $pdf->SetFont('arial', 'B', 10);
+                        $y = $pdf->GetY() + 8;
+                        
+                        $pdf->SetXY(11, $y);
+                        $pdf->MultiCell(60, 8, utf8_decode("Empleado"), 1, 'C');
+                        $pdf->SetXY(71, $y);
+                        $pdf->MultiCell(40, 8, utf8_decode("Cargo"), 1, 'C');
+                        $pdf->SetXY(111, $y);
+                        $pdf->MultiCell(25, 8, utf8_decode("Sueldo"), 1, 'C');
+                        $pdf->SetXY(136, $y);
+                        $pdf->MultiCell(25, 8, utf8_decode("Meses"), 1, 'C');
+                        $pdf->SetXY(161, $y);
+                        $pdf->MultiCell(30, 8, utf8_decode("Total"), 1, 'C');
+                        foreach ($data[1] as $value) {
+                            $pdf->SetFont('arial', '', 10);
+                            $y = $pdf->GetY();
+                            $pdf->SetXY(11, $y);
+                            $pdf->MultiCell(60, 8, $value['nombre']." ".$value['apellido'], 1, 'C');
+                            $pdf->SetXY(71, $y);
+                            $pdf->MultiCell(40, 8, $value['nombre_puesto'], 1, 'C');
+                            $pdf->SetXY(111, $y);
+                            $pdf->MultiCell(25, 8, "$".$value['sueldo'], 1, 'C');
+                            $pdf->SetXY(136, $y);
+                            $pdf->MultiCell(25, 8, $value['meses'], 1, 'C');
+                            $pdf->SetXY(161, $y);
+                            $pdf->MultiCell(30, 8, "$".$value['valor_total'], 1, 'C');
+                        }
+
+                        $y = $pdf->GetY() + 8;
+                        $pdf->SetY(120);
+                        
+                        $pdf->SetXY(136, $y);
+                        $pdf->MultiCell(25, 8, utf8_decode("Total a pagar"),1, 'C');
+                        $pdf->SetXY(161, $y);
+                        $pdf->MultiCell(30, 8, "$".$data[0]['total'],1, 'C');
+                        $pdf->Output('', 'reporte_detalle_nominas_'.date("d_m_Y_H_i").'.pdf');
+
+                    }
+
+                }
+
+            }
 
         }
 
