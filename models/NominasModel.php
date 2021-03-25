@@ -18,6 +18,31 @@
             parent::__construct();
         }
 
+        public function selectNominasReporte(){
+            $sql = "SELECT nom.id_nomina,
+            nom.nombre_nomina,
+            nom.periodo_inicio,
+            nom.periodo_fin,
+            nom.estado_nomina,
+            nom.total
+            FROM nominas as nom WHERE nom.estado !=0" ;
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
+        public function getTotalNominas(){
+            $query = "SELECT * FROM nominas WHERE estado !=0";
+            $request_query = $this->select_count($query);
+            return $request_query;
+        }
+
+        public function getTotalGeneral(){
+            $query = "SELECT sum(nominas.total) as total FROM nominas WHERE estado !=0";
+            $request = $this->select_sql_all($query);
+            return $request;
+        }
+
+
         public function selectNominas(){
             $sql = "SELECT nom.id_nomina,
             nom.nombre_nomina,
@@ -173,6 +198,19 @@
             $this->int_id_detalle_nomina = $id_detalle_nomina;
             $sql_delete = "DELETE FROM detalle_nomina WHERE id_detalle_nomina = $this->int_id_detalle_nomina";
             $request_delete = $this->delete_sql($sql_delete);
+            if ($request_delete){
+                $request_delete = 'ok';
+            }else{
+                $request_delete = 'error';
+            }
+            return $request_delete;
+        }
+
+        public function deleteNomina(int $int_id_nomina){
+            $this->int_id_nomina = $int_id_nomina;
+            $sql = "UPDATE nominas set estado = ? , fecha_modifica = now() WHERE id_nomina = $this->int_id_nomina";
+            $data = array(0);
+            $request_delete = $this->update_sql($sql,$data);
             if ($request_delete){
                 $request_delete = 'ok';
             }else{

@@ -49,7 +49,7 @@
                                     <h2 class="mb-0"><?php echo $data["total_general"]; ?></h2>
                                 </div>
                                 <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
-                                    <i class="fas fa-dollar-sign fa-fw fa-sm text-primary"></i>
+                                    <i class="fa fa-money-bill-alt fa-fw fa-sm text-primary"></i>
                                 </div>
                             </div>
                         </div>

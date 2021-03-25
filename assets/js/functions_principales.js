@@ -346,10 +346,22 @@ function fntRestaurarPassword(){
 }
 
 
+
 function printPdf(idFrame){
     let objFra = document.getElementById(idFrame);
     objFra.contentWindow.focus();
     objFra.contentWindow.print();
+}
+
+
+
+function abrir_modal_reporte(idModal){
+    let options = {
+        "backdrop" : "static",
+        "keyboard": false,
+        "show":true
+    }
+    $('#'+idModal).modal(options);
 }
 
 

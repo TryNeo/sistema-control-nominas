@@ -187,7 +187,12 @@ document.addEventListener('DOMContentLoaded',function(){
                             let estado_nomina = document.querySelector('#estado_nomina').value = '';
                             let estadoInput = document.querySelector('#estadoInput').value = '';
                             mensaje("success","Exitoso",objData.msg);
-                            tablenominas.ajax.reload();
+                            tablenominas.ajax.reload(function(){
+                                setTimeout(function(){ 
+                                    baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
+                                    'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
+                                },500)
+                            });
                         }else{
                             mensaje("error","Error",objData.msg);
                         }
@@ -220,6 +225,17 @@ window.addEventListener('load',function(){
     }, 1000);
 },false);
 
+window.addEventListener('click',function(){
+    setTimeout(function(){ 
+        baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
+        'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
+    },500)
+ 
+})
+
+baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
+'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
+
 
 function formatRepo (repo) {
     if (repo.loading) {
@@ -242,7 +258,6 @@ function formatRepo (repo) {
 
     return option;
 }
-
 
 function abrir_modal_nomina(){
     let options = {
@@ -368,7 +383,6 @@ function fntSearchEmpleado(){
     });
 }
 
-
 function fntEliminarDetalle(){
     let btnEliminarDetalle = document.querySelectorAll('.btnEliminarDetalle');
     btnEliminarDetalle.forEach(function(btnEliminarDetalle){
@@ -408,4 +422,15 @@ function fntEliminarDetalle(){
             }
         });
     });
+}
+
+function abrir_modal_reporte_detalle(idNomina){
+    let options = {
+        "backdrop" : "static",
+        "keyboard": false,
+        "show":true
+    }
+    $('#modalReporteDetalle').modal(options);
+    document.getElementById("pdfdetallenomina").src = base_url+"nominas/reporteDetalle/"+parseInt(idNomina);
+    document.getElementById("dowloadpdf").href = base_url+"nominas/reporteDetalle/"+parseInt(idNomina);
 }

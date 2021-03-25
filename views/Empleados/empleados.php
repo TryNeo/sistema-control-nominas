@@ -18,7 +18,7 @@
             <?php } ?>
 
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-8 text-right">
-                <button onclick="return abrir_modal_reporte();" class="btn btn-outline-primary" ><i class="fas fa-print" aria-hidden="true"></i>
+                <button onclick="return abrir_modal_reporte('modalReporteEmpleado');" class="btn btn-outline-primary" ><i class="fas fa-print" aria-hidden="true"></i>
                     Reporte empleados</button>
             </div>
         </div>
