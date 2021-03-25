@@ -158,5 +158,14 @@ function abrir_modal_empleado(){
 }
 
 
+function abrir_modal_reporte(){
+    let options = {
+        "backdrop" : "static",
+        "keyboard": false,
+        "show":true
+    }
+    $('#modalReporteEmpleado').modal(options);
+}
+
 baseAjaxSelect('id_contracto','getSelectContractos','contractos','Seleciona el contracto');
 baseAjaxSelect('id_puesto','getSelectPuestos','puestos','Seleciona el puesto');

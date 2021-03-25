@@ -1,6 +1,6 @@
 <?php getHeader($data); 
     getModal('modals_empleados',$data);
-
+    getModal('modals_reporte_empleado',$data);
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
@@ -18,8 +18,8 @@
             <?php } ?>
 
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-8 text-right">
-                <a href="<?php echo server_url?>empleados/reporteEmpleados" class="btn btn-outline-primary" target="_blank"><i class="fas fa-print" aria-hidden="true"></i>
-                    Reporte empleados</a>
+                <button onclick="return abrir_modal_reporte();" class="btn btn-outline-primary" ><i class="fas fa-print" aria-hidden="true"></i>
+                    Reporte empleados</button>
             </div>
         </div>
         <hr>

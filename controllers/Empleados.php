@@ -76,10 +76,18 @@
 
             $y = $pdf->GetY() + 8;
             $pdf->SetY(120);
+            
             $pdf->SetXY(155, $y);
             $pdf->MultiCell(30, 8, utf8_decode("Total Empleados"),1, 'C');
             $pdf->SetXY(185, $y);
             $pdf->MultiCell(10, 8, $this->model->getTotalEmpleado(),1, 'C');
+
+            $y = $pdf->GetY();
+            $pdf->SetXY(155, $y);
+            $pdf->MultiCell(24, 8, utf8_decode("Total Sueldos"),1, 'C');
+
+            $pdf->SetXY(179, $y);
+            $pdf->MultiCell(16, 8,'$'.$this->model->getTotalSueldo()[0]['total'],1, 'C');
 
             $pdf->Output('', 'reporte_empleados_'.date("d_m_Y_H_i").'.pdf');
 

@@ -345,3 +345,11 @@ function fntRestaurarPassword(){
     }
 }
 
+
+function printPdf(idFrame){
+    let objFra = document.getElementById(idFrame);
+    objFra.contentWindow.focus();
+    objFra.contentWindow.print();
+}
+
+

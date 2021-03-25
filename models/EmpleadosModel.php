@@ -22,6 +22,12 @@
             return $request_query;
         }
 
+        public function getTotalSueldo(){
+            $query = "SELECT SUM(sueldo) as total FROM empleados WHERE estado !=0";
+            $request = $this->select_sql_all($query);
+            return $request;
+        }
+
         public function selectEmpleados(){
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.cedula,empl.telefono,
             empl.sueldo,puest.nombre_puesto,cont.nombre_contracto,empl.estado FROM empleados as empl 
