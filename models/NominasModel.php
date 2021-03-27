@@ -57,7 +57,6 @@
             return [$request,$request_detalle];
         }
 
-
         public function selectNominas(){
             $sql = "SELECT nom.id_nomina,
             nom.nombre_nomina,
@@ -97,7 +96,7 @@
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.sueldo,puest.nombre_puesto 
             FROM empleados as empl
             INNER JOIN puestos as puest ON puest.id_puesto = empl.id_puesto
-            WHERE nombre like '%".$this->str_search_empleado."%' and empl.estado!=0";
+            WHERE nombre like '%".$this->str_search_empleado."%' and empl.estado!=0 LIMIT 3";
             $request = $this->select_sql_all($sql);
             return $request;
         }

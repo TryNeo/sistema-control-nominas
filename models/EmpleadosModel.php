@@ -95,18 +95,11 @@
             $this->int_id_puesto = $int_id_puesto;
             $this->int_id_contracto = $int_id_contracto;
             $this->int_estado = $int_estado;
-
-            $sql = "SELECT * FROM empleados WHERE  (cedula = '{$this->str_cedula}' and id_empleado=$this->int_id_empleado)";
-            $request = $this->select_sql_all($sql);
-            if(empty($request)){
-                $sql_update = "UPDATE empleados SET nombre = ?,apellido = ?,cedula = ?,telefono = ?,
-                sueldo = ?,id_puesto = ?,id_contracto = ?,estado = ?,fecha_modifica = now() WHERE id_empleado = $this->int_id_empleado";
-                $data = array($this->str_nombre,$this->str_apellido,$this->str_cedula,
-                $this->str_telefono,$this->float_sueldo,$this->int_id_puesto,$this->int_id_contracto,$this->int_estado);
-                $request_update = $this->update_sql($sql_update,$data);              
-            }else{
-                $request_update= "exist";
-            }
+            $sql_update = "UPDATE empleados SET nombre = ?,apellido = ?,cedula = ?,telefono = ?,
+            sueldo = ?,id_puesto = ?,id_contracto = ?,estado = ?,fecha_modifica = now() WHERE id_empleado = $this->int_id_empleado";
+            $data = array($this->str_nombre,$this->str_apellido,$this->str_cedula,
+            $this->str_telefono,$this->float_sueldo,$this->int_id_puesto,$this->int_id_contracto,$this->int_estado);
+            $request_update = $this->update_sql($sql_update,$data);              
             return $request_update;
         }        
 

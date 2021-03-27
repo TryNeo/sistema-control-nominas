@@ -1,5 +1,7 @@
 <?php  
 getHeader($data);
+getModal('modals_empleados',$data);
+
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
@@ -30,10 +32,20 @@ getHeader($data);
                                         </div>
                                         <div class="col-md-8 form-group">
                                             <label class="control-label">Buscar empleado:</label>
-                                            <?php  if ($_SESSION['permisos_modulo']['u']) {?>
-                                                <select class="form-control select2" style="width:100%;" id="SearchEmpl"></select>
-                                            <?php } ?>
+                                            <div class="input-group mb-3">
+                                                <?php  if ($_SESSION['permisos_modulo']['u']) {?>
+                                                    
+                                                    <select class="form-control select2" style="width:80%" id="SearchEmpl"></select>
+                                                <?php } ?>
+
+                                                <?php if ($_SESSION['permisos'][5]['w']){?>
+                                                    <button onclick="return abrir_modal_empleado();" type="button" style="padding:5px;"  class="btn btn-secondary">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>  
+                                                <?php } ?>
+                                            </div>
                                         </div>
+
                                         <div class="col-md-4 form-group">
                                             <label class="control-label">Estado nomina:</label>
                                             <select class="form-control" id="estado_nomina" name="estado_nomina">
@@ -88,8 +100,9 @@ getHeader($data);
                         </div>
                         <div class="card-footer">
                             <?php  if ($_SESSION['permisos_modulo']['u']) {?>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Guardar Nomina</span></button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Generar</span></button>
                             <?php } ?>
+                            <a  href="<?php  echo server_url; ?>nominas" class="btn btn-info" ><i class="fas fa-redo-alt"></i>Volver</a>  
                             <a  href="<?php  echo server_url; ?>nominas" class="btn btn-danger" ><i class=" fas fa-exclamation-circle"></i> Cancelar</a>  
                         </div>
                     </div>
