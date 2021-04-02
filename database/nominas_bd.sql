@@ -2,15 +2,15 @@ DROP DATABASE  IF EXISTS nominas_bd;
 CREATE DATABASE IF NOT EXISTS nominas_bd;
 USE nominas_bd;
 
-DROP TABLE IF EXISTS contractos;
-CREATE TABLE contractos(
-id_contracto int(11) auto_increment,
-nombre_contracto varchar(50),
+DROP TABLE IF EXISTS contratos;
+CREATE TABLE contratos(
+id_contrato int(11) auto_increment,
+nombre_contrato varchar(50),
 descripcion text,
 estado boolean,
 fecha_crea DATETIME,
 fecha_modifica DATETIME default now(),
-PRIMARY KEY (id_contracto));
+PRIMARY KEY (id_contrato));
 
 DROP TABLE IF EXISTS puestos;
 CREATE TABLE puestos(
@@ -46,7 +46,7 @@ telefono varchar(14),
 sueldo float,
 id_puesto int(11),
 fecha_crea DATETIME,
-id_contracto int(11),
+id_contrato int(11),
 estado boolean,
 fecha_modifica DATETIME default now(),
 PRIMARY KEY (id_empleado));
@@ -112,7 +112,7 @@ CREATE TABLE permisos(
 
 
 
-ALTER TABLE empleados ADD CONSTRAINT fk_contracto FOREIGN KEY (id_contracto) REFERENCES contractos(id_contracto);
+ALTER TABLE empleados ADD CONSTRAINT fk_contrato FOREIGN KEY (id_contrato) REFERENCES contratos(id_contrato);
 ALTER TABLE empleados ADD CONSTRAINT fk_puesto FOREIGN KEY (id_puesto) REFERENCES puestos(id_puesto);
 ALTER TABLE usuarios ADD CONSTRAINT fk_roles FOREIGN KEY (id_rol)  REFERENCES roles(id_rol);
 ALTER TABLE permisos ADD CONSTRAINT fk_modulo FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo);
@@ -120,21 +120,21 @@ ALTER TABLE permisos ADD CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES roles
 ALTER TABLE detalle_nomina ADD CONSTRAINT fk_detalle_nomina FOREIGN KEY (id_nomina) REFERENCES nominas(id_nomina);
 ALTER TABLE detalle_nomina ADD CONSTRAINT fk_detalle_empleado FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado);
 
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido','Es todo contrato que concierta la prestación de servicios por un tiempo ilimitado.',1,now());
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato indefinido de fijos-discontinuos','Es el que se realiza para trabajos que son fijos
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contrato indefinido','Es todo contrato que concierta la prestación de servicios por un tiempo ilimitado.',1,now());
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contrato indefinido de fijos-discontinuos','Es el que se realiza para trabajos que son fijos
 pero no se repiten en determinadas fechas, produciendo discontinuidad en el tiempo.',1,now());
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos en prácticas','Sirven para facilitar las prácticas profesionales 
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contratos en prácticas','Sirven para facilitar las prácticas profesionales 
 a los trabajadores con título universitario o formación profesional,',1,now());
 
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato Para La Formación','Este contrato tiene como finalidad la adquisición de formación teórico-práctica 
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contrato Para La Formación','Este contrato tiene como finalidad la adquisición de formación teórico-práctica 
 necesaria para la realización adecuada de un trabajo que requiera algún tipo de cualificación o acreditación.,',1,now());
 
 
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contrato De Obra O Servicio Determinado','Es aquel que se firma para la realización de
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contrato De Obra O Servicio Determinado','Es aquel que se firma para la realización de
 una obra o servicio, con autonomía y cuya duración sea incierta.,',1,now());
 
 
-INSERT INTO contractos (nombre_contracto,descripcion,estado,fecha_crea) values('Contratos De Inserción','Para participar en programas públicos de realización de obras y servicios de interés general y social. El objetivo que se persigue es por un lado,
+INSERT INTO contratos (nombre_contrato,descripcion,estado,fecha_crea) values('Contratos De Inserción','Para participar en programas públicos de realización de obras y servicios de interés general y social. El objetivo que se persigue es por un lado,
 la adquisición de experiencia laboral, y por otro, facilitar la mejora de la ocupación al desempleado.',1,now());
 
 INSERT INTO puestos(nombre_puesto,descripcion,estado,fecha_crea) values("Gerente general","dueño",1,now());

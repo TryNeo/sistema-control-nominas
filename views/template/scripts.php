@@ -11,6 +11,10 @@
     <?php if($data['page'] == 'dashboard'){?>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/highcharts-3d.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/data.js"></script>
+        <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/drilldown.js"></script>
+
+
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/exporting.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/export-data.js"></script>
         <script src="<?php echo server_url; ?>assets/vendor/highchard/modules/accessibility.js"></script>
@@ -32,8 +36,8 @@
         <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_usuarios.js"></script>
     <?php } ?>
 
-    <?php if ($data['page'] == 'contractos') { ?>
-        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_contractos.js"></script>
+    <?php if ($data['page'] == 'contratos') { ?>
+        <script type="text/javascript" src="<?php echo server_url; ?>assets/js/functions_contratos.js"></script>
     <?php } ?>
 
     <?php if ($data['page'] == 'empleados') { ?>

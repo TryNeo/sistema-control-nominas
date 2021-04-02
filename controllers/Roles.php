@@ -85,8 +85,8 @@
         public function setRol(){
             if ($_POST) {
                 $intRol = Intval(strclean($_POST['id_rol']));
-                $rolInput = strclean($_POST["nombre_rol"]);
-                $descriInput = strclean($_POST["descripcion"]);
+                $rolInput = ucwords(strtolower(strclean($_POST["nombre_rol"])));
+                $descriInput = ucwords(strtolower(strclean($_POST["descripcion"])));
                 $estadoInput = intval($_POST["estadoInput"]);
                 if ($intRol == 0){
                     $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);

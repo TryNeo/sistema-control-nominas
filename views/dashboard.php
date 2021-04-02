@@ -54,9 +54,57 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Nuevos empleados <i class="fas fa-plus-circle"></i></h5>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover first display responsive" cellspacing="0"  style="width:100%">
+                                    <thead>
+                                        <th>Nombre</th>
+                                        <th>Sueldo</th>
+                                        <th>Cargo</th>
+                                    </thead>
+                                    <tbody id="empleadosNow">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="<?php echo server_url; ?>empleados" class="btn-primary-link">Ver todos los empleados</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Nuevas Nominas <i class="fas fa-plus-circle"></i></h5>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover first display responsive" cellspacing="0"  style="width:100%">
+                                    <thead>
+                                        <th>Nomina</th>
+                                        <th>Total</th>
+                                        <th>Estado nomina</th>
+                                    </thead>
+                                    <tbody id="nominasNow">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="<?php echo server_url; ?>nominas" class="btn-primary-link">Ver todas las nominas</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Grafico | Estado Nominas</h5>
+                            <h5 class="card-header">Grafico | Empleados por nominas</h5>
+                            <div class="card-body">
+                                <figure class="highcharts-figure">
+                                    <div id="empleadosGrahp"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Grafico | Totales por nominas</h5>
                             <div class="card-body">
                                 <figure class="highcharts-figure">
                                     <div id="AgnoGrahp"></div>

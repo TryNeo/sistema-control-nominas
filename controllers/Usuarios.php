@@ -128,8 +128,8 @@
         public function setUsuario(){
                 if ($_POST) {
                     $int_id_usuario = intval($_POST['id_usuario']);
-                    $str_nombre = ucwords(strclean($_POST['nombre']));
-                    $str_apellido = ucwords(strclean($_POST['apellido']));
+                    $str_nombre = ucwords(strtolower(strclean($_POST['nombre'])));
+                    $str_apellido = ucwords(strtolower(strclean($_POST['apellido'])));
                     $str_usuario = strclean($_POST['usuario']);
                     $str_email = strtolower(strclean($_POST['email']));
                     $int_id_rol = intval($_POST['id_rol']);

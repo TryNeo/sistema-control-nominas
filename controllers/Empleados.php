@@ -46,54 +46,54 @@
                 $pdf->MultiCell(22, 8, utf8_decode("Cedula"), 1, 'C');
                 
                 $pdf->SetXY(40, $y); 
-                $pdf->MultiCell(30, 8, utf8_decode("Nombre"), 1, 'C');
+                $pdf->MultiCell(40, 8, utf8_decode("Nombre"), 1, 'C');
     
-                $pdf->SetXY(70, $y); 
-                $pdf->MultiCell(30, 8, utf8_decode("Apellido"), 1, 'C');
+                $pdf->SetXY(80, $y); 
+                $pdf->MultiCell(40, 8, utf8_decode("Apellido"), 1, 'C');
     
-                $pdf->SetXY(100, $y); 
-                $pdf->MultiCell(30, 8, utf8_decode("Telefono"), 1, 'C');
+                $pdf->SetXY(120, $y); 
+                $pdf->MultiCell(27, 8, utf8_decode("Telefono"), 1, 'C');
     
-                $pdf->SetXY(130, $y); 
+                $pdf->SetXY(147, $y); 
                 $pdf->MultiCell(25, 8, utf8_decode("Sueldo"), 1, 'C');
     
-                $pdf->SetXY(155, $y); 
-                $pdf->MultiCell(40, 8, utf8_decode("Cargo"), 1, 'C');
+                $pdf->SetXY(172, $y); 
+                $pdf->MultiCell(30, 8, utf8_decode("Cargo"), 1, 'C');
     
-    
+                $cont = 0;
                 $data = $this->model->selectEmpleadosReporte();
                 foreach ($data as $value) {
                     $y = $pdf->GetY();
+                    $cont+=1;
                     $pdf->SetXY(10, $y);
                     $pdf->MultiCell(8, 8, $value['id_empleado'], 1, 'C');
                     $pdf->SetXY(18, $y);
                     $pdf->MultiCell(22, 8, $value['cedula'], 1, 'C');
                     $pdf->SetXY(40, $y);
-                    $pdf->MultiCell(30, 8, $value['nombre'], 1, 'C');
-                    $pdf->SetXY(70, $y);
-                    $pdf->MultiCell(30, 8, $value['apellido'], 1, 'C');
-                    $pdf->SetXY(100, $y); 
-                    $pdf->MultiCell(30, 8, $value['telefono'], 1, 'C');
-                    $pdf->SetXY(130, $y); 
+                    $pdf->MultiCell(40, 8, $value['nombre'], 1, 'C');
+                    $pdf->SetXY(80, $y);
+                    $pdf->MultiCell(40, 8, $value['apellido'], 1, 'C');
+                    $pdf->SetXY(120, $y); 
+                    $pdf->MultiCell(27, 8, $value['telefono'], 1, 'C');
+                    $pdf->SetXY(147, $y); 
                     $pdf->MultiCell(25, 8, "$".$value['sueldo'], 1, 'C');
-                    $pdf->SetXY(155, $y); 
-                    $pdf->MultiCell(40, 8, $value['nombre_puesto'], 1, 'C');                
+                    $pdf->SetXY(172, $y); 
+                    $pdf->MultiCell(30, 8, $value['nombre_puesto'], 1, 'C');
+                    if ($cont == 21){
+                        $pdf->AddPage();
+                        $pdf->SetTitle('Reporte | Empleados');
+                        $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
+                        $pdf->renderText('Listado | Empleados');
+                        $pdf->SetFont('arial', '', 10);
+                        $y = $pdf->GetY() + 8;
+                        $pdf->SetXY(2, $y);
+                        $cont =1;
+                    }
                 }
-    
-                $y = $pdf->GetY() + 8;
-                $pdf->SetY(120);
-                
-                $pdf->SetXY(155, $y);
-                $pdf->MultiCell(30, 8, utf8_decode("Total Empleados"),1, 'C');
-                $pdf->SetXY(185, $y);
-                $pdf->MultiCell(10, 8, $this->model->getTotalEmpleado(),1, 'C');
-    
-                $y = $pdf->GetY();
-                $pdf->SetXY(155, $y);
-                $pdf->MultiCell(24, 8, utf8_decode("Total Sueldos"),1, 'C');
-    
-                $pdf->SetXY(179, $y);
-                $pdf->MultiCell(16, 8,'$'.$this->model->getTotalSueldo()[0]['total'],1, 'C');
+                $y = $pdf->GetY() + 8;$pdf->SetY(120);$pdf->SetXY(142, $y);$pdf->MultiCell(30, 8, utf8_decode("Total Empleados"),1, 'C');
+                $pdf->SetXY(172, $y);$pdf->MultiCell(30, 8,$this->model->getTotalEmpleado(),1, 'C');
+                $y = $pdf->GetY();$pdf->SetXY(142, $y);$pdf->MultiCell(30, 8, utf8_decode("Total Sueldos"),1, 'C');
+                $pdf->SetXY(172, $y);$pdf->MultiCell(30, 8,'$'.number_format($this->model->getTotalSueldo()[0]['total']),1, 'C');
     
                 $pdf->Output('', 'reporte_empleados_'.date("d_m_Y_H_i").'.pdf');
 
@@ -103,13 +103,13 @@
         public function setEmpleado(){
             if ($_POST) {
                 $int_id_empleado = intval($_POST['id_empleado']);
-                $str_nombre = ucwords(strclean($_POST['nombre']));
-                $str_apellido = ucwords(strclean($_POST['apellido']));
+                $str_nombre = ucwords(strtolower(strclean($_POST['nombre'])));
+                $str_apellido = ucwords(strtolower(strclean($_POST['apellido'])));
                 $str_cedula = strclean($_POST['cedula']);
                 $str_telefono = strclean($_POST['telefono']);
                 $float_sueldo = floatval($_POST['sueldo']);
                 $int_id_puesto = intval($_POST['id_puesto']);
-                $int_id_contracto = intval($_POST['id_contracto']);
+                $int_id_contrato = intval($_POST['id_contrato']);
                 $int_estado = intval(strclean($_POST['estadoInput']));
 
                 if ($int_id_empleado == 0) {
@@ -121,7 +121,7 @@
                         $str_telefono,
                         $float_sueldo,
                         $int_id_puesto,
-                        $int_id_contracto,
+                        $int_id_contrato,
                         $int_estado
                     );
                 } else {
@@ -134,7 +134,7 @@
                         $str_telefono,
                         $float_sueldo,
                         $int_id_puesto,
-                        $int_id_contracto,
+                        $int_id_contrato,
                         $int_estado
                     );
                 }
@@ -182,20 +182,21 @@
                     $btnEditarEmpleado = '';
                     $btnEliminarEmpleado = '';
                 
-                if ($data[$i]['estado'] == 1){
-                    $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
-                }else{
-                    $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
-                }
+                    $data[$i]['sueldo'] = "$".number_format($data[$i]['sueldo']);
+                    if ($data[$i]['estado'] == 1){
+                        $data[$i]['estado']= '<span  class="btn btn-success btn-icon-split btn-sm"><i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>';
+                    }else{
+                        $data[$i]['estado']='<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
+                    }
 
-                
-                if ($_SESSION['permisos_modulo']['u']) {
-                    $btnEditarEmpleado = '<button  class="btn btn-primary btn-circle btnEditarEmpleado"  title="editar" emp="'.$data[$i]['id_empleado'].'"><i class="fa fa-edit"></i></button>';
-                }
+                    
+                    if ($_SESSION['permisos_modulo']['u']) {
+                        $btnEditarEmpleado = '<button  class="btn btn-primary btn-circle btnEditarEmpleado"  title="editar" emp="'.$data[$i]['id_empleado'].'"><i class="fa fa-edit"></i></button>';
+                    }
 
-                if ($_SESSION['permisos_modulo']['d']) {
-                    $btnEliminarEmpleado = '<button  class="btn btn-danger btn-circle btnEliminarEmpleado"  title="eliminar" emp="'.$data[$i]['id_empleado'].'"><i class="far fa-thumbs-down"></i></button>';
-                }
+                    if ($_SESSION['permisos_modulo']['d']) {
+                        $btnEliminarEmpleado = '<button  class="btn btn-danger btn-circle btnEliminarEmpleado"  title="eliminar" emp="'.$data[$i]['id_empleado'].'"><i class="far fa-thumbs-down"></i></button>';
+                    }
 
                     $data[$i]['opciones'] = '<div class="text-center">'.$btnEditarEmpleado.' '.$btnEliminarEmpleado.'</div>';
                 }

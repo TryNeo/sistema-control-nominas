@@ -47,7 +47,7 @@
                             <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-toggle-on"></i></span></span>
                             <select class="form-control" id="estado_nomina" name="estado_nomina">
                                 <option  selected disabled="disabled" value="">Seleciona el estado de nomina</option>
-                                <option value="1">Pediente</option>
+                                <option value="1">Pendiente</option>
                                 <option value="2">Aceptado</option>
                                 <option value="3">Rechazado</option>
                             </select>

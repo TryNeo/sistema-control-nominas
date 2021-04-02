@@ -56,10 +56,10 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label class="col-form-label text-right" for="id_contracto">Tipos de contracto:</label>
+                    <label class="col-form-label text-right" for="id_contrato">Tipos de contrato:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-list-ul"></i></span></span>
-                        <select class="form-control" id="id_contracto"  name="id_contracto">
+                        <select class="form-control" id="id_contrato"  name="id_contrato">
                         </select>
                     </div>
                 </div>

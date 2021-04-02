@@ -43,56 +43,68 @@
                 $pdf->MultiCell(8, 8, utf8_decode("Nº"), 1, 'C');
                 
                 $pdf->SetXY(18, $y); 
-                $pdf->MultiCell(35, 8, utf8_decode("Nomina"), 1, 'C');
+                $pdf->MultiCell(50, 8, utf8_decode("Nomina"), 1, 'C');
                 
-                $pdf->SetXY(53, $y); 
-                $pdf->MultiCell(35, 8, utf8_decode("Periodo inicio"), 1, 'C');
+                $pdf->SetXY(68, $y); 
+                $pdf->MultiCell(26, 8, utf8_decode("Periodo inicio"), 1, 'C');
 
-                $pdf->SetXY(88, $y); 
-                $pdf->MultiCell(35, 8, utf8_decode("Periodo fin"), 1, 'C');
+                $pdf->SetXY(94, $y); 
+                $pdf->MultiCell(26, 8, utf8_decode("Periodo fin"), 1, 'C');
 
-                $pdf->SetXY(123, $y); 
-                $pdf->MultiCell(35, 8, utf8_decode("Estado nomina"), 1, 'C');
+                $pdf->SetXY(120, $y); 
+                $pdf->MultiCell(38, 8, utf8_decode("Estado nomina"), 1, 'C');
 
                 $pdf->SetXY(158, $y); 
                 $pdf->MultiCell(35, 8, utf8_decode("Total"), 1, 'C');
-                
+
+                $cont=0;
                 $data = $this->model->selectNominasReporte();
                 foreach ($data as $value) {
                     $y = $pdf->GetY();
+                    $cont+=1;
                     $pdf->SetXY(10, $y);
                     $pdf->MultiCell(8, 8, $value['id_nomina'], 1, 'C');
                     $pdf->SetXY(18, $y);
-                    $pdf->MultiCell(35, 8, $value['nombre_nomina'], 1, 'C');
-                    $pdf->SetXY(53, $y);
-                    $pdf->MultiCell(35, 8, $value['periodo_inicio'], 1, 'C');
-                    $pdf->SetXY(88, $y);
-                    $pdf->MultiCell(35, 8, $value['periodo_fin'], 1, 'C');
-                    $pdf->SetXY(123, $y); 
+                    $pdf->MultiCell(50, 8, $value['nombre_nomina'], 1, 'C');
+                    $pdf->SetXY(68, $y);
+                    $pdf->MultiCell(26, 8, $value['periodo_inicio'], 1, 'C');
+                    $pdf->SetXY(94, $y);
+                    $pdf->MultiCell(26, 8, $value['periodo_fin'], 1, 'C');
+                    $pdf->SetXY(120, $y); 
                     if($value['estado_nomina'] == 1){
-                        $pdf->MultiCell(35, 8,'Pediente', 1, 'C');
+                        $pdf->MultiCell(38, 8,'Pediente', 1, 'C');
                     }else if ($value['estado_nomina'] == 2){
-                        $pdf->MultiCell(35, 8,'Aceptado', 1, 'C');
+                        $pdf->MultiCell(38, 8,'Aceptado', 1, 'C');
                     }else{
-                        $pdf->MultiCell(35, 8,'Rechazado', 1, 'C');
+                        $pdf->MultiCell(38, 8,'Rechazado', 1, 'C');
                     }
                     $pdf->SetXY(158, $y); 
-                    $pdf->MultiCell(35, 8, "$".$value['total'], 1, 'C');
+                    $pdf->MultiCell(35, 8, "$".number_format($value['total']), 1, 'C');
+                    if ($cont == 21){
+                        $pdf->AddPage();
+                        $pdf->SetTitle('Reporte | Nominas');
+                        $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
+                        $pdf->renderText('Listado | Nominas');
+                        $pdf->SetFont('arial', '', 10);
+                        $y = $pdf->GetY() + 8;
+                        $pdf->SetXY(2, $y);
+                        $cont =1;
+                    }
                 }
 
                 $y = $pdf->GetY() + 8;
                 $pdf->SetY(120);
                 
-                $pdf->SetXY(123, $y);
-                $pdf->MultiCell(35, 8, utf8_decode("Total Nominas"),1, 'C');
+                $pdf->SetXY(120, $y);
+                $pdf->MultiCell(38, 8, utf8_decode("Total Nominas"),1, 'C');
                 $pdf->SetXY(158, $y);
                 $pdf->MultiCell(35, 8, $this->model->getTotalNominas(),1, 'C');
 
                 $y = $pdf->GetY();
-                $pdf->SetXY(123, $y);
-                $pdf->MultiCell(35, 8, utf8_decode("Total General"),1, 'C');
+                $pdf->SetXY(120, $y);
+                $pdf->MultiCell(38, 8, utf8_decode("Total General"),1, 'C');
                 $pdf->SetXY(158, $y);
-                $pdf->MultiCell(35, 8, '$'.$this->model->getTotalGeneral()[0]['total'],1, 'C');
+                $pdf->MultiCell(35, 8, '$'.number_format($this->model->getTotalGeneral()[0]['total']),1, 'C');
 
                 
                 $pdf->Output('', 'reporte_nominas_'.date("d_m_Y_H_i").'.pdf');
@@ -151,7 +163,7 @@
                         $pdf->Ln();
                         $pdf->SetFont('arial', 'B', 10);
                         $y = $pdf->GetY() + 8;
-                        
+                        $cont = 0;
                         $pdf->SetXY(11, $y);
                         $pdf->MultiCell(60, 8, utf8_decode("Empleado"), 1, 'C');
                         $pdf->SetXY(71, $y);
@@ -165,16 +177,25 @@
                         foreach ($data[1] as $value) {
                             $pdf->SetFont('arial', '', 10);
                             $y = $pdf->GetY();
+                            $cont+=1;
                             $pdf->SetXY(11, $y);
                             $pdf->MultiCell(60, 8, $value['nombre']." ".$value['apellido'], 1, 'C');
                             $pdf->SetXY(71, $y);
                             $pdf->MultiCell(40, 8, $value['nombre_puesto'], 1, 'C');
                             $pdf->SetXY(111, $y);
-                            $pdf->MultiCell(25, 8, "$".$value['sueldo'], 1, 'C');
+                            $pdf->MultiCell(25, 8, "$".number_format($value['sueldo']), 1, 'C');
                             $pdf->SetXY(136, $y);
                             $pdf->MultiCell(25, 8, $value['meses'], 1, 'C');
                             $pdf->SetXY(161, $y);
-                            $pdf->MultiCell(30, 8, "$".$value['valor_total'], 1, 'C');
+                            $pdf->MultiCell(30, 8, "$".number_format($value['valor_total']), 1, 'C');
+                            if ($cont == 21){
+                                $pdf->AddPage();
+                                $pdf->SetTitle('Reporte | Detalle Nomina');
+                                $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
+                                $y = $pdf->GetY() + 8;
+                                $pdf->SetXY(2, $y);
+                                $cont =1;
+                            }
                         }
 
                         $y = $pdf->GetY() + 8;
@@ -183,7 +204,7 @@
                         $pdf->SetXY(136, $y);
                         $pdf->MultiCell(25, 8, utf8_decode("Total a pagar"),1, 'C');
                         $pdf->SetXY(161, $y);
-                        $pdf->MultiCell(30, 8, "$".$data[0]['total'],1, 'C');
+                        $pdf->MultiCell(30, 8, "$".number_format($data[0]['total']),1, 'C');
                         $pdf->Output('', 'reporte_detalle_nominas_'.date("d_m_Y_H_i").'.pdf');
 
                     }
@@ -208,14 +229,14 @@
                         <i class="icon fas fa-check-circle "></i><span class="label text-padding text-white-50">&nbsp;&nbsp;Activo</span></span>': 
                         '<span  class="btn btn-danger btn-icon-split btn-sm"><i class="icon fas fa-ban "></i><span class="label text-padding text-white-50">Inactivo</span></span>';
                     
+                    $data[$clave]['total'] = "<strong>"."$".number_format($data[$clave]['total'])."</strong>";
+
                     if ($data[$clave]['estado_nomina'] == 1) {
-                        $data[$clave]['estado_nomina'] = 'Pediente';
+                        $data[$clave]['estado_nomina'] = '<span class="badge badge-warning text-white">Pendiente</span>';
                     }else if($data[$clave]['estado_nomina'] == 2){
-                        $data[$clave]['estado_nomina'] = 'Aceptado';
+                        $data[$clave]['estado_nomina'] = '<span class="badge badge-success">Aceptado</span>';
                     }else if($data[$clave]['estado_nomina'] == 3){
-                        $data[$clave]['estado_nomina'] = 'Rechazado';
-                    }else{
-                        $data[$clave]['estado_nomina'] = 'Pediente';
+                        $data[$clave]['estado_nomina'] = '<span class="badge badge-danger">Rechazado</span>';
                     }
 
                     if ($_SESSION['permisos_modulo']['u']) {
@@ -272,6 +293,9 @@
                         $intEmpleado = '';
                         $intEmpleado = $request_get_empl_nomina[$i]['id_empleado'];
                         $data[$i]= $this->model->selectNominaEmpleadoAll($intNomina,$intEmpleado);
+                        $data[$i]['sueldo'] = $data[$i]['sueldo'];
+                        $data[$i]['valor_total'] = $data[$i]['valor_total'];
+
                         $data[$i]['id_detalle_nomina'] = '<button  type="button" class="btn btn-danger btn-circle btnEliminarDetalle" 
                         title="eliminar" det="'.$data[$i]['id_detalle_nomina'].'"><i class="far fa-trash-alt"></i></button>';
                     }
@@ -283,7 +307,7 @@
         public function setNomina(){
             if ($_POST) {
                 $intNomina = intval(strclean($_POST['id_nomina']));
-                $nombre_nomina = strclean($_POST['nombre_nomina']);
+                $nombre_nomina = ucwords(strtolower(strclean($_POST['nombre_nomina'])));
                 $periodo_inicio = strclean($_POST['periodo_inicio']);
                 $periodo_fin = strclean($_POST['periodo_fin']);
                 $estado_nomina = intval($_POST['estado_nomina']);
@@ -414,7 +438,7 @@
             }else{
                 if ($_POST) {
                     $intNomina = intval(strclean($_POST['id_nomina']));
-                    $nombre_nomina = strclean($_POST['nombre_nomina']);
+                    $nombre_nomina = ucwords(strtolower(strclean($_POST['nombre_nomina'])));
                     $estado_nomina = intval(strclean($_POST['estado_nomina']));
                     $total_pagar = floatval(strclean($_POST['total']));
                     $request_sueldo = $this->model->selectDetalleEmpleadosNominas($intNomina);

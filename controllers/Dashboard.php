@@ -23,7 +23,7 @@
             $data["total_empleados"] = $this->model->getTotalEmpleado();
             $data["total_nominas"] = $this->model->getTotalNominas();
             $data["total_usuarios"] = $this->model->getTotalUsuarios();
-            $data["total_general"]  = ($this->model->getTotalGeneral()[0]['total']>=1) ? number_format($this->model->getTotalGeneral()[0]['total'],0,".",",") : 0.00;
+            $data["total_general"]  = ($this->model->getTotalGeneral()[0]['total']>=1) ? number_format($this->model->getTotalGeneral()[0]['total']) : 0.00;
             $this->views->getView($this,"dashboard",$data);
 
         }
@@ -34,9 +34,9 @@
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
             }else{
-                $estado_pendiente = ($this->model->getEstadoPediente()>=1) ? $this->model->getEstadoPediente(): 0.00 ;
-                $estado_aceptado  = ($this->model->getEstadoAceptado()>=1) ? $this->model->getEstadoAceptado(): 0.00 ;
-                $estado_rechazado = ($this->model->getEstadoRechazado()>=1) ? $this->model->getEstadoRechazado(): 0.00 ;
+                $estado_pendiente = ($this->model->getEstadoPediente()>=1) ? $this->model->getEstadoPediente(): 0;
+                $estado_aceptado  = ($this->model->getEstadoAceptado()>=1) ? $this->model->getEstadoAceptado(): 0;
+                $estado_rechazado = ($this->model->getEstadoRechazado()>=1) ? $this->model->getEstadoRechazado(): 0;
                 $data = array(
                             array("name" => "Rechazado", "y" => round(intval($estado_rechazado[0]['rechazado']),2)),
                             array("name" => "Pediente", "y" => round(intval($estado_pendiente[0]['pendiente']),2)),
@@ -62,6 +62,107 @@
             echo $data;
             die();
         }
+
+        public function grahpEmpleadosTotal(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $data = '';
+                $array_empleados_total =  array();
+                $empleados_totales = $this->model->getEmpleadosNominasTotal();
+                if ($empleados_totales >= 1) {
+                    foreach ($empleados_totales as $key => $value ) {
+                        array_push($array_empleados_total, array(
+                            "name" =>$empleados_totales[$key]['nombre']." ".$empleados_totales[$key]['apellido'],
+                            "y" => $empleados_totales[$key]['total'],
+                            "drilldown" => $empleados_totales[$key]['id_empleado'],
+                        ));
+                    }
+                    $data = json_encode($array_empleados_total,JSON_UNESCAPED_UNICODE);
+                }else{
+                    $data = json_encode($array_empleados_total,JSON_UNESCAPED_UNICODE);
+                }
+            }
+            echo $data;
+            die();
+        }
+
+        public function grahpEmpleadosGeneral(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $array_empleados_nomina = array();
+                $id_empleados_total = $this->model->getEmpleadosNominasTotal();
+                if ($id_empleados_total >= 1) {
+                    foreach ($id_empleados_total as $key => $value) {
+                        $response = $this->model->getEmpleadosNominasGeneral($id_empleados_total[$key]['id_empleado']);
+                        if($response >= 1){
+                            array_push($array_empleados_nomina,
+                                array(
+                                    "name"=>$id_empleados_total[$key]['nombre']." ".$id_empleados_total[$key]['apellido'],
+                                    "id" =>$id_empleados_total[$key]['id_empleado'],
+                                    "data" => $response,
+                                )
+                            );
+                        }
+                    }
+                    $data = json_encode($array_empleados_nomina,JSON_UNESCAPED_UNICODE);
+                }else{
+                    $data = json_encode($array_empleados_nomina,JSON_UNESCAPED_UNICODE);
+                }
+
+            }
+            echo $data;
+            die();
+        }
+
+        public function getEmpleadosNow(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $response_empleados = $this->model->getEmpleadosRecientes();
+                if ($response_empleados >= 1){
+                    foreach ($response_empleados as $key => $value) {
+                        echo '<tr scope="row">';
+                        echo "<td>".$response_empleados[$key]['nombre']."</td>";
+                        echo "<td>".$response_empleados[$key]['sueldo']."</td>";
+                        echo "<td>".$response_empleados[$key]['nombre_puesto']."</td>";
+                        echo '</tr>';
+                    }
+                }else{
+                    echo '<tr><td></td><td></td><td></td></tr>';
+                }
+            }
+            die();
+        }
+
+        public function getNominasNow(){
+            if (empty($_SESSION['permisos_modulo']['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $response_nominas = $this->model->getNominasRecientes();
+                if ($response_nominas >= 1){
+                    foreach ($response_nominas as $key => $value) {
+                        echo '<tr scope="row">';
+                        echo "<td>".$response_nominas[$key]['nombre_nomina']."</td>";
+                        echo "<td>$".number_format($response_nominas[$key]['total'])."</td>";
+                        if($response_nominas[$key]['estado_nomina'] == 1){
+                            echo "<td><span class='badge badge-warning text-white'>Pendiente</span></td>";
+                        }else if ($response_nominas[$key]['estado_nomina'] == 2) {
+                            echo "<span class='badge badge-success'>Aceptado</span>";
+                        }else if($response_nominas[$key]['estado_nomina'] == 3){
+                            echo '<span class="badge badge-danger">Rechazado</span>';
+                        }
+                        echo '</tr>';
+                    }
+                }else{
+                    echo '<tr><td></td><td></td><td></td></tr>';
+                }
+            }
+            die();
+        }
+
+
     }
 
 

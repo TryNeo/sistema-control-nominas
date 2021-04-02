@@ -60,8 +60,8 @@
         public function setPuesto(){
             if ($_POST) {
                 $intPuesto = intval($_POST['id_puesto']);
-                $puestoInput = strclean($_POST['nombre_puesto']);
-                $descriInput = strclean($_POST['descripcion']);
+                $puestoInput = ucwords(strtolower(strclean($_POST['nombre_puesto'])));
+                $descriInput = ucwords(strtolower(strclean($_POST['descripcion'])));
                 $estadoInput = intval($_POST['estadoInput']);
                 
                 if ($intPuesto == 0){

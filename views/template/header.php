@@ -50,49 +50,50 @@
                                 <a class="nav-link reloj" href="#">
                                 </a>
                             </li>
+                            <?php  if ($_SESSION['permisos'][1]['u']) {?>
+                                <li class="nav-item dropdown password">
+                                    <a href="#" data-toggle="modal" data-target="modalRestaurar" 
+                                    class="nav-link" onclick="return abrir_modal_restaurar();"><i class="fas fa-key"></i></a>
 
-                            <li class="nav-item dropdown password">
-                                <a href="#" data-toggle="modal" data-target="modalRestaurar" 
-                                class="nav-link" onclick="return abrir_modal_restaurar();"><i class="fas fa-key"></i></a>
+                                    <div class="modal fade" id="modalRestaurar" tabindex="-1" role="dialog"  aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalTitle">Restaurar contraseña <i class="fas fa-lock"></i></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                <form id="formRestaurar">
+                                                    <div class="card-body row">
+                                                        <input type="hidden" id="id_usuario_ses" name="id_usuario_ses" value="<?php echo $_SESSION['user_data']['id_usuario']; ?>">
+                                                        <div class="col-md-10 mb-3">
+                                                            <label class="control-label">Nueva contraseña:</label>
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-key"></i></span></span>
+                                                                <input type="password" name="password_new" class="form-control" id="password_new"  placeholder="ingrese la nueva contraseña">
+                                                            </div>
+                                                        </div>
 
-                                <div class="modal fade" id="modalRestaurar" tabindex="-1" role="dialog"  aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalTitle">Restaurar contraseña <i class="fas fa-lock"></i></h5>
-                                            </div>
-                                            <div class="modal-body">
-                                            <form id="formRestaurar">
-                                                <div class="card-body row">
-                                                    <input type="hidden" id="id_usuario_ses" name="id_usuario_ses" value="<?php echo $_SESSION['user_data']['id_usuario']; ?>">
-                                                    <div class="col-md-10 mb-3">
-                                                        <label class="control-label">Nueva contraseña:</label>
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-key"></i></span></span>
-                                                            <input type="password" name="password_new" class="form-control" id="password_new"  placeholder="ingrese la nueva contraseña">
+                                                        <div class="col-md-10 mb-3">
+                                                            <label class="control-label">Repita nueva contraseña:</label>
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-key"></i></span></span>
+                                                                <input type="password" name="rep_password" class="form-control" id="rep_password"  placeholder="ingrese nuevamente la contraseña">
+                                                            </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-md-10 mb-3">
-                                                        <label class="control-label">Repita nueva contraseña:</label>
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-key"></i></span></span>
-                                                            <input type="password" name="rep_password" class="form-control" id="rep_password"  placeholder="ingrese nuevamente la contraseña">
-                                                        </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <button type="submit" class="btn btn-info">
+                                                        <i class="fas fa-save"></i><span class="text-center"> Actualizar</span></button>
+                                                        <button type="button" class="btn btn-danger"
+                                                        onclick="return cerrar_modal('#modalRestaurar')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
                                                     </div>
+                                                </form>
                                                 </div>
-                                                <div class="col-md-12 mb-3">
-                                                    <button type="submit" class="btn btn-info">
-                                                    <i class="fas fa-save"></i><span class="text-center"> Actualizar</span></button>
-                                                    <button type="button" class="btn btn-danger"
-                                                    onclick="return cerrar_modal('#modalRestaurar')"><i class=" fas fa-exclamation-circle"></i> Cancelar</button>  
-                                                </div>
-                                            </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            <?php } ?>
                             <li class="nav-item dropdown nav-user">
                                 <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?php echo server_url_image.$_SESSION['user_data']['foto']; ?>" alt="" class="user-avatar-md rounded-circle"></a>
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">

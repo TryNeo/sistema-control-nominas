@@ -27,7 +27,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table tableEmpleado table-striped  first display responsive nowrap" cellspacing="0"  style="width:100%">
+                        <table class="table tableEmpleado table-striped  first display responsive" cellspacing="0"  style="width:100%">
                             <thead>
                                 <th>ID</th>
                                 <th>Nombre</th>
@@ -36,7 +36,7 @@
                                 <th>Telefono</th>
                                 <th>Sueldo</th>
                                 <th>Puesto</th>
-                                <th>Contracto</th>
+                                <th>Contrato</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </thead>

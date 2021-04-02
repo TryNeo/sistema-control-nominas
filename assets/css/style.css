@@ -115,3 +115,8 @@ a{
     font-size:10px;
     display:inline-block;
 }
+
+.text-white{
+    color:rgb(255, 255, 255);
+}
+

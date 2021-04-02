@@ -45,7 +45,6 @@ getModal('modals_empleados',$data);
                                                 <?php } ?>
                                             </div>
                                         </div>
-
                                         <div class="col-md-4 form-group">
                                             <label class="control-label">Estado nomina:</label>
                                             <select class="form-control" id="estado_nomina" name="estado_nomina">
@@ -66,19 +65,19 @@ getModal('modals_empleados',$data);
                                             </select>
                                         </div> 
                                         <div class="col-md-8">
-                                                <table id="tableNominaEmpleado" class="table table-striped  first display responsive" cellspacing="0"  style="width:100%">
-                                                    <thead>
-                                                        <th>#</th>
-                                                        <th>Nombre</th>
-                                                        <th>Puesto</th>
-                                                        <th>Sueldo</th>
-                                                        <th>Meses</th>
-                                                        <th>Total</th>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                        </div>
+                                                        <table id="tableNominaEmpleado" class="table table-striped  first display responsive" cellspacing="0"  style="width:100%">
+                                                            <thead>
+                                                                <th>#</th>
+                                                                <th>Nombre</th>
+                                                                <th>Puesto</th>
+                                                                <th>Sueldo</th>
+                                                                <th>Meses</th>
+                                                                <th>Total</th>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                        </div>  
                                         <div class="col-md-4">
                                             <div class="card">
                                                 <div class="card-body">
@@ -88,22 +87,28 @@ getModal('modals_empleados',$data);
                                                             <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign"></i></span></span>
                                                             <input type="text" readonly value="<?php 
                                                                 $total = ($data["data_nomina"]["total"] > 1) ? $data["data_nomina"]["total"] : 0;
-                                                            echo $total; ?>" class="form-control" name="total" id="total">
+                                                            echo number_format($total); ?>" class="form-control" name="total" id="total">
                                                         </div>
-                                                    </div>  
+                                                    </div> 
+                                                    <div class="col-md-12 form-group">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-md-12 form-group">
+                                                        <div class="btn-toolbar">
+                                                            <?php  if ($_SESSION['permisos_modulo']['u']) {?>
+                                                                <button type="submit" class="btn btn-primary btn-space"><i class="fas fa-save"></i><span class="text-center"> Generar</span></button>
+                                                            <?php } ?>
+                                                            <a  href="<?php  echo server_url; ?>nominas" class="btn btn-danger">
+                                                                <i class=" fas fa-exclamation-circle"></i> Cancelar
+                                                            </a> 
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <?php  if ($_SESSION['permisos_modulo']['u']) {?>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i><span class="text-center"> Generar</span></button>
-                            <?php } ?>
-                            <a  href="<?php  echo server_url; ?>nominas" class="btn btn-info" ><i class="fas fa-redo-alt"></i>Volver</a>  
-                            <a  href="<?php  echo server_url; ?>nominas" class="btn btn-danger" ><i class=" fas fa-exclamation-circle"></i> Cancelar</a>  
                         </div>
                     </div>
                 </div>

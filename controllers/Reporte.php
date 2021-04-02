@@ -18,7 +18,6 @@ class reporte extends fpdf{
         $this->SetTextColor(0, 0, 0);
         $this->SetFont($this->fontName, 'B', 26);
         $this->Cell(0, 80, utf8_decode($title), 0, 0,'C');
-        
         $this->SetY(12);
         $this->SetTextColor(51, 51, 51);
         $this->SetFont($this->fontName, '', 9);
