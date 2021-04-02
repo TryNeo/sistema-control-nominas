@@ -28,9 +28,10 @@
     <body>
         <div class="splash-container new-style">
             <div class="card ">
-                <div class="card-header text-center"><a href="<?php echo server_url?>/login"><img class="logo-img" src="<?php echo server_url; ?>assets/images/wosecurity.png" alt="logo" width="200"></a><span class="splash-description"><strong>W@SECURITY</strong></span></div>
+                <div class="card-header text-center"><a href="<?php echo server_url?>login"><img class="logo-img" src="<?php echo server_url; ?>assets/images/wosecurity.png" alt="logo" width="200"></a><span class="splash-description"><strong>W@SECURITY</strong></span></div>
                 <div class="card-body">
                     <form name="formLogin" id="formLogin" action="">
+                        <input id="csrf" name="csrf" type="hidden" value="<?php echo $data["csrf"]; ?>">
                         <div class="form-group">
                             <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="ingrese su usuario" autocomplete="off">
                         </div>
