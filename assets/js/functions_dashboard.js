@@ -1,11 +1,17 @@
 let chart;
 let chart_total;
 let chart_agno;
+let chart_empleados;
 document.addEventListener('DOMContentLoaded',function(){
 
     fntGrahpNominaEstado();
     fntGrahpNominaTotales()
     fntGrahpNominaAgno();
+    fntNominasRecientes();
+    fntEmpladosRecientes();
+    setTimeout(() => {
+        fntGrahpNominasEmpleados();
+    }, 500);
 });
 
 function fntGrahpNominaAgno(){
@@ -73,7 +79,6 @@ function fntGrahpNominaAgno(){
     );
 }
 
-
 function fntGrahpNominaTotales(){
     chart_total = Highcharts.chart('totalGrahp', {
         chart: {
@@ -124,7 +129,7 @@ function fntGrahpNominaEstado(){
             text: 'Grafico | Estado Nominas'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y}</b>'
         },
         accessibility: {
             point: {
@@ -162,4 +167,116 @@ function fntGrahpNominaEstado(){
     );
 }
 
+function fntGrahpNominasEmpleados(){
+    let fecha = new Date();
+    let agno = fecha.getFullYear();
 
+    chart_empleados = Highcharts.chart('empleadosGrahp', {
+            chart: {
+                type: 'column'
+            },
+
+            title: {
+                text: 'Empleados con Nominas y su respectiva ganacia general en el año '+agno
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total de empleados con nominas respectivas'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y}'
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span>{point.name}</span>: <b>{point.y}</b> total<br/>'
+            },
+            series: [
+                {
+                    name: "Empleado",
+                    colorByPoint: true,
+                    data: []
+                }
+            ],
+            drilldown: {
+                series: []
+            }
+        });
+
+    let array_empleados_total = new Array()
+    $.getJSON(base_url+"dashboard/grahpEmpleadosTotal", 
+        function (data) {
+            data.forEach((empl) => {
+                empl['y'] = parseFloat(empl['y']);
+                array_empleados_total.push(empl)
+                let empleados_obj = chart_empleados.series[0];
+                empleados_obj.setData(array_empleados_total);
+            });
+        }
+    );
+    
+    let array_empleados_data = new Array();
+    $.getJSON(base_url+"dashboard/grahpEmpleadosGeneral", 
+        function (data) {
+            data.forEach((empl_data) => {
+                let array_data = [];
+                empl_data['data'].forEach((value) => {
+                    array_data.push([value['nombre_nomina'],parseFloat(value['valor_total'])]);
+                    empl_data['data'] = array_data;
+                });
+                chart_empleados.options.drilldown.series.push(empl_data);
+            });
+        }
+    );
+
+}
+
+function fntEmpladosRecientes(){
+    let ajaxUrl = base_url+"dashboard/getEmpleadosNow";
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState==4 && request.status == 200){
+            if(document.querySelector("#empleadosNow") !=null){
+                document.querySelector(
+                    "#empleadosNow"
+                ).innerHTML = request.responseText;
+            }
+        }
+    }
+}
+
+function fntNominasRecientes(){
+    let ajaxUrl = base_url+"dashboard/getNominasNow";
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState==4 && request.status == 200){
+            if(document.querySelector("#nominasNow") !=null){
+                document.querySelector(
+                    "#nominasNow"
+                ).innerHTML = request.responseText;
+            }
+        }
+    }
+}

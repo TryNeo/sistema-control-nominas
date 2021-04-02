@@ -54,7 +54,7 @@ function isValidString(listCamps) {
     });
 
     if (errorCamps.length > 0){
-        mensaje("error","Error","Los campos "+errorCamps+" estan mal escritos,introduzca un texto  valida");
+        mensaje("error","Error","Los campos "+errorCamps+" estan mal escritos,introduzca un texto valido");
         return false;
     }else{
         return true;
@@ -90,6 +90,7 @@ function validateCedula(cedula){
         if((total - (total_a)) == ultimo_numero  ){
             return true
         }else{
+            mensaje("error","Error","La cedula Ingresada no fue valida")
             return false
         }
     
@@ -221,14 +222,15 @@ function baseAjaxSelect(nameSelector,nameMethod,urlName,nameMensaje){
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState==4 && request.status == 200){
-            document.querySelector("#"+nameSelector).innerHTML = "<option  selected disabled='disabled'  value='0'>"+nameMensaje+"</option>"+request.responseText;
+            if(document.querySelector("#"+nameSelector) !=null){
+                document.querySelector("#"+nameSelector).innerHTML = "<option  selected disabled='disabled'  value=''>"+nameMensaje+"</option>"+request.responseText;
+            }
         }
     }
 };
 
 
 
-'use strict';
 
 ;( function ( document, window, index )
 {

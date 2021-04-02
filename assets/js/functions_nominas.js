@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         initval :0,
                     }).on('change', function(){
                         let meses =  $(this).val();
-                        let total =meses*parseInt(data.sueldo);
+                        let total = meses*parseInt(data.sueldo);
                         let detalle_nomina = data.id_detalle_nomina;
                         let id_detalle_nomina = detalle_nomina.split(' ')[32].split('det=')[1].split("><i")[0]
                         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -204,15 +204,6 @@ document.addEventListener('DOMContentLoaded',function(){
         });
     }
 
-    $("input[name='meses_detalle']").TouchSpin({
-        min: -1000000000,
-        max: 1000000000,
-        stepinterval: 50,
-        maxboostedstep: 10000000,
-        initval :0,
-        postfix:"<i class='far fa-calendar-alt'></i>"
-    });
-
     fntSetDetalleNomina();
     fntSearchEmpleado();
 
@@ -312,7 +303,6 @@ function fntSetDetalleNomina(){
     }
 }
 
-
 function fntSearchEmpleado(){
     $('#SearchEmpl').select2({
         theme:'bootstrap4',
@@ -336,7 +326,7 @@ function fntSearchEmpleado(){
             },
             cache: true
         },
-        placeholder:"ingrese un empleado",
+        placeholder:"Buscar ...",
         templateResult: formatRepo,
     }).on('select2:select',function(e){
         e.preventDefault();
@@ -431,6 +421,6 @@ function abrir_modal_reporte_detalle(idNomina){
         "show":true
     }
     $('#modalReporteDetalle').modal(options);
-    document.getElementById("pdfdetallenomina").src = base_url+"nominas/reporteDetalle/"+parseInt(idNomina);
+    document.getElementById("pdfdetallenomina").src = base_url+"nominas/reporteDetalle/"+parseInt(idNomina)+"#toolbar=0";
     document.getElementById("dowloadpdf").href = base_url+"nominas/reporteDetalle/"+parseInt(idNomina);
 }
