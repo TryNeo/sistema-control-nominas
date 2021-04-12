@@ -16,6 +16,11 @@
         $string = trim($strstring);
         $string = stripslashes($string);
         $string = str_ireplace("<script>","",$string);
+        $string = str_ireplace("<>","",$string);
+        $string = str_ireplace("<","",$string);
+        $string = str_ireplace(";","",$string);
+        $string = str_ireplace(">","",$string);
+        $string = str_ireplace("</>","",$string);
         $string = str_ireplace("</script>","",$string);
         $string = str_ireplace("<script src>","",$string);
         $string = str_ireplace("<script type=>","",$string);
@@ -58,11 +63,74 @@
         return $token;
     }
 
-    function formartMoney($cantidad){
-        $cantidad = number_format($cantidad,2,spd,spm);
-        return $cantidad;
+    function validateCedula(string $cedula,$regex){
+        if(empty(preg_matchall(array($cedula),$regex))){
+            $cedula_array = array();
+            for ($i=0; $i < strlen($cedula); $i++) { 
+                array_push($cedula_array ,$cedula[$i]);
+            }
+            $cedula_array = array_map("xCel",$cedula_array);
+            $ultimo_digito = array_splice($cedula_array,9,1);
+            $cedula_array = array_splice($cedula_array,0,9);
+            $array_impar = array_filter($cedula_array,"array_impar_return",ARRAY_FILTER_USE_BOTH);
+            $array_par = array_map("sumPar",
+                    array_filter($cedula_array,"array_par_return",ARRAY_FILTER_USE_BOTH)
+                    );
+            $totales = array_map("resPar",array_merge(
+                    array_filter($array_par,"array_min_return",ARRAY_FILTER_USE_BOTH),
+                    array_filter($array_par,"array_max_return",ARRAY_FILTER_USE_BOTH),
+                    ));
+            $totales_a = array_reduce($totales,"suma")+array_reduce($array_impar,"suma");
+            $total = (intval(strval($totales_a)[0])+1)*10;
+            if ($total == 10){
+                $total = 0;
+            }
+    
+            if(($total - $totales_a) == $ultimo_digito[0]){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            echo var_dump(preg_matchall(array($cedula),$regex));
+        }
     }
 
+    function validateEmptyFields(array $arrayFields){
+        if(empty($arrayFields)){
+            return false;
+        }else{
+            $errorFields = array();
+            $validateFields = array();
+            foreach ($arrayFields as $key => $value) {
+                $validate = ($value === '') ?  array_push($errorFields,$value) : array_push($validateFields,$value);
+            }
+            $error = (count($errorFields) > 0) ? false : true;
+            return $error;
+        }
+    }
+
+    function preg_matchall(array $array_strings,string $regexVal){
+        $errors_array = array();
+        foreach ($array_strings as $value) {
+            if(preg_match($regexVal,$value)){}else{
+                array_push(
+                    $errors_array,
+                    array("name"=>$value,"status"=>false)
+                );
+            }
+        }
+        return $errors_array;
+    }
+
+    function xCel($num){return ($num == "0") ? 0 : intval($num);}
+    function array_impar_return($value,$key){ $impar = ($key%2==1) ? $value : ''; return $impar;}
+    function array_par_return($value,$key){$par = ($key%2==0) ? $value : '';return $par;}
+    function sumPar($value){ return $value+$value;}
+    function suma($value,$value_2){$value+=$value_2;return $value;}
+    function array_min_return($value,$key){$min = ($value <= 9) ? $value : ''; return $min;}
+    function array_max_return($value,$key){$max = ($value >= 9) ? $value : ''; return $max;}
+    function resPar($value){ return $value-9;}
 
     function getHeader($data=""){
         $view_header = "./views/template/header.php";
@@ -105,25 +173,3 @@
         $_SESSION["permisos_modulo"] = $permisosModulo;
     }
 
-    function encrypt_decrypt($action, $string) {
-        $output = false;
-        
-       $encrypt_method = "AES-256-CBC";
-        $secret_key = 'secret key';
-        $secret_iv = 'secret iv';
-        
-        $key = hash('sha256', $secret_key);
-        $iv = substr(hash('sha256', $secret_iv), 0, 16);
-        
-       if( $action == 'encrypt' ) {
-        $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-        $output = base64_encode($output);
-        }
-
-        else if( $action == 'decrypt' ){
-        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-        }
-        
-       return $output;
-        }
-?>
