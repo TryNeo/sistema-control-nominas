@@ -40,4 +40,4 @@
     </div>
 </div>
 <?php 
-getScripts($data);?>
+getScripts($data);

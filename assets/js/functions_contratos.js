@@ -42,60 +42,75 @@ document.addEventListener('DOMContentLoaded',function(){
         ],
         "order":[[0,"desc"]]
     });
-
-    let formContrato = document.querySelector('#formContrato');
-    formContrato.addEventListener('submit', function (e) {
-        e.preventDefault();        
-        let camps = new Array();
-        let campsRegx = new Array();
-        let idContrato = document.querySelector('#id_contrato').value;
-        let contratoInput = document.querySelector('#nombre_contrato').value;
-        let descriInput = document.querySelector('#descripcion').value;
-        let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(contratoInput,descriInput,estadoInput);
-        campsRegx.push(contratoInput);
-        if(validateCamps(camps)){
-            if(isValidString(campsRegx)){
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"contratos/setContrato";
-                let formData = new FormData(formContrato);
-                request.open("POST",ajaxUrl,true);
-                request.send(formData);
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText); 
-                        if (objData.status){
-                            $('#modalContrato').modal("hide");
-                            let idContrato = document.querySelector('#id_contrato').value = '';
-                            let contratoInput = document.querySelector('#nombre_contrato').value = '';
-                            let descriInput = document.querySelector('#descripcion').value = '';
-                            mensaje("success","Exitoso",objData.msg);
-                            document.querySelector('#csrf').value = objData.token;
-                            tablecontrato.ajax.reload(function(){
-                                setTimeout(function(){ 
-                                    baseAjaxEdit('.btnEditarContrato','cont','contratos',
-                                    'getContrato','Actualizacion de contrato',['nombre_contrato','descripcion'],
-                                    'id_contrato','#modalContrato',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-                                    baseAjaxDelete('.btnEliminarContrato','cont','contratos','delContrato',
-                                    'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);
-                                },500);
-                            });
-                        }else{
-                            mensaje("error","Error",objData.msg);
+    if(document.querySelector('#formContrato')){
+        let formContrato = document.querySelector('#formContrato');
+        formContrato.addEventListener('submit', (e)  => {
+            e.preventDefault(); 
+            let id_contrato = document.querySelector('#id_contrato').value;       
+            let nombre_contrato = document.querySelector('#nombre_contrato').value;
+            let descripcion_contrato  = document.querySelector('#descripcion').value;
+            let estado_contrato = document.querySelector('#estadoInput').value;
+            let validate_data = [nombre_contrato,descripcion_contrato,estado_contrato]
+            let validate_data_regex = [nombre_contrato,descripcion_contrato];
+            if(validateEmptyFields(validate_data)){
+                if(validateInnput(validate_data_regex,regex_string) && validateInnput([estado_contrato],regex_numbers)){
+                    (async () => {
+                        try {
+                            const data = new FormData(formContrato);
+                            let options = { method: "POST", body:data}
+                            let response = await fetch(base_url+"contratos/setContrato",options);
+                            if (response.ok) {
+                                let data = await response.json();
+                                if(data.status){
+                                    $('#modalContrato').modal("hide");
+                                    id_contrato.value = '';nombre_contrato.value = '';descripcion_contrato.value='';
+                                    mensaje("success","Exitoso",data.msg);
+                                    tablecontrato.ajax.reload(function(){
+                                        setTimeout(function(){ 
+                                            fetchEdit('.btnEditarContrato','cont','contratos',
+                                            'getContrato','Actualizacion de contrato',['nombre_contrato','descripcion'],
+                                            'id_contrato','#modalContrato',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+                                            fetchDelete('.btnEliminarContrato','cont','contratos','delContrato',
+                                            'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);
+                                        },500);
+                                    });
+                                }else{
+                                    mensaje("error","Error",data.msg);
+                                }
+                            }else {
+                                mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
+                            }
+                        } catch (err) {
+                            mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                         }
-                    }
+                    })();
+                }else{
+                    return validateInnput(validate_data,regex_string)
                 }
             }else{
-                return isValidString(campsRegx);
+                return validateEmptyFields(validate_data)
             }
-        }else{
-            return validateCamps(camps);
-        }
-    });
-
+        });
+    }
 });
 
 
+window.addEventListener('click',function(){
+    setTimeout(function(){ 
+        fetchEdit('.btnEditarContrato','cont','contratos','getContrato',
+        'Actualizacion de contrato',['nombre_contrato','descripcion'],'id_contrato',
+        '#modalContrato',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+        fetchDelete('.btnEliminarContrato','cont','contratos','delContrato',
+        'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);
+    }, 500);
+},false);
+
+fetchEdit('.btnEditarContrato','cont','contratos','getContrato','Actualizacion de contrato',
+['nombre_contrato','descripcion'],'id_contrato','#modalContrato',
+ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+
+fetchDelete('.btnEliminarContrato','cont','contratos','delContrato',
+'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);
 
 function abrir_modal(){
     var options = {
@@ -112,20 +127,3 @@ function abrir_modal(){
     let estadoInput = document.querySelector('#estadoInput').value;
     $('#modalContrato').modal(options);
 }
-
-window.addEventListener('click',function(){
-    setTimeout(function(){ 
-        baseAjaxEdit('.btnEditarContrato','cont','contratos','getContrato',
-        'Actualizacion de contrato',['nombre_contrato','descripcion'],'id_contrato',
-        '#modalContrato',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-        baseAjaxDelete('.btnEliminarContrato','cont','contratos','delContrato',
-        'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);
-    }, 500);
-},false);
-
-baseAjaxEdit('.btnEditarContrato','cont','contratos','getContrato','Actualizacion de contrato',
-['nombre_contrato','descripcion'],'id_contrato','#modalContrato',
-ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-
-baseAjaxDelete('.btnEliminarContrato','cont','contratos','delContrato',
-'Eliminar contrato',"¿Desea eliminar este contrato?",'#modalContrato',tablecontrato);

@@ -54,7 +54,7 @@
             $this->str_descripcion = $descriInput;
             $this->intEstado = $estadoInput;
             
-            $sql = "SELECT * FROM contratos WHERE nombre_contrato = '$this->str_contrato'   and descripcion = '$this->str_descripcion' and id_contrato = $this->int_id_contrato";
+            $sql = "SELECT * FROM contratos WHERE nombre_contrato = '$this->str_contrato' and id_contrato = $this->int_id_contrato and estado!=0";
             $request_update = $this->select_sql_all($sql);
             if(empty($request_update)){
                 $sql_update = "UPDATE contratos SET nombre_contrato = ?,descripcion = ?,estado = ?,fecha_modifica = now() WHERE id_contrato = $this->int_id_contrato";
