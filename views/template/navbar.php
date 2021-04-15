@@ -32,7 +32,7 @@
                                 </li>
                             <?php } ?>
 
-                            <?php if (!empty($_SESSION['permisos'][8]['r'])) {?>
+                            <?php if (!empty($_SESSION['permisos'][8]['r']) || !empty($_SESSION['permisos'][9]['r'])) {?>
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" aria-expanded="false"
                                 data-target="#submenu-2" aria-controls="submenu-2"><i class="fas fa-id-badge"></i>Nominas</a>
                                 <div id="submenu-2" class="submenu collapse" >
@@ -44,6 +44,18 @@
                                         <a class='nav-link' href="<?php echo server_url ?>nominas/">
                                         <i class="fas fa-file"></i>Procesamiento de nominas</a>
                                     <?php } ?>
+
+                                    <?php if (!empty($_SESSION['permisos'][9]['r'])) { ?>
+
+                                        <?php if($data['page_id'] == 9 ){ ?>
+                                            <a class='nav-link active' href="<?php echo server_url ?>nominas/estado">
+                                            <i class="fas fa-archive"></i>Estado de nominas</a>
+                                        <?php }else{ ?>
+                                            <a class='nav-link' href="<?php echo server_url ?>nominas/estado">
+                                            <i class="fas fa-archive"></i>Estado de nominas</a>
+                                        <?php } ?>
+                                    <?php } ?>
+
                                     </ul>
                                 </div>
                             <?php } ?>

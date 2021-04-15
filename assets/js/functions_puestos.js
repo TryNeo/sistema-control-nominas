@@ -47,48 +47,47 @@ document.addEventListener('DOMContentLoaded',function(){
     let formPuesto = document.querySelector('#formPuesto');
     formPuesto.addEventListener('submit', function (e) {
         e.preventDefault();        
-        let camps = new Array();
-        let campsRegx = new Array();
-        let puestoInput = document.querySelector('#nombre_puesto').value;
-        let descriInput = document.querySelector('#descripcion').value;
-        let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(puestoInput,descriInput,estadoInput);
-        campsRegx.push(puestoInput);
-        if(validateCamps(camps)){
-            if(isValidString(campsRegx)){
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"puestos/setPuesto";
-                let formData = new FormData(formContracto);
-                request.open("POST",ajaxUrl,true);
-                request.send(formData);
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText); 
-                        if (objData.status){
-                            $('#modalPuesto').modal("hide");
-                            let id_puesto = document.querySelector('#id_puesto').value = '';
-                            let puestoInput = document.querySelector('#nombre_puesto').value = '';
-                            let descriInput = document.querySelector('#descripcion').value = '';
-                            mensaje("success","Exitoso",objData.msg);
-                            tablepuesto.ajax.reload(function(){
-                                setTimeout(function(){ 
-                                    baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
-                                    ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
-                                    ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-                                    baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
-                                    'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
-                                }, 500);
-                            });
-                        }else{
-                            mensaje("error","Error",objData.msg);
+        let nombre_puesto = document.querySelector('#nombre_puesto').value;
+        let descripcion_puesto = document.querySelector('#descripcion').value;
+        let estado_puesto = document.querySelector('#estadoInput').value;
+        if(validateEmptyFields([nombre_puesto,descripcion_puesto,estado_puesto])){
+            if(validateInnput([nombre_puesto,descripcion_puesto],regex_string)){
+                (async () => {
+                    try {
+                        const data = new FormData(formPuesto);
+                        let options = { method: "POST", body:data}
+                        let response = await fetch(base_url+"puestos/setPuesto",options);
+                        if (response.ok) {
+                            let data = await response.json();
+                            if(data.status){
+                                $('#modalPuesto').modal("hide");
+                                let id_puesto = document.querySelector('#id_puesto').value = '';
+                                nombre_puesto.value = '';descripcion_puesto.value ='';
+                                mensaje("success","Exitoso",data.msg);
+                                tablepuesto.ajax.reload(function(){
+                                    setTimeout(function(){ 
+                                        fetchEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+                                        ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
+                                        ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+                                        fetchDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+                                        'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
+                                    }, 500);
+                                });
+                            }else{
+                                mensaje("error","Error",data.msg);
+                            }
+                        }else {
+                            mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                         }
+                    } catch (err) {
+                        mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                     }
-                }
+                })();
             }else{
-                return isValidString(campsRegx);
+                return validateInnput([nombre_puesto,descripcion_puesto],regex_string);
             }
         }else{
-            return validateCamps(camps);
+            return validateEmptyFields([nombre_puesto,descripcion_puesto,estado_puesto])
         }
     });
 
@@ -114,20 +113,20 @@ function abrir_modal(){
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+        fetchEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
         ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
         ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-        baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+        fetchDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
         'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
     }, 500);
 },false);
 
 
-baseAjaxEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
+fetchEdit('.btnEditarPuesto','puest','puestos','getPuesto','Actualizacion de puesto',
 ['nombre_puesto','descripcion'],'id_puesto','#modalPuesto',
 ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
 
-baseAjaxDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
+fetchDelete('.btnEliminarPuesto','puest','puestos','delPuesto',
 'Eliminar puesto',"¿Desea eliminar este puesto?",'#modalPuesto',tablepuesto);
 
 

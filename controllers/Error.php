@@ -21,5 +21,3 @@
 
     $notFound = new errors();
     $notFound->notFound();
-
-?>

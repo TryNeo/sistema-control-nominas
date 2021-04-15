@@ -44,52 +44,54 @@ document.addEventListener('DOMContentLoaded',function(){
     });
 
     let formRol = document.querySelector('#formRol');
-    formRol.addEventListener('submit', function (e) {
+    formRol.addEventListener('submit', (e) => {
         e.preventDefault();        
-        let camps = new Array();
-        let campsRegex = new Array();
-        let idRol = document.querySelector('#id_rol').value;
-        let rolInput = document.querySelector('#nombre_rol').value;
-        let descriInput = document.querySelector('#descripcion').value;
-        let estadoInput = document.querySelector('#estadoInput').value;
-        camps.push(rolInput,descriInput,estadoInput);
-        campsRegex.push(rolInput);
-        if(validateCamps(camps)){
-            if (isValidString(campsRegex)){
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"roles/setRol";
-                let formData = new FormData(formRol);
-                request.open("POST",ajaxUrl,true);
-                request.send(formData);
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText); 
-                        if (objData.status){
-                            $('#modalRol').modal("hide");
-                            let idRol = document.querySelector('#id_rol').value = '';
-                            let rolInput = document.querySelector('#nombre_rol').value = '';
-                            let descriInput = document.querySelector('#descripcion').value = '';
-                            mensaje("success","Exitoso",objData.msg);
-                            tableroles.ajax.reload(function() {
-                                setTimeout(function(){ 
-                                    fntPermRol();
-                                    baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
-                                    ['nombre_rol','descripcion'],'id_rol','#modalRol',
-                                    ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
-                                    baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',
-                                    "¿Desea eliminar este rol?",'#modalRol',tableroles);
-                                }, 500);
-                            });
-                        }else{
-                            mensaje("error","Error",objData.msg);
+        let id_rol = document.querySelector('#id_rol').value;
+        let nombre_rol = document.querySelector('#nombre_rol').value;
+        let descripcion_rol = document.querySelector('#descripcion').value;
+        let estado_rol = document.querySelector('#estadoInput').value;
+        let validate_data = [nombre_rol,descripcion_rol,estado_rol];
+        let validate_data_regex = [nombre_rol,descripcion_rol];
+        if(validateEmptyFields(validate_data)){
+            if (validateInnput(validate_data_regex,regex_string) && validateInnput([estado_rol],regex_numbers)){
+                (async () => {
+                    try {
+                        const data = new FormData(formRol);
+                        let options = { method: "POST", body:data}
+                        let response = await fetch(base_url+"roles/setRol",options);
+                        if (response.ok) {
+                            let data = await response.json();
+                            if (data.status){
+                                $('#modalRol').modal("hide");
+                                id_rol.value = '';nombre_rol.value='';descripcion_rol.value='';
+                                mensaje("success","Exitoso",data.msg);
+                                tableroles.ajax.reload(function() {
+                                    setTimeout(function(){ 
+                                        fetchPermRol();
+                                        fetchEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+                                        ['nombre_rol','descripcion'],'id_rol','#modalRol',
+                                        ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'')
+                                        fetchDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',
+                                        "¿Desea eliminar este rol?",'#modalRol',tableroles);
+                                    }, 500);
+                                });
+                            }else{
+                                mensaje("error","Error",data.msg);
+                            }
+                        } else {
+                            mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                         }
+                    } catch (err) {
+                        mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                     }
-                }
+                })();
             }else{
-                return isValidString(campsRegex);
+                return validateInnput(validate_data_regex,regex_string),
+                validateInnput([estado_rol],regex_numbers)
+                ;
             }
         }else{
-            return validateCamps(camps);
+            return validateEmptyFields(validate_data)
         }
     });
 
@@ -112,158 +114,73 @@ function abrir_modal(){
     $('#modalRol').modal(options);
 }
 
-
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-            fntPermRol();
-            baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+            fetchPermRol();
+            fetchEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
             ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,'',ImagePreview = false,'',ExistSelect_two = false,'');
-            baseAjaxDelete('.btnEliminarRol','rl','roles','delRol',
+            fetchDelete('.btnEliminarRol','rl','roles','delRol',
             'Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
-     }, 500);
+    }, 500);
 },false);
 
 
-baseAjaxEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
+fetchEdit('.btnEditarRol','rl','roles','getRol','Actualizacion de rol',
 ['nombre_rol','descripcion'],'id_rol','#modalRol',ExistSelect = false,
 '',ImagePreview = false,'',ExistSelect_two = false,'')
 
-/*
-function fntEditRol(){
-    let btnEditRol = document.querySelectorAll('.btnEditarRol');
-        btnEditRol.forEach(function(btnEditRol){
-            btnEditRol.addEventListener('click',function(){
-                document.querySelector('#modalTitle').innerHTML = "Actualizacion de rol";
-                document.querySelector('.text-center').innerHTML = " Actualizar registro";
-                document.querySelector('#btnDisabled').style.display = 'none';
 
-                    
-                let id_rol = this.getAttribute('rl');
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxEdUser = "http://localhost/sistema-control-nominas/roles/getRol/"+id_rol;
-                let camps = new Array();
-                request.open("GET",ajaxEdUser,true);
-                request.send();
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText);
-                        camps.push("nombre_rol",'descripcion')
-                        if (objData.status){
-                            document.querySelector('#id_rol').value = objData.msg.id_rol;
-                            camps.forEach(function(element,index){
-                                document.querySelector('#'+element).value = objData.msg[element];
-                            })
-                           const optionsSelect = document.querySelector("#estadoInput") .getElementsByTagName("option"); 
-                            for (let item of optionsSelect ) {
-                                if (item.value == objData.msg.estado) {
-                                    item.setAttribute("selected","");
-                                } else {
-                                    item.removeAttribute("selected");
-                                }
-                            }
-                            $('#modalRol').modal("hide");
-                        }else{
-                            mensaje("error","Error",objData.msg);
-                        }
-                    }
-                }
-                $('#modalRol').modal("show");
-            });
-        });
-}
-*/
+fetchDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
 
 
-
-baseAjaxDelete('.btnEliminarRol','rl','roles','delRol','Eliminar rol',"¿Desea eliminar este rol?",'#modalRol',tableroles);
-
-/*
-function fntDelRol(){
-    let btnDelRol = document.querySelectorAll('.btnEliminarRol');
-    btnDelRol.forEach(function(btnDelRol){
-        btnDelRol.addEventListener('click',function(){
-            let id_rol = this.getAttribute('rl');
-            Swal.fire({
-                title: 'Eliminar rol',
-                text: "¿Desea eliminar este rol?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, eliminar',
-                cancelButtonText : 'No, cancelar',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                    let ajaxUrl = "http://localhost/sistema-control-nominas/roles/delRol";
-                    let strData = "id_rol="+id_rol;
-                    request.open("POST",ajaxUrl,true);
-                    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                    request.send(strData);
-                    request.onreadystatechange = function(){
-                        if(request.readyState==4 && request.status == 200){
-                            let objData = JSON.parse(request.responseText); 
-                            if (objData.status){
-                                $('#modalRol').modal("hide");
-                                mensaje("success","Exitoso",objData.msg);
-                                tableroles.ajax.reload(function () {
-                                    fntPermRol();
-                                    fntEditRol();
-                                    fntDelRol();
-                                });
-                            }else{
-                                mensaje("error","Error",objData.msg);
-                            }
-                        }
-                    }
-                    }
-                });
-                
-        });
-    });
-}
-*/
-
-function fntPermRol(){
+async function fetchPermRol(){
     let btnPermRol = document.querySelectorAll('.btnPermiso');
     btnPermRol.forEach(function(btnPermRol){
         btnPermRol.addEventListener('click',function(){
-            let id_rol = this.getAttribute('rl');
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+"Permisos/getPermisosRol/"+id_rol;
-            request.open("GET",ajaxUrl,true);
-            request.send();
-            request.onreadystatechange = function(){
-                if(request.readyState==4 && request.status == 200){
-                    document.querySelector("#contentAjax").innerHTML = request.responseText;
-                    document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
-                    $('.modalPermisos').modal("show");
+            (async () => {
+                try {
+                    let id_rol = this.getAttribute('rl');
+                    let options = { method: "GET"}
+                    let response = await fetch(base_url+"Permisos/getPermisosRol/"+id_rol,options);
+                    if (response.ok) {
+                        let data = await response.text();
+                        document.querySelector("#contentAjax").innerHTML = data;
+                        document.querySelector('#formPermisos').addEventListener('submit',fetchSavePermisos,false);
+                        $('.modalPermisos').modal("show");
+                    }else {
+                        mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
+                    }
+                } catch (err) {
+                    mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                 }
-            }
+            })();
         });
-
     });
 }
 
-function fntSavePermisos(event){
+async function fetchSavePermisos(event){
     event.preventDefault();
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url+"Permisos/setPermisos";
-    let formElement = document.querySelector("#formPermisos");
-    let formData = new FormData(formElement);
-    request.open("POST",ajaxUrl,true);
-    request.send(formData);
-    request.onreadystatechange = function(){
-        if(request.readyState==4 && request.status == 200){
-            let objData = JSON.parse(request.responseText); 
-            if(objData.status){
-                mensaje("success","Exitoso",objData.msg);
+    try {
+        let formElement = document.querySelector("#formPermisos");
+        const data = new FormData(formElement);
+        let options = { method: "POST", body:data}
+        let response = await fetch(base_url+"Permisos/setPermisos",options);
+        if (response.ok) {
+            let data = await response.json();
+            if (data.status){
+                mensaje("success","Exitoso",data.msg);
                 $('.modalPermisos').modal("hide");
             }else{
-                mensaje("error","Error",objData.msg);
+                mensaje("error","Error",data.msg);
             }
+        } else {
+            mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
         }
+
+    } catch (err) {
+        mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
     }
+    
 }
 
 

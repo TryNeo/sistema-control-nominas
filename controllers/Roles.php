@@ -67,14 +67,22 @@
                 header('location:'.server_url.'Errors');
                 $data_response = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
-                $intRol  = Intval(strclean($id_rol));
-                if ($intRol > 0){
-                    $data = $this->model->selectRol($intRol);
-                    if (empty($data)){
-                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                $id_rol  = Intval(strclean($id_rol));
+                if(validateEmptyFields([$id_rol])){
+                    if(empty(preg_matchall([$id_rol],regex_numbers))){
+                        if ($id_rol > 0){
+                            $data = $this->model->selectRol($id_rol);
+                            if (empty($data)){
+                                $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                            }else{
+                                $data_response = array('status' => true,'msg'=> $data);
+                            }
+                        }
                     }else{
-                        $data_response = array('status' => true,'msg'=> $data);
+                        $data = array('status' => false,'msg' => 'El campo estan mal escrito , verifique y vuelva a ingresarlo');
                     }
+                }else {
+                    $data = array('status' => false,'msg' => 'El campo se encuentra vacio , verifique y vuelva a ingresarlo');
                 }
             }
             echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
@@ -84,47 +92,54 @@
 
         public function setRol(){
             if ($_POST) {
-                $intRol = Intval(strclean($_POST['id_rol']));
-                $rolInput = ucwords(strtolower(strclean($_POST["nombre_rol"])));
-                $descriInput = ucwords(strtolower(strclean($_POST["descripcion"])));
-                $estadoInput = intval($_POST["estadoInput"]);
-                if ($intRol == 0){
-                    $request_rol = $this->model->insertRol($rolInput,$descriInput,$estadoInput);
-                    $option = 1;
-                }else{
-                    $request_rol = $this->model->updateRol($intRol,$rolInput,$descriInput,$estadoInput);
-                    $option = 2;
-                }
-                    
-                if ($request_rol > 0){ 
-                    if (empty($_SESSION['permisos_modulo']['w'])){
-                        header('location:'.server_url.'Errors');
-                        $data= array("status" => false, "msg" => "Error no tiene permisos");
-                    }else{
-                        if ($option == 1){
-                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
-                        }
-                    }
+                $id_rol = Intval(strclean($_POST['id_rol']));
+                $nombre_rol = ucwords(strtolower(strclean($_POST["nombre_rol"])));
+                $descripcion_rol = ucwords(strtolower(strclean($_POST["descripcion"])));
+                $estado_rol = intval(strclean($_POST["estadoInput"]));
+                $validate_data = [$nombre_rol,$descripcion_rol];
 
-                    if (empty($_SESSION['permisos_modulo']['u'])) {
-                        header('location:'.server_url.'Errors');
-                        $data= array("status" => false, "msg" => "Error no tiene permisos");
-                    }else{
-                        if ($option == 2){
-                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                if(validateEmptyFields($validate_data)){
+                    if(empty(preg_matchall($validate_data,regex_string))){
+                        if ($id_rol == 0){
+                            $response_rol = $this->model->insertRol($nombre_rol,$descripcion_rol,$estado_rol);
+                            $option = 1;
+                        }else{
+                            $response_rol = $this->model->updateRol($id_rol,$nombre_rol,$descripcion_rol,$estado_rol);
+                            $option = 2;
                         }
+                        if ($response_rol > 0){ 
+                            if (empty($_SESSION['permisos_modulo']['w'])){
+                                header('location:'.server_url.'Errors');
+                                $data= array("status" => false, "msg" => "Error no tiene permisos");
+                            }else{
+                                if ($option == 1){
+                                    $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                                }
+                            }
+
+                            if (empty($_SESSION['permisos_modulo']['u'])) {
+                                header('location:'.server_url.'Errors');
+                                $data= array("status" => false, "msg" => "Error no tiene permisos");
+                            }else{
+                                if ($option == 2){
+                                    $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                                }
+                            }
+                        
+                        }else if ($response_rol == 'exist'){
+                            $data = array('status' => false,'msg' => 'Error el rol ya existe');
+                        
+                        }else{
+                            $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                        }
+                    }else{
+                        $data = array('status' => false,'msg' => 'Los campos estan mal escrito , verifique y vuelva a ingresarlos');
                     }
-                
-                }else if ($request_rol == 'exist'){
-                    $data = array('status' => false,'msg' => 'Error el rol ya existe');
-                
                 }else{
-                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                    $data = array('status' => false,'msg' => 'Los campos se encuentra vacios, verifique y vuelva a ingresarlos');
                 }
-                
             }else{
                 header('location:'.server_url.'Errors');
-                $data = array("status" => false, "msg" => "Error Hubo problemas");
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();
@@ -136,14 +151,22 @@
                 $data = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 if ($_POST){
-                    $intRol = intval($_POST["id"]);
-                    $request_del = $this->model->deleteRol($intRol);
-                    if($request_del == "ok"){
-                        $data = array("status" => true, "msg" => "Se ha eliminado el rol");
-                    }else if ($request_del == "exist"){
-                        $data = array("status" => false, "msg" => "No es posisible eliminar rol asociado a usuarios");
+                    $id_rol = intval(strclean($_POST["id"]));
+                    if(validateEmptyFields([$id_rol])){
+                        if(empty(preg_matchall([$id_rol],regex_numbers))){
+                            $response_del = $this->model->deleteRol($id_rol);
+                            if($response_del == "ok"){
+                                $data = array("status" => true, "msg" => "Se ha eliminado el rol");
+                            }else if ($response_del == "exist"){
+                                $data = array("status" => false, "msg" => "No es posisible eliminar rol asociado a usuarios");
+                            }else{
+                                $data = array("status" => false, "msg" => "Error al eliminar rol");
+                            }
+                        }else{
+                            $data = array('status' => false,'msg' => 'El campo estan mal escrito , verifique y vuelva a ingresarlo');
+                        }
                     }else{
-                        $data = array("status" => false, "msg" => "Error al eliminar rol");
+                        $data = array('status' => false,'msg' => 'El campo se encuentra vacio , verifique y vuelva a ingresarlo');
                     }
                 }else{
                     $data = array("status" => false, "msg" => "Error Hubo problemas");

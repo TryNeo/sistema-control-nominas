@@ -66,19 +66,19 @@
                     $y = $pdf->GetY();
                     $cont+=1;
                     $pdf->SetXY(10, $y);
-                    $pdf->MultiCell(8, 8, $value['id_empleado'], 1, 'C');
+                    $pdf->MultiCell(8, 8, utf8_decode($value['id_empleado']), 1, 'C');
                     $pdf->SetXY(18, $y);
-                    $pdf->MultiCell(22, 8, $value['cedula'], 1, 'C');
+                    $pdf->MultiCell(22, 8, utf8_decode($value['cedula']), 1, 'C');
                     $pdf->SetXY(40, $y);
-                    $pdf->MultiCell(40, 8, $value['nombre'], 1, 'C');
+                    $pdf->MultiCell(40, 8, utf8_decode($value['nombre']), 1, 'C');
                     $pdf->SetXY(80, $y);
-                    $pdf->MultiCell(40, 8, $value['apellido'], 1, 'C');
+                    $pdf->MultiCell(40, 8, utf8_decode($value['apellido']), 1, 'C');
                     $pdf->SetXY(120, $y); 
-                    $pdf->MultiCell(27, 8, $value['telefono'], 1, 'C');
+                    $pdf->MultiCell(27, 8, utf8_decode($value['telefono']), 1, 'C');
                     $pdf->SetXY(147, $y); 
-                    $pdf->MultiCell(25, 8, "$".$value['sueldo'], 1, 'C');
+                    $pdf->MultiCell(25, 8, utf8_decode("$".$value['sueldo']), 1, 'C');
                     $pdf->SetXY(172, $y); 
-                    $pdf->MultiCell(30, 8, $value['nombre_puesto'], 1, 'C');
+                    $pdf->MultiCell(30, 8, utf8_decode($value['nombre_puesto']), 1, 'C');
                     if ($cont == 21){
                         $pdf->AddPage();
                         $pdf->SetTitle('Reporte | Empleados');
@@ -102,69 +102,84 @@
 
         public function setEmpleado(){
             if ($_POST) {
-                $int_id_empleado = intval($_POST['id_empleado']);
-                $str_nombre = ucwords(strtolower(strclean($_POST['nombre'])));
-                $str_apellido = ucwords(strtolower(strclean($_POST['apellido'])));
-                $str_cedula = strclean($_POST['cedula']);
-                $str_telefono = strclean($_POST['telefono']);
-                $float_sueldo = floatval($_POST['sueldo']);
-                $int_id_puesto = intval($_POST['id_puesto']);
-                $int_id_contrato = intval($_POST['id_contrato']);
-                $int_estado = intval(strclean($_POST['estadoInput']));
-
-                if ($int_id_empleado == 0) {
-                    $option = 1;
-                    $request_empleado = $this->model->insertEmpleado(
-                        $str_nombre,
-                        $str_apellido,
-                        $str_cedula,
-                        $str_telefono,
-                        $float_sueldo,
-                        $int_id_puesto,
-                        $int_id_contrato,
-                        $int_estado
-                    );
-                } else {
-                    $option = 2;
-                    $request_empleado = $this->model->updateEmpleado(
-                        $int_id_empleado,
-                        $str_nombre,
-                        $str_apellido,
-                        $str_cedula,
-                        $str_telefono,
-                        $float_sueldo,
-                        $int_id_puesto,
-                        $int_id_contrato,
-                        $int_estado
-                    );
-                }
-
-                if ($request_empleado > 0) {
-                    if (empty($_SESSION['permisos_modulo']['w'])){
-                        header('location:'.server_url.'Errors');
-                        $data= array("status" => false, "msg" => "Error no tiene permisos");
-                    }else{
-                        if ($option == 1){
-                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                $id_empleado = intval($_POST['id_empleado']);
+                $nombre_empleado = ucwords(strtolower(strclean($_POST['nombre'])));
+                $apellido_empleado = ucwords(strtolower(strclean($_POST['apellido'])));
+                $cedula_empleado = strclean($_POST['cedula']);
+                $telefono_empleado = strclean($_POST['telefono']);
+                $sueldo_empleado = floatval($_POST['sueldo']);
+                $id_puesto_empleado = intval($_POST['id_puesto']);
+                $id_contrato_empleado = intval($_POST['id_contrato']);
+                $estado_empleado = intval(strclean($_POST['estadoInput']));
+                $validate_data = array($nombre_empleado,$apellido_empleado,
+                                $cedula_empleado,$telefono_empleado,$sueldo_empleado,
+                                $id_puesto_empleado,$id_contrato_empleado,$estado_empleado);
+                $validate_data_regex = array($nombre_empleado,$apellido_empleado);
+                $validate_data_regex_numbers = array($cedula_empleado,$sueldo_empleado,$id_puesto_empleado,$id_contrato_empleado,$estado_empleado);
+                if(validateEmptyFields($validate_data)){
+                    if(empty(preg_matchall($validate_data_regex,regex_string)) && empty(preg_matchall($validate_data_regex_numbers,regex_numbers))){
+                        if(validateCedula($cedula_empleado,regex_cedula)){
+                            if ($id_empleado == 0) {
+                                $option = 1;
+                                $request_empleado = $this->model->insertEmpleado(
+                                    $nombre_empleado,
+                                    $apellido_empleado,
+                                    $cedula_empleado,
+                                    $telefono_empleado,
+                                    $sueldo_empleado,
+                                    $id_puesto_empleado,
+                                    $id_contrato_empleado,
+                                    $estado_empleado
+                                );
+                            } else {
+                                $option = 2;
+                                $request_empleado = $this->model->updateEmpleado(
+                                    $id_empleado,
+                                    $nombre_empleado,
+                                    $apellido_empleado,
+                                    $cedula_empleado,
+                                    $telefono_empleado,
+                                    $sueldo_empleado,
+                                    $id_puesto_empleado,
+                                    $id_contrato_empleado,
+                                    $estado_empleado
+                                );
+                            }
+            
+                            if ($request_empleado > 0) {
+                                if (empty($_SESSION['permisos_modulo']['w'])){
+                                    header('location:'.server_url.'Errors');
+                                    $data= array("status" => false, "msg" => "Error no tiene permisos");
+                                }else{
+                                    if ($option == 1){
+                                        $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                                    }
+                                }
+            
+            
+                                if (empty($_SESSION['permisos_modulo']['u'])) {
+                                    header('location:'.server_url.'Errors');
+                                    $data= array("status" => false, "msg" => "Error no tiene permisos");
+                                }else{
+                                    if ($option == 2){
+                                        $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
+                                    }
+                                }
+            
+                            }else if ($request_empleado == 'exist'){
+                                $data = array('status' => false, 'msg' => 'Error datos ya existentes');
+                            }else{
+                                $data = array('status' => false, 'msg' => 'No es posible almacenar los datos');
+                            }
+                        }else{
+                            $data = array('status' => false, 'msg' => 'La cedula ingresada es valida, verifique y vuelva a ingresarlos');
                         }
-                    }
-
-
-                    if (empty($_SESSION['permisos_modulo']['u'])) {
-                        header('location:'.server_url.'Errors');
-                        $data= array("status" => false, "msg" => "Error no tiene permisos");
                     }else{
-                        if ($option == 2){
-                            $data = array('status' => true, 'msg' => 'datos actualizados correctamente');
-                        }
+                        $data = array('status' => false,'msg' => 'Algunos de tus campos estan mal escritos , verifique y vuelva a ingresarlos');
                     }
-
-                }else if ($request_empleado == 'exist'){
-                    $data = array('status' => false, 'msg' => 'Error datos ya existentes');
                 }else{
-                    $data = array('status' => false, 'msg' => 'No es posible almacenar los datos');
+                    $data = array('status' => false,'msg' => 'Algunos campos aun estan vacios , verifique y vuelva a ingresarlos');
                 }
-                
             }else{
                 $data = array("status" => false, "msg" => "Error Hubo problemas");
             }
@@ -210,14 +225,18 @@
                 header('location:'.server_url.'Errors');
                 $data_response = array("status" => false, "msg" => "Error no tiene permisos");
             }else{
-                $intEmpleado  = Intval(strclean($id_empleado));
-                if ($intEmpleado > 0){
-                    $data = $this->model->selectEmpleado($intEmpleado);
-                    if (empty($data)){
-                        $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
-                    }else{
-                        $data_response = array('status' => true,'msg'=> $data);
+                $id_empleado  = Intval(strclean($id_empleado));
+                if(empty(preg_matchall([$id_empleado],regex_numbers))){
+                    if ($id_empleado > 0){
+                        $data = $this->model->selectEmpleado($id_empleado);
+                        if (empty($data)){
+                            $data_response = array('status' => false,'msg'=> 'Datos no encontrados');
+                        }else{
+                            $data_response = array('status' => true,'msg'=> $data);
+                        }
                     }
+                }else{
+                    $data_response = array('status' => false,'msg' => 'Oops!, El campo no es valido, verifiquelo y vuelva a intentarlo');
                 }
             }
             echo json_encode($data_response,JSON_UNESCAPED_UNICODE);
@@ -230,12 +249,21 @@
                 $data= array("status" => false, "msg" => "Error no tiene permisos");
             }else{
                 if ($_POST) {
-                    $intEmpleado = intval($_POST["id"]);
-                    $request_del = $this->model->deleteEmpleado($intEmpleado);
-                    if ($request_del == "ok") {
-                        $data = array("status" => true, "msg" => "Se ha eliminado el empleado");
+                    $id_empleado = intval(strclean($_POST["id"]));
+                    $validate_data = array($id_empleado);
+                    if (validateEmptyFields($validate_data)){
+                        if (empty(preg_matchall($validate_data,regex_numbers))) {
+                            $request_del = $this->model->deleteEmpleado($id_empleado);
+                            if ($request_del == "ok") {
+                                $data = array("status" => true, "msg" => "Se ha eliminado el empleado");
+                            }else{
+                                $data = array("status" => false, "msg" => "Error al eliminar el empleado");
+                            }
+                        }else{
+                            $data = array('status' => false,'msg' => 'Oops!, El campo no es valido');
+                        }
                     }else{
-                        $data = array("status" => false, "msg" => "Error al eliminar el empleado");
+                        $data = array("status" => false, "msg" => "Oops!, no existe tal contrato o estas mandado datos erroneos");
                     }
                 }else{
                     $data = array("status" => false, "msg" => "Error Hubo problemas");
@@ -245,5 +273,3 @@
             die();
         }
     }
-
-?>

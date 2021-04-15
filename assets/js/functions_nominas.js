@@ -5,8 +5,6 @@ let id_nomina;
 document.addEventListener('DOMContentLoaded',function(){
     id_nomina = document.querySelector('#id_nomina').value;
 
-
-
     dataNomina = $('#tableNominaEmpleado').DataTable({
                 "pageLength": 5,
                 "aProcessing":true,
@@ -162,44 +160,53 @@ document.addEventListener('DOMContentLoaded',function(){
     if(formNomina != null){
         formNomina.addEventListener('submit', function (e) {
             e.preventDefault();        
-            let camps = new Array();
             let nombre_nomina = document.querySelector('#nombre_nomina').value;
             let periodo_inicio = document.querySelector('#periodo_inicio').value;
             let periodo_fin = document.querySelector('#periodo_fin').value;
             let estado_nomina = document.querySelector('#estado_nomina').value;
-            let estadoInput = document.querySelector('#estadoInput').value;
-            camps.push(nombre_nomina,periodo_inicio,periodo_fin,estado_nomina,estadoInput);
-            if (validateCamps(camps)) {
-                let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                let ajaxUrl = base_url+"nominas/setNomina";
-                let formData = new FormData(formNomina);
-                request.open("POST",ajaxUrl,true);
-                request.send(formData);
-                request.onreadystatechange = function(){
-                    if(request.readyState==4 && request.status == 200){
-                        let objData = JSON.parse(request.responseText); 
-                        if (objData.status){
-                            $('#modalNomina').modal("hide");
-                            let idNomina = document.querySelector('#id_nomina').value = '';
-                            let nombre_nomina = document.querySelector('#nombre_nomina').value = '';
-                            let periodo_inicio = document.querySelector('#periodo_inicio').value = '';
-                            let periodo_fin = document.querySelector('#periodo_fin').value = '';
-                            let estado_nomina = document.querySelector('#estado_nomina').value = '';
-                            let estadoInput = document.querySelector('#estadoInput').value = '';
-                            mensaje("success","Exitoso",objData.msg);
-                            tablenominas.ajax.reload(function(){
-                                setTimeout(function(){ 
-                                    baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
-                                    'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
-                                },500)
-                            });
-                        }else{
-                            mensaje("error","Error",objData.msg);
+            let estado = document.querySelector('#estadoInput').value;
+            let validate_data = [nombre_nomina,periodo_inicio,periodo_fin,estado_nomina,estado];
+            if (validateEmptyFields(validate_data)) {
+                if(validateInnput([nombre_nomina],regex_string) && 
+                    validateInnput([estado_nomina,estado],regex_numbers)
+                    ){
+                    (async () => {
+                        try {
+                            const data = new FormData(formNomina);
+                            let options = { method: "POST", body:data}
+                            let response = await fetch(base_url+"nominas/setNomina",options);
+                            if (response.ok) {
+                                let data = await response.json();
+                                if (data.status){
+                                    $('#modalNomina').modal("hide");
+                                    let idNomina = document.querySelector('#id_nomina').value = '';
+                                    nombre_nomina.value = '';periodo_inicio.value = '';periodo_fin.value = '';estado_nomina.value = '';
+                                    estado.value = '';
+                                    mensaje("success","Exitoso",data.msg);
+                                    tablenominas.ajax.reload(function(){
+                                        setTimeout(function(){ 
+                                            fetchDelete('.btnEliminarNomina','nom','nominas','delNomina',
+                                            'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
+                                        },500)
+                                    });
+                                    mensaje("success","Exitoso",data.msg);
+                                }else{
+                                    mensaje("error","Error",data.msg);
+                                }
+                            } else {
+                                mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
+                            }
+                        } catch (err) {
+                            mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                         }
-                    }
+                    })();
+                        console.log("yes")
+                }else{
+                    return  validateInnput([nombre_nomina],regex_string),
+                    validateInnput([estado_nomina,estado],regex_numbers);
                 }
             }else{
-                return validateCamps(camps);
+                return validateEmptyFields(validate_data);
             };
         });
     }
@@ -218,13 +225,13 @@ window.addEventListener('load',function(){
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
+        fetchDelete('.btnEliminarNomina','nom','nominas','delNomina',
         'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
     },500)
  
 })
 
-baseAjaxDelete('.btnEliminarNomina','nom','nominas','delNomina',
+fetchDelete('.btnEliminarNomina','nom','nominas','delNomina',
 'Eliminar nomina',"¿Desea eliminar esta nomina?",'#modalNomina',tablenominas);
 
 

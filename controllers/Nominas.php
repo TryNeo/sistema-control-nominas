@@ -232,11 +232,14 @@
                     $data[$clave]['total'] = "<strong>"."$".number_format($data[$clave]['total'])."</strong>";
 
                     if ($data[$clave]['estado_nomina'] == 1) {
-                        $data[$clave]['estado_nomina'] = '<span class="badge badge-warning text-white">Pendiente</span>';
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-warning btn-icon-split btn-sm text-white">
+                        <i class="icon fa fa-spinner"></i><span class="label text-padding text-white">&nbsp;&nbsp;Pendiente</span></span>';
                     }else if($data[$clave]['estado_nomina'] == 2){
-                        $data[$clave]['estado_nomina'] = '<span class="badge badge-success">Aceptado</span>';
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-success btn-icon-split btn-sm text-white">
+                        <i class="icon fas fa-check"></i><span class="label text-padding text-white">&nbsp;&nbsp;Aceptado</span></span>';
                     }else if($data[$clave]['estado_nomina'] == 3){
-                        $data[$clave]['estado_nomina'] = '<span class="badge badge-danger">Rechazado</span>';
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-danger btn-icon-split btn-sm text-white">
+                        <i class="icon fas fa-times"></i><span class="label text-padding text-white">&nbsp;&nbsp;Rechazado</span></span>';
                     }
 
                     if ($_SESSION['permisos_modulo']['u']) {
@@ -281,6 +284,115 @@
             }
         }
 
+        public function estado(){
+            if (empty($_SESSION['permisos'][9]['r']) ) {
+                header('location:'.server_url.'Errors');
+            }else{
+                $data["page_id"] = 9;
+                $data["tag_pag"] = "Estado de nomina";
+                $data["page_title"] = "Estado de nominas | Inicio";
+                $data["page_name"] = "Estado de nominas";
+                $data["page"] = "estado";
+                $this->views->getView($this,"estado",$data);
+            }   
+        }
+
+        public function getEstadoNominas(){
+            if (empty($_SESSION['permisos'][9]['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $data = $this->model->selectEstadoNominas();
+                foreach($data  as $clave => $valor){
+                    $btnAceptarNomina = '';
+                    $btnRechazarNomina = '';
+                    $data[$clave]['total'] = "<strong>"."$".number_format($data[$clave]['total'])."</strong>";
+                    
+                    if ($_SESSION['permisos'][9]['u']) {
+                        if($data[$clave]['estado_nomina'] == 3 || $data[$clave]['estado_nomina'] == 2){
+                            $btnAceptarNomina = '<button disabled class="btn btn-success btn-circle btnAceptarNomina" 
+                            title="Aceptar nomina" nom="'.$data[$clave]['id_nomina'].'"  acept="2"><i class="fas fa-check"></i></button>';   
+                        }else{
+                            $btnAceptarNomina =  '<button  class="btn btn-success btn-circle btnAceptarNomina" 
+                            title="Aceptar nomina" nom="'.$data[$clave]['id_nomina'].'"  acept="2"><i class="fas fa-check"></i></button>';                            
+                        }
+                    }  
+
+                    if ($_SESSION['permisos'][9]['d']) {
+                        if($data[$clave]['estado_nomina'] == 3 || $data[$clave]['estado_nomina'] == 2 ){
+                            $btnRechazarNomina  = '<button  disabled class="btn btn-danger btn-circle btnRechazarNomina" 
+                            title="Rechazar nomina" nom="'.$data[$clave]['id_nomina'].'"  rech="3"><i class="fas fa-times"></i></button>';
+                        }else{
+                            $btnRechazarNomina  = '<button  class="btn btn-danger btn-circle btnRechazarNomina" 
+                            title="Rechazar nomina" nom="'.$data[$clave]['id_nomina'].'"  rech="3"><i class="fas fa-times"></i></button>';
+                        }
+                    }
+
+                    if ($data[$clave]['estado_nomina'] == 1) {
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-warning btn-icon-split btn-sm text-white">
+                        <i class="icon fa fa-spinner"></i><span class="label text-padding text-white">&nbsp;&nbsp;Pendiente</span></span>';
+                    }else if($data[$clave]['estado_nomina'] == 2){
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-success btn-icon-split btn-sm text-white">
+                        <i class="icon fas fa-check"></i><span class="label text-padding text-white">&nbsp;&nbsp;Aceptado</span></span>';
+                    }else if($data[$clave]['estado_nomina'] == 3){
+                        $data[$clave]['estado_nomina'] = '<span  class="btn btn-danger btn-icon-split btn-sm text-white">
+                        <i class="icon fas fa-times"></i><span class="label text-padding text-white">&nbsp;&nbsp;Rechazado</span></span>';
+                    }
+
+                    $data[$clave]['opciones'] = '<div class="text-center">'.$btnAceptarNomina.' '.$btnRechazarNomina.'</div>';
+                };
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function setEstadoNominas(){
+            if ($_POST) {
+                $id_nomina = intVal(strclean($_POST['id_nomina']));
+                $estado_nomina = intVal(strclean($_POST['estado']));
+                if(validateEmptyFields([$id_nomina,$estado_nomina])){
+                    if(empty(preg_matchall([$id_nomina,$estado_nomina],regex_numbers))){
+                        if($estado_nomina == 2 || $estado_nomina == 3){
+                            if ($estado_nomina == 2){
+                                $response_estado_nomina = $this->model->updateEstadoNomina($id_nomina,$estado_nomina);
+                                $option = 1;
+                            }
+
+                            if ($estado_nomina == 3){
+                                $response_estado_nomina = $this->model->updateEstadoNomina($id_nomina,$estado_nomina);
+                                $option = 2;
+                            }
+
+                            if($response_estado_nomina  > 0 ){
+                                if($option == 1){
+                                    $data = array('status' => true, 'msg' => 'Nomina aceptada correctamente');
+                                }
+
+                                if($option == 2){
+                                    $data = array('status' => true, 'msg' => 'Nomina rechazada correctamente');
+                                }
+
+                            }else if ($response_estado_nomina == 'no'){
+                                $data = array('status' => false,'msg' => 'Error de datos no existe tal nomina ,verifique que todo se encuentre bien');
+                            }else{
+                                $data = array('status' => false,'msg' => 'Oops hubo error ,verifique que todo se encuentre bien');
+                            }
+                        }else{
+                            $data = array('status' => false,'msg' => 'Error de datos ,verifique que todo se encuentre bien');
+                        }
+                    }else{
+                        $data = array('status' => false,'msg' => 'Algunos de tus campos estan mal escritos , verifique y vuelva a ingresarlos');
+                    }
+                }else{
+                    $data = array('status' => false,'msg' => 'Algunos campos aun estan vacios , verifique y vuelva a ingresarlos');
+                }
+            }else{
+                header('location:'.server_url.'Errors');
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         public function getNominaEmpleados(int $int_id_nomina){
             if (empty($_SESSION['permisos_modulo']['r']) ) {
                 header('location:'.server_url.'Errors');
@@ -306,35 +418,42 @@
         
         public function setNomina(){
             if ($_POST) {
-                $intNomina = intval(strclean($_POST['id_nomina']));
+                $id_nomina = intval(strclean($_POST['id_nomina']));
                 $nombre_nomina = ucwords(strtolower(strclean($_POST['nombre_nomina'])));
                 $periodo_inicio = strclean($_POST['periodo_inicio']);
                 $periodo_fin = strclean($_POST['periodo_fin']);
-                $estado_nomina = intval($_POST['estado_nomina']);
-                $estado = intval($_POST['estadoInput']);
-
-                if($intNomina == 0){
-                    $request_nomina = $this->model->insertNomina($nombre_nomina,$periodo_inicio,
-                    $periodo_fin,$estado_nomina,$estado);
-                    $option = 1;
-                }
-                if ($request_nomina > 0){ 
-                    if (empty($_SESSION['permisos_modulo']['w'])){
-                        header('location:'.server_url.'Errors');
-                        $data= array("status" => false, "msg" => "Error no tiene permisos");
+                $estado_nomina = intval(strclean($_POST['estado_nomina']));
+                $estado = intval(strclean($_POST['estadoInput']));
+                $validate_data = [$nombre_nomina,$periodo_inicio,$periodo_fin,$estado_nomina,$estado];
+                if(validateEmptyFields($validate_data)){
+                    if(empty(preg_matchall([$nombre_nomina],regex_string)) && 
+                        empty(preg_matchall([$estado,$estado_nomina],regex_numbers))){
+                            if($id_nomina == 0){
+                                $request_nomina = $this->model->insertNomina($nombre_nomina,$periodo_inicio,
+                                $periodo_fin,$estado_nomina,$estado);
+                                $option = 1;
+                            }
+                            if ($request_nomina > 0){ 
+                                if (empty($_SESSION['permisos_modulo']['w'])){
+                                    header('location:'.server_url.'Errors');
+                                    $data= array("status" => false, "msg" => "Error no tiene permisos");
+                                }else{
+                                    if ($option == 1){
+                                        $data = array('status' => true, 'msg' => 'datos guardados correctamente');
+                                    }
+                                }
+            
+                            }else{
+                                $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                            }
                     }else{
-                        if ($option == 1){
-                            $data = array('status' => true, 'msg' => 'datos guardados correctamente');
-                        }
+                        $data = array('status' => false,'msg' => 'Algunos de tus campos estan mal escritos , verifique y vuelva a ingresarlos');
                     }
-
                 }else{
-                    $data = array('status' => false,'msg' => 'Hubo un error no se pudo almacendar los datos');
+                    $data = array('status' => false,'msg' => 'Algunos campos aun estan vacios , verifique y vuelva a ingresarlos');
                 }
-
             }else{
                 header('location:'.server_url.'Errors');
-                $data = array("status" => false, "msg" => "Error Hubo problemas");
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();

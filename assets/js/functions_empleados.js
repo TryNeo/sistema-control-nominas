@@ -57,88 +57,89 @@ document.addEventListener('DOMContentLoaded',function(){
 
     let formEmpleado = document.querySelector('#formEmpleado');
     if(formEmpleado != null){
-        formEmpleado.addEventListener('submit', function (e){
+        formEmpleado.addEventListener('submit', (e) => {
             e.preventDefault();
-            let camps = new Array();
-            let campsRegex = new Array();
             let  id_empleado = document.querySelector('#id_empleado').value;
-            let  nombreInput = document.querySelector('#nombre').value;
-            let  apellidoInput = document.querySelector('#apellido').value;
-            let  cedulaInput = document.querySelector('#cedula').value;
-            let  telefonoInput = document.querySelector('#telefono').value;
-            let  sueldoInput = document.querySelector('#sueldo').value;
+            let  nombre_empleado = document.querySelector('#nombre').value;
+            let  apellido_empleado = document.querySelector('#apellido').value;
+            let  cedula_empleado = document.querySelector('#cedula').value;
+            let  telefono_empleado = document.querySelector('#telefono').value;
+            let  sueldo_empleado = document.querySelector('#sueldo').value;
             let  id_puesto = document.querySelector('#id_puesto').value;
             let  id_contrato = document.querySelector('#id_contrato').value;
-            let  estadoInput = document.querySelector('#estadoInput').value;
-            camps.push(nombreInput,apellidoInput,cedulaInput,telefonoInput,sueldoInput,estadoInput,id_contrato,id_puesto);
-            campsRegex.push(nombreInput,apellidoInput)
-            if (validateCamps(camps)) {
-                if (isValidString(campsRegex)) {
-                    console.log("b");
-                    if(validateCedula(cedulaInput)){
-                        console.log("a");
-                        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                        let ajaxUrl = base_url+"empleados/setEmpleado";
-                        let formData = new FormData(formEmpleado);
-                        request.open("POST",ajaxUrl,true);
-                        request.send(formData);
-                        request.onreadystatechange = function(){
-                            if(request.readyState==4 && request.status == 200){
-                                let objData = JSON.parse(request.responseText); 
-                                if (objData.status){
-                                    $('#modalEmpleado').modal("hide");
-                                    let camps = new Array();
-                                    camps.push("nombre","apellido","cedula","telefono","sueldo")
-                                    camps.forEach(function(element,index){
-                                        document.querySelector('#'+element).value = '';
-                                    })
-                                    mensaje("success","Exitoso",objData.msg);
-                                    tableempleados.ajax.reload(function(){
-                                        baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
-                                        'Actualizar el empleado',["nombre","apellido","cedula","telefono","sueldo"],
-                                        'id_empleado','#modalEmpleado',ExistSelect = true,'id_contrato',ImagePreview = false,'',ExistSelect_two = true,'id_puesto');
-                                        baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
-                                        'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
-                                    });
-                                }else{
-                                    mensaje("error","Error",objData.msg);
+            let  estado_empleado = document.querySelector('#estadoInput').value;
+            let  validate_data = [nombre_empleado,apellido_empleado,cedula_empleado,telefono_empleado,sueldo_empleado,estado_empleado,id_contrato,id_puesto]
+            let  validate_data_regex = [nombre_empleado,apellido_empleado]; 
+            let  validate_data_regex_numbers = [cedula_empleado,sueldo_empleado,id_puesto,id_contrato,estado_empleado]
+            if (validateEmptyFields(validate_data)) {
+                if (validateInnput(validate_data_regex,regex_string) && validateInnput(validate_data_regex_numbers,regex_numbers)) {
+                    if(validateCedula(cedula_empleado)){
+                        (async () => {
+                            try {
+                                const data = new FormData(formEmpleado);
+                                let options = { method: "POST", body:data}
+                                let response = await fetch(base_url+"empleados/setEmpleado",options);
+                                if (response.ok) {
+                                    let data = await response.json();
+                                    if(data.status){
+                                        $('#modalEmpleado').modal("hide");
+                                        let camps = new Array();
+                                        camps.push("nombre","apellido","cedula","telefono","sueldo")
+                                        camps.forEach(function(element,index){
+                                            document.querySelector('#'+element).value = '';
+                                        })
+                                        mensaje("success","Exitoso",data.msg);
+                                        tableempleados.ajax.reload(function(){
+                                            fetchEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+                                            'Actualizar el empleado',["nombre","apellido","cedula","telefono","sueldo"],
+                                            'id_empleado','#modalEmpleado',ExistSelect = true,'id_contrato',ImagePreview = false,'',ExistSelect_two = true,'id_puesto');
+                                            fetchDelete('.btnEliminarEmpleado','emp','empleados',
+                                            'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
+                                        });
+                                    }else{
+                                        mensaje("error","Error",data.msg);
+                                    }
+                                }else {
+                                    mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                                 }
+                            } catch (err) {
+                                mensaje("error","Error | Peticion Ajax","Oops hubo un error al realizar la peticion")
                             }
-                        }
+                        })();
                     }else{
                         return validateCedula(cedulaInput);
                     }
                 }else{
-                    return isValidString(campsRegex);
+                    return validateInnput(validate_data_regex,regex_string);
                 }
             }else{
-                return validateCamps(camps);
+                return validateEmptyFields(validate_data);
             }
         });
     }
 
     setTimeout(() => {
-        baseAjaxSelect('id_contrato','getSelectContratos','contratos','Seleciona el contrato');
-        baseAjaxSelect('id_puesto','getSelectPuestos','puestos','Seleciona el puesto');
-    }, 1000);
+        fetchSelect('id_contrato','getSelectContratos','contratos','Seleciona el contrato');
+        fetchSelect('id_puesto','getSelectPuestos','puestos','Seleciona el puesto');
+    }, 1500);
 },false);
 
 window.addEventListener('click',function(){
     setTimeout(function(){ 
-        baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+        fetchEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
         'Actualizar el empleado',["nombre","apellido","cedula","telefono","sueldo"],
         'id_empleado','#modalEmpleado',ExistSelect = true,'id_contrato',ImagePreview = false,'',ExistSelect_two = true,'id_puesto');
-        baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
+        fetchDelete('.btnEliminarEmpleado','emp','empleados',
         'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
     },500);
 })
 
-baseAjaxEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
+fetchEdit('.btnEditarEmpleado','emp','empleados','getEmpleado',
     'Actualizar el empleado',["nombre","apellido","cedula","telefono","sueldo"],
     'id_empleado','#modalEmpleado',ExistSelect = true,'id_contrato',ImagePreview = false,'',ExistSelect_two = true,'id_puesto');
 
 
-baseAjaxDelete('.btnEliminarEmpleado','emp','empleados',
+fetchDelete('.btnEliminarEmpleado','emp','empleados',
 'delEmpleado','Eliminar empleado',"¿Desea eliminar este empleado?",'#modalEmpleado',tableempleados);
 
 
@@ -161,5 +162,7 @@ function abrir_modal_empleado(){
 }
 
 
-baseAjaxSelect('id_contrato','getSelectContratos','contratos','Seleciona el contrato');
-baseAjaxSelect('id_puesto','getSelectPuestos','puestos','Seleciona el puesto');
+fetchSelect('id_contrato','getSelectContratos','contratos','Seleciona el contrato');
+fetchSelect('id_puesto','getSelectPuestos','puestos','Seleciona el puesto');
+
+

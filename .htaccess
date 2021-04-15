@@ -41,3 +41,9 @@ Deny from env=bad_bot
 	</IfModule>
 
 </FilesMatch>
+
+
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>

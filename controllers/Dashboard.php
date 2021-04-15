@@ -147,11 +147,14 @@
                         echo "<td>".$response_nominas[$key]['nombre_nomina']."</td>";
                         echo "<td>$".number_format($response_nominas[$key]['total'])."</td>";
                         if($response_nominas[$key]['estado_nomina'] == 1){
-                            echo "<td><span class='badge badge-warning text-white'>Pendiente</span></td>";
+                            echo '<td><span  class="btn btn-warning btn-icon-split btn-sm text-white">
+                            <i class="icon fa fa-spinner"></i><span class="label text-padding text-white">&nbsp;&nbsp;Pendiente</span></span></td>';
                         }else if ($response_nominas[$key]['estado_nomina'] == 2) {
-                            echo "<span class='badge badge-success'>Aceptado</span>";
+                            echo 'td><span  class="btn btn-success btn-icon-split btn-sm text-white">
+                            <i class="icon fas fa-check"></i><span class="label text-padding text-white">&nbsp;&nbsp;Aceptado</span></span></td>';
                         }else if($response_nominas[$key]['estado_nomina'] == 3){
-                            echo '<span class="badge badge-danger">Rechazado</span>';
+                            echo  'td><span  class="btn btn-danger btn-icon-split btn-sm text-white">
+                            <i class="icon fas fa-times"></i><span class="label text-padding text-white">&nbsp;&nbsp;Rechazado</span></span></td>';
                         }
                         echo '</tr>';
                     }
@@ -164,6 +167,3 @@
 
 
     }
-
-
-?>

@@ -13,6 +13,7 @@ const base_url = "http://localhost/sistema-control-nominas/";
 const base_url_image = "http://localhost/sistema-control-nominas/assets/images/";
 const regex_string = '^[a-zA-ZáéíóñÁÉÍÓÚÑ ]+$';
 const regex_numbers = '^[0-9]+$';
+const regex_fechas = '^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$';
 const regex_username_password = '^[a-zA-Z0-9_-]{4,18}$';
 const regex_email = '^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$';
 /**
@@ -222,6 +223,7 @@ async function fetchEdit(nameSelector,nameId,urlName,nameMethod,modalName,listCa
                                         item.removeAttribute("selected");
                                     }
                             }
+                            
                             $(nameSelectorModal).modal("hide");
                         }else{
                             mensaje("error","Error",data.msg);

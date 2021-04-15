@@ -75,7 +75,7 @@
             $this->int_estado = $int_estado;
             
             $sql = "SELECT * FROM usuarios WHERE
-                (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario )";
+                (usuario = '{$this->str_usuario}' and id_usuario =  $this->int_id_usuario  and estado!=0) ";
             
             $request = $this->select_sql($sql);
             

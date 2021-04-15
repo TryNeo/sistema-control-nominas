@@ -65,7 +65,19 @@
             nom.total,
             nom.estado_nomina,
             nom.estado
-            FROM nominas as nom WHERE nom.estado !=0" ;
+            FROM nominas as nom WHERE nom.estado !=0 and nom.estado_nomina !=3" ;
+            $request = $this->select_sql_all($sql);
+            return $request;
+        }
+
+        public function selectEstadoNominas(){
+            $sql = "SELECT nom.id_nomina,
+            nom.nombre_nomina,
+            nom.periodo_inicio,
+            nom.periodo_fin,
+            nom.total,
+            nom.estado_nomina
+            FROM nominas as nom WHERE nom.estado !=0";
             $request = $this->select_sql_all($sql);
             return $request;
         }
@@ -209,6 +221,26 @@
             return $request_update_total;
         }
         
+        public function updateEstadoNomina(int $int_id_nomina,int $int_estado_nomina){
+            $this->int_id_nomina = $int_id_nomina;
+            $this->int_estado_nomina = $int_estado_nomina;
+            $sql = "SELECT * FROM nominas WHERE id_nomina = $this->int_id_nomina";
+            $request = $this->select_sql_all($sql);
+            if (empty($request)) {
+                $request_update_estado_nomina = 'no';
+            }else{
+                $sql_update_estado_nomina = "UPDATE nominas SET estado_nomina = ?,fecha_modifica = now() WHERE id_nomina = $this->int_id_nomina";
+                $data_nomina = array($this->int_estado_nomina);
+                $request_update_estado_nomina =  $this->update_sql($sql_update_estado_nomina,$data_nomina);
+                if ($request_update_estado_nomina){
+                    $request_update_estado_nomina = $request_update_estado_nomina;
+                }else{
+                    $request_update_total = 'error';
+                }
+            }
+            return $request_update_estado_nomina;
+        }
+
         public function deleteDetalle(int $id_detalle_nomina){
             $this->int_id_detalle_nomina = $id_detalle_nomina;
             $sql_delete = "DELETE FROM detalle_nomina WHERE id_detalle_nomina = $this->int_id_detalle_nomina";

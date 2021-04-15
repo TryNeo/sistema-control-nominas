@@ -62,7 +62,7 @@
             $this->strDescrip = $descriInput;
             $this->intEstado = $estadoInput;
             
-            $sql = "SELECT * FROM roles WHERE nombre_rol = '$this->strRol' and  id_rol =  $this->intRol ";
+            $sql = "SELECT * FROM roles WHERE nombre_rol = '$this->strRol' and  id_rol =  $this->intRol and estado !=0";
             $request_update= $this->select_sql_all($sql);   
 
             if (empty($request_update)){

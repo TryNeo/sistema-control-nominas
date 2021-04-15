@@ -88,7 +88,7 @@
 
         public function getNominasRecientes(){
             $this->str_day_now = date('Y-m-d');
-            $this->str_day_old = date('Y-m-d',strtotime(date('Y-m-d').'- 1 days'));
+            $this->str_day_old = date('Y-m-d',strtotime(date('Y-m-d').'- 2 days'));
             $query = "SELECT nom.nombre_nomina,nom.total,nom.estado_nomina FROM 
             nominas as nom WHERE nom.estado !=0 and DATE_FORMAT(nom.fecha_crea,'%Y-%m-%d') 
             in('$this->str_day_old','$this->str_day_now') ORDER BY nom.id_nomina DESC LIMIT 5;";

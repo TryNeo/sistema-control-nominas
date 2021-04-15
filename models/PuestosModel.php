@@ -54,7 +54,7 @@
             $this->str_descripcion = $descriInput;
             $this->intEstado = $estadoInput;
             
-            $sql = "SELECT * FROM puestos WHERE nombre_puesto = '$this->str_puesto' and descripcion = '$this->str_descripcion' and id_puesto = $this->int_id_puesto";
+            $sql = "SELECT * FROM puestos WHERE nombre_puesto = '$this->str_puesto' and id_puesto = $this->int_id_puesto and estado!=0";
             $request_update = $this->select_sql_all($sql);
             if(empty($request_update)){
                 $sql_update = "UPDATE puestos SET nombre_puesto = ?,descripcion = ?,estado = ?,fecha_modifica = now() WHERE id_puesto = $this->int_id_puesto";

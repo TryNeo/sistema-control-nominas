@@ -50,8 +50,10 @@
         public function selectEmpleado(int $id_empleado){
             $this->int_id_empleado = $id_empleado;
             $sql = "SELECT empl.id_empleado,empl.nombre,empl.apellido,empl.cedula,empl.telefono,
-            empl.sueldo,cont.id_contrato,empl.estado FROM empleados as empl 
-            INNER JOIN contratos as cont ON empl.id_contrato = cont.id_contrato WHERE empl.id_empleado = $this->int_id_empleado";
+            empl.sueldo,puest.id_puesto,cont.id_contrato,empl.estado FROM empleados as empl 
+            INNER JOIN contratos as cont ON empl.id_contrato = cont.id_contrato 
+            INNER JOIN puestos as puest ON empl.id_puesto = puest.id_puesto 
+            WHERE empl.id_empleado = $this->int_id_empleado";
             $request = $this->select_sql($sql);
             return $request;
         }

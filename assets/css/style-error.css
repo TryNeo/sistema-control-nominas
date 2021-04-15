@@ -99,7 +99,6 @@ body{
   animation-delay: calc(var(--delay-base) + 2 * var(--delay-added));
   z-index: 0;
   background: linear-gradient(to top, rgba(32,38,40,0) 25%,rgba(49,57,61,1) 100%);
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transform: translateX(-25%) translateZ(-100px) skewY(-3deg);
   position: absolute;
@@ -155,7 +154,7 @@ body{
 }
 
 .support a:hover:after{
-   opacity: 1;
+    opacity: 1;
 }
 
 .support a:focus,
