@@ -188,7 +188,7 @@
                             $pdf->MultiCell(25, 8, $value['meses'], 1, 'C');
                             $pdf->SetXY(161, $y);
                             $pdf->MultiCell(30, 8, "$".number_format($value['valor_total']), 1, 'C');
-                            if ($cont == 21){
+                            if ($cont == 15){
                                 $pdf->AddPage();
                                 $pdf->SetTitle('Reporte | Detalle Nomina');
                                 $pdf->renderHeader('W@SECURITY','RUC:0914431192001 | Telefono:098-384-9713','./assets/images/logo-wosecurity.png',13,15,40);
@@ -304,10 +304,16 @@
             }else{
                 $data = $this->model->selectEstadoNominas();
                 foreach($data  as $clave => $valor){
+                    $btnViewNomina = '';
                     $btnAceptarNomina = '';
                     $btnRechazarNomina = '';
                     $data[$clave]['total'] = "<strong>"."$".number_format($data[$clave]['total'])."</strong>";
                     
+                    if ($_SESSION['permisos'][9]['r']){
+                        $btnViewNomina = '<button onclick="fetchViewNomina('.$data[$clave]['id_nomina'].')" class="btn btn-primary btn-circle" 
+                        title="Ver nomina" ><i class="fas fa-eye"></i></button>';
+                    }
+
                     if ($_SESSION['permisos'][9]['u']) {
                         if($data[$clave]['estado_nomina'] == 3 || $data[$clave]['estado_nomina'] == 2){
                             $btnAceptarNomina = '<button disabled class="btn btn-success btn-circle btnAceptarNomina" 
@@ -339,8 +345,37 @@
                         <i class="icon fas fa-times"></i><span class="label text-padding text-white">&nbsp;&nbsp;Rechazado</span></span>';
                     }
 
-                    $data[$clave]['opciones'] = '<div class="text-center">'.$btnAceptarNomina.' '.$btnRechazarNomina.'</div>';
+                    $data[$clave]['opciones'] = '<div class="text-center">'.$btnViewNomina.' '.$btnAceptarNomina.' '.$btnRechazarNomina.'</div>';
                 };
+            }
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getEstadoViewNomina(int $id_nomina){
+            if (empty($_SESSION['permisos'][9]['r']) ) {
+                header('location:'.server_url.'Errors');
+                $data = array("status" => false, "msg" => "Error no tiene permisos");
+            }else{
+                $id_nomina =intval(strclean($id_nomina));
+                if (validateEmptyFields([$id_nomina])) {
+                    if(empty(preg_matchall([$id_nomina],regex_numbers))){
+                        if($id_nomina > 0){
+                            $response_nomina = $this->model->selectNomina($id_nomina);
+                            if (empty($response_nomina )){
+                                $data_response = array('status' => false,'msg'=> 'Datos no encontrados, verifique que todo este correcto');
+                            }else{
+                                $data = array('status' => true,'msg'=> $response_nomina);
+                            }
+                        }else{
+                            $data_response = array('status' => false,'msg'=> 'Datos no encontrados, verifique que todo este correcto');
+                        }
+                    }else{
+                        $data = array('status' => false,'msg' => 'Algunos de tus campos estan mal escritos , verifique y vuelva a ingresarlos');
+                    }
+                }else{
+                    $data = array('status' => false,'msg' => 'Algunos campos aun estan vacios , verifique y vuelva a ingresarlos');
+                }
             }
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
             die();

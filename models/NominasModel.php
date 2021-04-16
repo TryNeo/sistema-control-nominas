@@ -117,7 +117,7 @@
         public function selectNominaEmpleadoAll(int $id_nomina,int $id_empleado){
             $this->int_id_nomina = $id_nomina;
             $this->int_id_empleado = $id_empleado;
-            $sql = "SELECT det.id_detalle_nomina,empl.nombre,puest.nombre_puesto,empl.sueldo,det.meses,det.valor_total FROM detalle_nomina as det
+            $sql = "SELECT det.id_detalle_nomina,empl.nombre,empl.apellido,puest.nombre_puesto,empl.sueldo,det.meses,det.valor_total FROM detalle_nomina as det
             INNER JOIN empleados as empl ON det.id_empleado = empl.id_empleado
             INNER JOIN puestos as puest ON puest.id_puesto = empl.id_puesto
             WHERE det.id_nomina = $this->int_id_nomina and det.id_empleado = $this->int_id_empleado";

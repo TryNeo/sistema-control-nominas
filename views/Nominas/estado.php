@@ -1,4 +1,6 @@
 <?php getHeader($data); 
+    getModal('modals_nominas_view',$data);
+
 ?>
 <div class="dashboard-wrapper">
     <div class="container-fluid dashboard-content">
